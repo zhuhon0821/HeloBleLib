@@ -10,6 +10,12 @@ import GRDB
 import SwiftProtobuf
 import CoreBluetooth
 
-class BleManager: NSObject {
-
+public class BleManager {
+    public init() {
+        
+    }
+    public func go() {
+            print("哈哈")
+    }
+    
 }

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5A47D847E662B78CE7015A8D924AA707"
-               BuildableName = "HeloBleLib"
+               BuildableName = "HeloBleLib.framework"
                BlueprintName = "HeloBleLib"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>

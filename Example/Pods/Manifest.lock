@@ -2,7 +2,7 @@ PODS:
   - GRDB.swift (5.11.0):
     - GRDB.swift/standard (= 5.11.0)
   - GRDB.swift/standard (5.11.0)
-  - HeloBleLib (1.0.6):
+  - HeloBleLib (1.0.0):
     - GRDB.swift
     - SwiftProtobuf
   - SwiftProtobuf (1.26.0)
@@ -21,9 +21,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   GRDB.swift: 9a33d9680cd3c870c82f48a6cbc73d3cfbb235eb
-  HeloBleLib: 3c2be304116eb9c28a9a12c233e049c4cf6779fd
+  HeloBleLib: 208f0ebc231fdcb35813fd4e7477fa674890ee25
   SwiftProtobuf: 5e8349171e7c2f88f5b9e683cb3cb79d1dc780b3
 
-PODFILE CHECKSUM: c68d94d0c09f5d39aad1c251514f6e75bf47bed1
+PODFILE CHECKSUM: a3b8668f6f5b1826c4c273d6d27c1b17588692fe
 
 COCOAPODS: 1.15.2
