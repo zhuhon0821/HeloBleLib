@@ -21,7 +21,7 @@ public protocol BleManagerDelegate {
 
 public class BleManager:NSObject, CBCentralManagerDelegate {
     
-    static let sharedInstance = BleManager()
+    public static let sharedInstance = BleManager()
     public var delegate: BleManagerDelegate?
     
     var centralManager: CBCentralManager!
@@ -30,8 +30,8 @@ public class BleManager:NSObject, CBCentralManagerDelegate {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
     }
-    public func startScanBleDevice() {
-        centralManager.scanForPeripherals(withServices: nil)
+    public func startScanBleDevice(uuids:[CBUUID]?) {
+        centralManager.scanForPeripherals(withServices: uuids)
     }
     public func stopScanBleDevice() {
         centralManager.stopScan()
