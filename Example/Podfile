@@ -1,0 +1,9 @@
+workspace './HeloBleLib.xcworkspace'
+use_frameworks!
+
+platform :ios, '10.0'
+
+target 'HeloBleLib_Example' do
+  pod 'HeloBleLib', :path => '../'
+
+end

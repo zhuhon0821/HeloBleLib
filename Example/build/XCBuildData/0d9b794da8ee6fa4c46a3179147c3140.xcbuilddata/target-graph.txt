@@ -1,0 +1,6 @@
+Target dependency graph (3 targets)
+Target 'Pods-HeloBleLib_Tests' in project 'Pods'
+➜ Explicit dependency on target 'Pods-HeloBleLib_Example' in project 'Pods'
+Target 'Pods-HeloBleLib_Example' in project 'Pods'
+➜ Explicit dependency on target 'HeloBleLib' in project 'Pods'
+Target 'HeloBleLib' in project 'Pods' (no dependencies)

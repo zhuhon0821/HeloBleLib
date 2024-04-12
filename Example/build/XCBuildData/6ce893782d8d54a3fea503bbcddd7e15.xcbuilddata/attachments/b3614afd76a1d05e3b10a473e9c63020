@@ -1,0 +1,10 @@
+framework module HeloBleLib {
+  umbrella header "HeloBleLib-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module HeloBleLib.__Swift {
+  exclude header "HeloBleLib-Swift.h"
+}

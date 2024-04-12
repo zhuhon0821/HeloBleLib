@@ -1,0 +1,11 @@
+framework module HeloBleLib {
+  umbrella header "HeloBleLib-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module HeloBleLib.Swift {
+  header "HeloBleLib-Swift.h"
+  requires objc
+}

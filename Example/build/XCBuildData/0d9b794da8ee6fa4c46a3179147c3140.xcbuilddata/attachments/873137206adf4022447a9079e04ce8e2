@@ -1,0 +1,5 @@
+ extern const unsigned char HeloBleLibVersionString[];
+ extern const double HeloBleLibVersionNumber;
+
+ const unsigned char HeloBleLibVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:HeloBleLib  PROJECT:Pods-1" "\n";
+ const double HeloBleLibVersionNumber __attribute__ ((used)) = (double)1.;
