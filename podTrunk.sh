@@ -9,13 +9,12 @@ fi
 
 VERSION=$1
 
-cd ~/ble-sdk-1/HeloBleLib/Example/HeloBleLib
+cd ~/ble-sdk-1/HeloBleLib
 sed -i "" "s/\"\([0-9]\)\.\([0-9]\)\.\([0-9]\)/\"${VERSION}/g" HeloBleLib.podspec
 git add .
 git commit -am "${VERSION}" 
 git push
 git tag ${VERSION}
 git push --tags
-cd ~/ble-sdk-1/HeloBleLib
 pod lib lint --allow-warnings
 pod trunk push HeloBleLib.podspec
