@@ -5,5 +5,5 @@ platform :ios, '12.0'
 
 target 'HeloBleLib_Example' do
   pod 'HeloBleLib', :path => '../'
-
+  pod 'SnapKit'
 end

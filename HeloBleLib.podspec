@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'HeloBleLib'
-  s.version          = '1.0.3'
+  s.version          = '1.0.4'
   s.summary          = 'A BLE library'
 
 # This description is used to generate tags and improve search results.
@@ -39,5 +39,7 @@ Pod::Spec.new do |s|
   
   s.dependency 'GRDB.swift'
   s.dependency 'SwiftProtobuf'
-
+#  s.dependency 'Protobuf'
+  
+  
 end

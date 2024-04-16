@@ -13,6 +13,53 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		835CB74B01D604806A6BCA41 /* Pods_HeloBleLib_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6527ACD6572FEF696BAF7094 /* Pods_HeloBleLib_Example.framework */; };
+		CC80D69C2BCCC62200AEEF74 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D69B2BCCC62200AEEF74 /* HomeViewController.swift */; };
+		CC80D6A12BCCC62E00AEEF74 /* dataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D69E2BCCC62E00AEEF74 /* dataModel.swift */; };
+		CC80D6A22BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D6A02BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift */; };
+		CC80D6A52BCCD2F000AEEF74 /* ProbuffMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D6A42BCCD2F000AEEF74 /* ProbuffMacros.swift */; };
+		CC80D6A72BCCD3E900AEEF74 /* MTKMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D6A62BCCD3E900AEEF74 /* MTKMacros.swift */; };
+		CC80D6AB2BCCF8D200AEEF74 /* ProbuffManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D6AA2BCCF8D200AEEF74 /* ProbuffManager.swift */; };
+		CC80D6AD2BCCF8E500AEEF74 /* MTKManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D6AC2BCCF8E500AEEF74 /* MTKManager.swift */; };
+		CC80D6AF2BCCFA9500AEEF74 /* ProbuffHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D6AE2BCCFA9500AEEF74 /* ProbuffHandle.swift */; };
+		CC80D8F62BCE1C2900AEEF74 /* dev_info.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8CF2BCE1C2900AEEF74 /* dev_info.pb.swift */; };
+		CC80D8F72BCE1C2900AEEF74 /* alarmclock.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D02BCE1C2900AEEF74 /* alarmclock.pb.swift */; };
+		CC80D8F82BCE1C2900AEEF74 /* custom_dial.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D12BCE1C2900AEEF74 /* custom_dial.pb.swift */; };
+		CC80D8F92BCE1C2900AEEF74 /* debug_conf.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D22BCE1C2900AEEF74 /* debug_conf.pb.swift */; };
+		CC80D8FA2BCE1C2900AEEF74 /* gsm_command.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D32BCE1C2900AEEF74 /* gsm_command.pb.swift */; };
+		CC80D8FB2BCE1C2900AEEF74 /* weather.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D42BCE1C2900AEEF74 /* weather.pb.swift */; };
+		CC80D8FC2BCE1C2900AEEF74 /* con_params.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D52BCE1C2900AEEF74 /* con_params.pb.swift */; };
+		CC80D8FD2BCE1C2900AEEF74 /* his_encrypt_health_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D62BCE1C2900AEEF74 /* his_encrypt_health_data.pb.swift */; };
+		CC80D8FE2BCE1C2900AEEF74 /* device_conf.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D72BCE1C2900AEEF74 /* device_conf.pb.swift */; };
+		CC80D8FF2BCE1C2900AEEF74 /* his_health_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D82BCE1C2900AEEF74 /* his_health_data.pb.swift */; };
+		CC80D9002BCE1C2900AEEF74 /* om0_command.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8D92BCE1C2900AEEF74 /* om0_command.pb.swift */; };
+		CC80D9012BCE1C2900AEEF74 /* his_swim_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8DA2BCE1C2900AEEF74 /* his_swim_data.pb.swift */; };
+		CC80D9022BCE1C2900AEEF74 /* his_temperature_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8DB2BCE1C2900AEEF74 /* his_temperature_data.pb.swift */; };
+		CC80D9032BCE1C2900AEEF74 /* phone_book.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8DC2BCE1C2900AEEF74 /* phone_book.pb.swift */; };
+		CC80D9042BCE1C2900AEEF74 /* sedentariness.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8DD2BCE1C2900AEEF74 /* sedentariness.pb.swift */; };
+		CC80D9052BCE1C2900AEEF74 /* his_spo2_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8DE2BCE1C2900AEEF74 /* his_spo2_data.pb.swift */; };
+		CC80D9062BCE1C2900AEEF74 /* his_encrypt_ppg_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8DF2BCE1C2900AEEF74 /* his_encrypt_ppg_data.pb.swift */; };
+		CC80D9072BCE1C2900AEEF74 /* his_ppg_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E02BCE1C2900AEEF74 /* his_ppg_data.pb.swift */; };
+		CC80D9082BCE1C2900AEEF74 /* his_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E12BCE1C2900AEEF74 /* his_data.pb.swift */; };
+		CC80D9092BCE1C2900AEEF74 /* data_info.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E22BCE1C2900AEEF74 /* data_info.pb.swift */; };
+		CC80D90A2BCE1C2900AEEF74 /* msg_notify.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E32BCE1C2900AEEF74 /* msg_notify.pb.swift */; };
+		CC80D90B2BCE1C2900AEEF74 /* his_ecg_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E42BCE1C2900AEEF74 /* his_ecg_data.pb.swift */; };
+		CC80D90C2BCE1C2900AEEF74 /* his_encrypt_ecg_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E52BCE1C2900AEEF74 /* his_encrypt_ecg_data.pb.swift */; };
+		CC80D90D2BCE1C2900AEEF74 /* ThirdParty_health_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E62BCE1C2900AEEF74 /* ThirdParty_health_data.pb.swift */; };
+		CC80D90E2BCE1C2900AEEF74 /* his_rri_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E72BCE1C2900AEEF74 /* his_rri_data.pb.swift */; };
+		CC80D90F2BCE1C2900AEEF74 /* his_encrypt_rri_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E82BCE1C2900AEEF74 /* his_encrypt_rri_data.pb.swift */; };
+		CC80D9102BCE1C2900AEEF74 /* factory_test.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8E92BCE1C2900AEEF74 /* factory_test.pb.swift */; };
+		CC80D9112BCE1C2900AEEF74 /* files_update.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8EA2BCE1C2900AEEF74 /* files_update.pb.swift */; };
+		CC80D9122BCE1C2900AEEF74 /* realtime_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8EB2BCE1C2900AEEF74 /* realtime_data.pb.swift */; };
+		CC80D9132BCE1C2900AEEF74 /* peer_info.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8EC2BCE1C2900AEEF74 /* peer_info.pb.swift */; };
+		CC80D9142BCE1C2900AEEF74 /* his_gnss_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8ED2BCE1C2900AEEF74 /* his_gnss_data.pb.swift */; };
+		CC80D9152BCE1C2900AEEF74 /* ThirdParty_health_data_V2.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8EE2BCE1C2900AEEF74 /* ThirdParty_health_data_V2.pb.swift */; };
+		CC80D9162BCE1C2900AEEF74 /* calendar.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8EF2BCE1C2900AEEF74 /* calendar.pb.swift */; };
+		CC80D9172BCE1C2900AEEF74 /* airquality.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F02BCE1C2900AEEF74 /* airquality.pb.swift */; };
+		CC80D9182BCE1C2900AEEF74 /* Alarm_info.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F12BCE1C2900AEEF74 /* Alarm_info.pb.swift */; };
+		CC80D9192BCE1C2900AEEF74 /* motor_conf.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F22BCE1C2900AEEF74 /* motor_conf.pb.swift */; };
+		CC80D91A2BCE1C2900AEEF74 /* his_medic_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F32BCE1C2900AEEF74 /* his_medic_data.pb.swift */; };
+		CC80D91B2BCE1C2900AEEF74 /* shbus_cmd.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F42BCE1C2900AEEF74 /* shbus_cmd.pb.swift */; };
+		CC80D91C2BCE1C2900AEEF74 /* c110_cmd.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F52BCE1C2900AEEF74 /* c110_cmd.pb.swift */; };
 		CC8963F32BC8C11C00B7C581 /* BleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8963EF2BC8C11C00B7C581 /* BleManager.swift */; };
 		CC8963F52BC8C11C00B7C581 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CC8963F22BC8C11C00B7C581 /* .gitkeep */; };
 /* End PBXBuildFile section */
@@ -33,6 +80,53 @@
 		940B218709CB7A29E367092E /* Pods-HeloBleLib_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeloBleLib_Example.debug.xcconfig"; path = "Target Support Files/Pods-HeloBleLib_Example/Pods-HeloBleLib_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A6B7B7325B152D7F16E33E9D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		BE69383DE0D511E4972BBCF6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		CC80D69B2BCCC62200AEEF74 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CC80D69E2BCCC62E00AEEF74 /* dataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataModel.swift; sourceTree = "<group>"; };
+		CC80D6A02BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleDeviceCollectionViewCell.swift; sourceTree = "<group>"; };
+		CC80D6A42BCCD2F000AEEF74 /* ProbuffMacros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbuffMacros.swift; sourceTree = "<group>"; };
+		CC80D6A62BCCD3E900AEEF74 /* MTKMacros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTKMacros.swift; sourceTree = "<group>"; };
+		CC80D6AA2BCCF8D200AEEF74 /* ProbuffManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbuffManager.swift; sourceTree = "<group>"; };
+		CC80D6AC2BCCF8E500AEEF74 /* MTKManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTKManager.swift; sourceTree = "<group>"; };
+		CC80D6AE2BCCFA9500AEEF74 /* ProbuffHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbuffHandle.swift; sourceTree = "<group>"; };
+		CC80D8CF2BCE1C2900AEEF74 /* dev_info.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dev_info.pb.swift; sourceTree = "<group>"; };
+		CC80D8D02BCE1C2900AEEF74 /* alarmclock.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = alarmclock.pb.swift; sourceTree = "<group>"; };
+		CC80D8D12BCE1C2900AEEF74 /* custom_dial.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = custom_dial.pb.swift; sourceTree = "<group>"; };
+		CC80D8D22BCE1C2900AEEF74 /* debug_conf.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = debug_conf.pb.swift; sourceTree = "<group>"; };
+		CC80D8D32BCE1C2900AEEF74 /* gsm_command.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gsm_command.pb.swift; sourceTree = "<group>"; };
+		CC80D8D42BCE1C2900AEEF74 /* weather.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = weather.pb.swift; sourceTree = "<group>"; };
+		CC80D8D52BCE1C2900AEEF74 /* con_params.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = con_params.pb.swift; sourceTree = "<group>"; };
+		CC80D8D62BCE1C2900AEEF74 /* his_encrypt_health_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_encrypt_health_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8D72BCE1C2900AEEF74 /* device_conf.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = device_conf.pb.swift; sourceTree = "<group>"; };
+		CC80D8D82BCE1C2900AEEF74 /* his_health_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_health_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8D92BCE1C2900AEEF74 /* om0_command.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = om0_command.pb.swift; sourceTree = "<group>"; };
+		CC80D8DA2BCE1C2900AEEF74 /* his_swim_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_swim_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8DB2BCE1C2900AEEF74 /* his_temperature_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_temperature_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8DC2BCE1C2900AEEF74 /* phone_book.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = phone_book.pb.swift; sourceTree = "<group>"; };
+		CC80D8DD2BCE1C2900AEEF74 /* sedentariness.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = sedentariness.pb.swift; sourceTree = "<group>"; };
+		CC80D8DE2BCE1C2900AEEF74 /* his_spo2_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_spo2_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8DF2BCE1C2900AEEF74 /* his_encrypt_ppg_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_encrypt_ppg_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8E02BCE1C2900AEEF74 /* his_ppg_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_ppg_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8E12BCE1C2900AEEF74 /* his_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8E22BCE1C2900AEEF74 /* data_info.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = data_info.pb.swift; sourceTree = "<group>"; };
+		CC80D8E32BCE1C2900AEEF74 /* msg_notify.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = msg_notify.pb.swift; sourceTree = "<group>"; };
+		CC80D8E42BCE1C2900AEEF74 /* his_ecg_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_ecg_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8E52BCE1C2900AEEF74 /* his_encrypt_ecg_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_encrypt_ecg_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8E62BCE1C2900AEEF74 /* ThirdParty_health_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdParty_health_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8E72BCE1C2900AEEF74 /* his_rri_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_rri_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8E82BCE1C2900AEEF74 /* his_encrypt_rri_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_encrypt_rri_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8E92BCE1C2900AEEF74 /* factory_test.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = factory_test.pb.swift; sourceTree = "<group>"; };
+		CC80D8EA2BCE1C2900AEEF74 /* files_update.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = files_update.pb.swift; sourceTree = "<group>"; };
+		CC80D8EB2BCE1C2900AEEF74 /* realtime_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = realtime_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8EC2BCE1C2900AEEF74 /* peer_info.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = peer_info.pb.swift; sourceTree = "<group>"; };
+		CC80D8ED2BCE1C2900AEEF74 /* his_gnss_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_gnss_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8EE2BCE1C2900AEEF74 /* ThirdParty_health_data_V2.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThirdParty_health_data_V2.pb.swift; sourceTree = "<group>"; };
+		CC80D8EF2BCE1C2900AEEF74 /* calendar.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = calendar.pb.swift; sourceTree = "<group>"; };
+		CC80D8F02BCE1C2900AEEF74 /* airquality.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = airquality.pb.swift; sourceTree = "<group>"; };
+		CC80D8F12BCE1C2900AEEF74 /* Alarm_info.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alarm_info.pb.swift; sourceTree = "<group>"; };
+		CC80D8F22BCE1C2900AEEF74 /* motor_conf.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = motor_conf.pb.swift; sourceTree = "<group>"; };
+		CC80D8F32BCE1C2900AEEF74 /* his_medic_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_medic_data.pb.swift; sourceTree = "<group>"; };
+		CC80D8F42BCE1C2900AEEF74 /* shbus_cmd.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = shbus_cmd.pb.swift; sourceTree = "<group>"; };
+		CC80D8F52BCE1C2900AEEF74 /* c110_cmd.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = c110_cmd.pb.swift; sourceTree = "<group>"; };
 		CC8963EF2BC8C11C00B7C581 /* BleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleManager.swift; sourceTree = "<group>"; };
 		CC8963F22BC8C11C00B7C581 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		F9DE9CB69B817900353017EC /* Pods-HeloBleLib_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeloBleLib_Tests.release.xcconfig"; path = "Target Support Files/Pods-HeloBleLib_Tests/Pods-HeloBleLib_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +176,7 @@
 		607FACD21AFB9204008FA782 /* Example for HeloBleLib */ = {
 			isa = PBXGroup;
 			children = (
+				CC80D6A32BCCCA8900AEEF74 /* sourceCode */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -122,6 +217,106 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		CC80D69A2BCCC62200AEEF74 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D69B2BCCC62200AEEF74 /* HomeViewController.swift */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		CC80D69D2BCCC62E00AEEF74 /* mode */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D69E2BCCC62E00AEEF74 /* dataModel.swift */,
+			);
+			path = mode;
+			sourceTree = "<group>";
+		};
+		CC80D69F2BCCC62E00AEEF74 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D6A02BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		CC80D6A32BCCCA8900AEEF74 /* sourceCode */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D69D2BCCC62E00AEEF74 /* mode */,
+				CC80D69F2BCCC62E00AEEF74 /* view */,
+				CC80D69A2BCCC62200AEEF74 /* controller */,
+			);
+			path = sourceCode;
+			sourceTree = "<group>";
+		};
+		CC80D6A82BCCF87300AEEF74 /* probuff */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D8CE2BCE1C2900AEEF74 /* swiftProbuff */,
+				CC80D6A42BCCD2F000AEEF74 /* ProbuffMacros.swift */,
+				CC80D6AA2BCCF8D200AEEF74 /* ProbuffManager.swift */,
+				CC80D6AE2BCCFA9500AEEF74 /* ProbuffHandle.swift */,
+			);
+			path = probuff;
+			sourceTree = "<group>";
+		};
+		CC80D6A92BCCF88500AEEF74 /* MTK */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D6A62BCCD3E900AEEF74 /* MTKMacros.swift */,
+				CC80D6AC2BCCF8E500AEEF74 /* MTKManager.swift */,
+			);
+			path = MTK;
+			sourceTree = "<group>";
+		};
+		CC80D8CE2BCE1C2900AEEF74 /* swiftProbuff */ = {
+			isa = PBXGroup;
+			children = (
+				CC80D8CF2BCE1C2900AEEF74 /* dev_info.pb.swift */,
+				CC80D8D02BCE1C2900AEEF74 /* alarmclock.pb.swift */,
+				CC80D8D12BCE1C2900AEEF74 /* custom_dial.pb.swift */,
+				CC80D8D22BCE1C2900AEEF74 /* debug_conf.pb.swift */,
+				CC80D8D32BCE1C2900AEEF74 /* gsm_command.pb.swift */,
+				CC80D8D42BCE1C2900AEEF74 /* weather.pb.swift */,
+				CC80D8D52BCE1C2900AEEF74 /* con_params.pb.swift */,
+				CC80D8D62BCE1C2900AEEF74 /* his_encrypt_health_data.pb.swift */,
+				CC80D8D72BCE1C2900AEEF74 /* device_conf.pb.swift */,
+				CC80D8D82BCE1C2900AEEF74 /* his_health_data.pb.swift */,
+				CC80D8D92BCE1C2900AEEF74 /* om0_command.pb.swift */,
+				CC80D8DA2BCE1C2900AEEF74 /* his_swim_data.pb.swift */,
+				CC80D8DB2BCE1C2900AEEF74 /* his_temperature_data.pb.swift */,
+				CC80D8DC2BCE1C2900AEEF74 /* phone_book.pb.swift */,
+				CC80D8DD2BCE1C2900AEEF74 /* sedentariness.pb.swift */,
+				CC80D8DE2BCE1C2900AEEF74 /* his_spo2_data.pb.swift */,
+				CC80D8DF2BCE1C2900AEEF74 /* his_encrypt_ppg_data.pb.swift */,
+				CC80D8E02BCE1C2900AEEF74 /* his_ppg_data.pb.swift */,
+				CC80D8E12BCE1C2900AEEF74 /* his_data.pb.swift */,
+				CC80D8E22BCE1C2900AEEF74 /* data_info.pb.swift */,
+				CC80D8E32BCE1C2900AEEF74 /* msg_notify.pb.swift */,
+				CC80D8E42BCE1C2900AEEF74 /* his_ecg_data.pb.swift */,
+				CC80D8E52BCE1C2900AEEF74 /* his_encrypt_ecg_data.pb.swift */,
+				CC80D8E62BCE1C2900AEEF74 /* ThirdParty_health_data.pb.swift */,
+				CC80D8E72BCE1C2900AEEF74 /* his_rri_data.pb.swift */,
+				CC80D8E82BCE1C2900AEEF74 /* his_encrypt_rri_data.pb.swift */,
+				CC80D8E92BCE1C2900AEEF74 /* factory_test.pb.swift */,
+				CC80D8EA2BCE1C2900AEEF74 /* files_update.pb.swift */,
+				CC80D8EB2BCE1C2900AEEF74 /* realtime_data.pb.swift */,
+				CC80D8EC2BCE1C2900AEEF74 /* peer_info.pb.swift */,
+				CC80D8ED2BCE1C2900AEEF74 /* his_gnss_data.pb.swift */,
+				CC80D8EE2BCE1C2900AEEF74 /* ThirdParty_health_data_V2.pb.swift */,
+				CC80D8EF2BCE1C2900AEEF74 /* calendar.pb.swift */,
+				CC80D8F02BCE1C2900AEEF74 /* airquality.pb.swift */,
+				CC80D8F12BCE1C2900AEEF74 /* Alarm_info.pb.swift */,
+				CC80D8F22BCE1C2900AEEF74 /* motor_conf.pb.swift */,
+				CC80D8F32BCE1C2900AEEF74 /* his_medic_data.pb.swift */,
+				CC80D8F42BCE1C2900AEEF74 /* shbus_cmd.pb.swift */,
+				CC80D8F52BCE1C2900AEEF74 /* c110_cmd.pb.swift */,
+			);
+			path = swiftProbuff;
+			sourceTree = "<group>";
+		};
 		CC8963ED2BC8C11C00B7C581 /* HeloBleLib */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +331,8 @@
 			isa = PBXGroup;
 			children = (
 				CC8963EF2BC8C11C00B7C581 /* BleManager.swift */,
+				CC80D6A92BCCF88500AEEF74 /* MTK */,
+				CC80D6A82BCCF87300AEEF74 /* probuff */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -183,7 +380,7 @@
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = 568XKG2E4W;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1500;
 					};
 				};
 			};
@@ -252,12 +449,14 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HeloBleLib_Example/Pods-HeloBleLib_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/HeloBleLib/HeloBleLib.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HeloBleLib.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftProtobuf.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,9 +471,56 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC80D91A2BCE1C2900AEEF74 /* his_medic_data.pb.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				CC80D8F92BCE1C2900AEEF74 /* debug_conf.pb.swift in Sources */,
+				CC80D9182BCE1C2900AEEF74 /* Alarm_info.pb.swift in Sources */,
+				CC80D91B2BCE1C2900AEEF74 /* shbus_cmd.pb.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				CC80D9092BCE1C2900AEEF74 /* data_info.pb.swift in Sources */,
 				CC8963F32BC8C11C00B7C581 /* BleManager.swift in Sources */,
+				CC80D9122BCE1C2900AEEF74 /* realtime_data.pb.swift in Sources */,
+				CC80D9012BCE1C2900AEEF74 /* his_swim_data.pb.swift in Sources */,
+				CC80D9082BCE1C2900AEEF74 /* his_data.pb.swift in Sources */,
+				CC80D9192BCE1C2900AEEF74 /* motor_conf.pb.swift in Sources */,
+				CC80D9142BCE1C2900AEEF74 /* his_gnss_data.pb.swift in Sources */,
+				CC80D8FA2BCE1C2900AEEF74 /* gsm_command.pb.swift in Sources */,
+				CC80D8FC2BCE1C2900AEEF74 /* con_params.pb.swift in Sources */,
+				CC80D9172BCE1C2900AEEF74 /* airquality.pb.swift in Sources */,
+				CC80D6A72BCCD3E900AEEF74 /* MTKMacros.swift in Sources */,
+				CC80D6AF2BCCFA9500AEEF74 /* ProbuffHandle.swift in Sources */,
+				CC80D6AD2BCCF8E500AEEF74 /* MTKManager.swift in Sources */,
+				CC80D8F62BCE1C2900AEEF74 /* dev_info.pb.swift in Sources */,
+				CC80D9102BCE1C2900AEEF74 /* factory_test.pb.swift in Sources */,
+				CC80D90A2BCE1C2900AEEF74 /* msg_notify.pb.swift in Sources */,
+				CC80D6A52BCCD2F000AEEF74 /* ProbuffMacros.swift in Sources */,
+				CC80D90C2BCE1C2900AEEF74 /* his_encrypt_ecg_data.pb.swift in Sources */,
+				CC80D8F72BCE1C2900AEEF74 /* alarmclock.pb.swift in Sources */,
+				CC80D8FE2BCE1C2900AEEF74 /* device_conf.pb.swift in Sources */,
+				CC80D6A12BCCC62E00AEEF74 /* dataModel.swift in Sources */,
+				CC80D8FF2BCE1C2900AEEF74 /* his_health_data.pb.swift in Sources */,
+				CC80D8FB2BCE1C2900AEEF74 /* weather.pb.swift in Sources */,
+				CC80D8FD2BCE1C2900AEEF74 /* his_encrypt_health_data.pb.swift in Sources */,
+				CC80D90F2BCE1C2900AEEF74 /* his_encrypt_rri_data.pb.swift in Sources */,
+				CC80D9022BCE1C2900AEEF74 /* his_temperature_data.pb.swift in Sources */,
+				CC80D91C2BCE1C2900AEEF74 /* c110_cmd.pb.swift in Sources */,
+				CC80D9072BCE1C2900AEEF74 /* his_ppg_data.pb.swift in Sources */,
+				CC80D90B2BCE1C2900AEEF74 /* his_ecg_data.pb.swift in Sources */,
+				CC80D90E2BCE1C2900AEEF74 /* his_rri_data.pb.swift in Sources */,
+				CC80D6AB2BCCF8D200AEEF74 /* ProbuffManager.swift in Sources */,
+				CC80D6A22BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift in Sources */,
+				CC80D9002BCE1C2900AEEF74 /* om0_command.pb.swift in Sources */,
+				CC80D9132BCE1C2900AEEF74 /* peer_info.pb.swift in Sources */,
+				CC80D9112BCE1C2900AEEF74 /* files_update.pb.swift in Sources */,
+				CC80D9152BCE1C2900AEEF74 /* ThirdParty_health_data_V2.pb.swift in Sources */,
+				CC80D69C2BCCC62200AEEF74 /* HomeViewController.swift in Sources */,
+				CC80D9042BCE1C2900AEEF74 /* sedentariness.pb.swift in Sources */,
+				CC80D9162BCE1C2900AEEF74 /* calendar.pb.swift in Sources */,
+				CC80D8F82BCE1C2900AEEF74 /* custom_dial.pb.swift in Sources */,
+				CC80D9032BCE1C2900AEEF74 /* phone_book.pb.swift in Sources */,
+				CC80D9052BCE1C2900AEEF74 /* his_spo2_data.pb.swift in Sources */,
+				CC80D90D2BCE1C2900AEEF74 /* ThirdParty_health_data.pb.swift in Sources */,
+				CC80D9062BCE1C2900AEEF74 /* his_encrypt_ppg_data.pb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +650,7 @@
 			baseConfigurationReference = 940B218709CB7A29E367092E /* Pods-HeloBleLib_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 568XKG2E4W;
 				INFOPLIST_FILE = HeloBleLib/Info.plist;
@@ -413,6 +660,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -423,6 +671,7 @@
 			baseConfigurationReference = 84F8E9A415F3B460CF53BA09 /* Pods-HeloBleLib_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 568XKG2E4W;
 				INFOPLIST_FILE = HeloBleLib/Info.plist;

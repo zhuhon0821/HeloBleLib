@@ -1,8 +1,8 @@
 {
   "name": "HeloBleLib",
-  "version": "1.0.0",
-  "summary": "A BLE library develop by Helo team",
-  "description": "TODO: Add long description of the pod here.",
+  "version": "1.0.4",
+  "summary": "A BLE library",
+  "description": "HeloBleLib is a BLE library",
   "homepage": "https://github.com/zhuhon0821/",
   "license": {
     "type": "MIT",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/zhuhon0821/HeloBleLib.git",
-    "tag": "1.0.0"
+    "tag": "1.0.4"
   },
   "swift_versions": "5.0",
   "platforms": {
