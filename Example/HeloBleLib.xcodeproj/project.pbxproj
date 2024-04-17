@@ -60,6 +60,9 @@
 		CC80D91A2BCE1C2900AEEF74 /* his_medic_data.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F32BCE1C2900AEEF74 /* his_medic_data.pb.swift */; };
 		CC80D91B2BCE1C2900AEEF74 /* shbus_cmd.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F42BCE1C2900AEEF74 /* shbus_cmd.pb.swift */; };
 		CC80D91C2BCE1C2900AEEF74 /* c110_cmd.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D8F52BCE1C2900AEEF74 /* c110_cmd.pb.swift */; };
+		CC80D91E2BCF652700AEEF74 /* CommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D91D2BCF652700AEEF74 /* CommandViewController.swift */; };
+		CC80D9202BCF6B0500AEEF74 /* CommandCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D91F2BCF6B0500AEEF74 /* CommandCollectionViewCell.swift */; };
+		CC80D9222BCF73A200AEEF74 /* BaseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D9212BCF73A200AEEF74 /* BaseDataManager.swift */; };
 		CC8963F32BC8C11C00B7C581 /* BleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8963EF2BC8C11C00B7C581 /* BleManager.swift */; };
 		CC8963F52BC8C11C00B7C581 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CC8963F22BC8C11C00B7C581 /* .gitkeep */; };
 /* End PBXBuildFile section */
@@ -127,6 +130,9 @@
 		CC80D8F32BCE1C2900AEEF74 /* his_medic_data.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = his_medic_data.pb.swift; sourceTree = "<group>"; };
 		CC80D8F42BCE1C2900AEEF74 /* shbus_cmd.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = shbus_cmd.pb.swift; sourceTree = "<group>"; };
 		CC80D8F52BCE1C2900AEEF74 /* c110_cmd.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = c110_cmd.pb.swift; sourceTree = "<group>"; };
+		CC80D91D2BCF652700AEEF74 /* CommandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandViewController.swift; sourceTree = "<group>"; };
+		CC80D91F2BCF6B0500AEEF74 /* CommandCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCollectionViewCell.swift; sourceTree = "<group>"; };
+		CC80D9212BCF73A200AEEF74 /* BaseDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataManager.swift; sourceTree = "<group>"; };
 		CC8963EF2BC8C11C00B7C581 /* BleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleManager.swift; sourceTree = "<group>"; };
 		CC8963F22BC8C11C00B7C581 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		F9DE9CB69B817900353017EC /* Pods-HeloBleLib_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeloBleLib_Tests.release.xcconfig"; path = "Target Support Files/Pods-HeloBleLib_Tests/Pods-HeloBleLib_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -221,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				CC80D69B2BCCC62200AEEF74 /* HomeViewController.swift */,
+				CC80D91D2BCF652700AEEF74 /* CommandViewController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -229,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				CC80D69E2BCCC62E00AEEF74 /* dataModel.swift */,
+				CC80D9212BCF73A200AEEF74 /* BaseDataManager.swift */,
 			);
 			path = mode;
 			sourceTree = "<group>";
@@ -237,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				CC80D6A02BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift */,
+				CC80D91F2BCF6B0500AEEF74 /* CommandCollectionViewCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -449,6 +458,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-HeloBleLib_Example/Pods-HeloBleLib_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GRDB.swift/GRDB.framework",
 				"${BUILT_PRODUCTS_DIR}/HeloBleLib/HeloBleLib.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftProtobuf/SwiftProtobuf.framework",
 			);
@@ -456,6 +466,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HeloBleLib.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftProtobuf.framework",
 			);
@@ -487,6 +498,7 @@
 				CC80D8FA2BCE1C2900AEEF74 /* gsm_command.pb.swift in Sources */,
 				CC80D8FC2BCE1C2900AEEF74 /* con_params.pb.swift in Sources */,
 				CC80D9172BCE1C2900AEEF74 /* airquality.pb.swift in Sources */,
+				CC80D9202BCF6B0500AEEF74 /* CommandCollectionViewCell.swift in Sources */,
 				CC80D6A72BCCD3E900AEEF74 /* MTKMacros.swift in Sources */,
 				CC80D6AF2BCCFA9500AEEF74 /* ProbuffHandle.swift in Sources */,
 				CC80D6AD2BCCF8E500AEEF74 /* MTKManager.swift in Sources */,
@@ -502,6 +514,8 @@
 				CC80D8FB2BCE1C2900AEEF74 /* weather.pb.swift in Sources */,
 				CC80D8FD2BCE1C2900AEEF74 /* his_encrypt_health_data.pb.swift in Sources */,
 				CC80D90F2BCE1C2900AEEF74 /* his_encrypt_rri_data.pb.swift in Sources */,
+				CC80D9222BCF73A200AEEF74 /* BaseDataManager.swift in Sources */,
+				CC80D91E2BCF652700AEEF74 /* CommandViewController.swift in Sources */,
 				CC80D9022BCE1C2900AEEF74 /* his_temperature_data.pb.swift in Sources */,
 				CC80D91C2BCE1C2900AEEF74 /* c110_cmd.pb.swift in Sources */,
 				CC80D9072BCE1C2900AEEF74 /* his_ppg_data.pb.swift in Sources */,

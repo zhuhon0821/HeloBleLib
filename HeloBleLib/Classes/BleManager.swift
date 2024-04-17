@@ -26,9 +26,13 @@ public class BleManager:NSObject {
     var writeCharacteristic:CBCharacteristic?
     var centralManager: CBCentralManager!
     
+    static let restoreIdentifier = "com.iwown.helo.unique.restore"
+    static let deviceUuidKey = "_deviceUuidKey_sdk"
+    
     override init() {
         super.init()
-        centralManager = CBCentralManager(delegate: self, queue: nil)
+        
+        centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionRestoreIdentifierKey:BleManager.restoreIdentifier])
     }
     public func startScanBleDevice(uuids:[CBUUID]?) {
         centralManager.scanForPeripherals(withServices: uuids)
@@ -54,16 +58,33 @@ public class BleManager:NSObject {
             connectedPeripheral?.writeValue(data, for: characteristic, type: .withResponse)
         }
     }
+    
+    static func saveDeviceUuid(uuid:String) {
+        UserDefaults.standard.set(uuid, forKey: deviceUuidKey)
+        UserDefaults.standard.synchronize()
+    }
+    static func getDeviceUuid() -> String {
+        return UserDefaults.standard.object(forKey: deviceUuidKey) as? String ?? ""
+    }
+    static func clearDeviceUuid() {
+        return UserDefaults.standard.removeObject(forKey: deviceUuidKey)
+    }
 }
 extension BleManager:CBCentralManagerDelegate {
     
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
         delegate?.didReceiveDeviceState(state: central.state)
+        if central.state == .poweredOn {
+            if let p = self.connectedPeripheral {
+                central.connect(p)
+            }
+        }
     }
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         peripheral.delegate = self
         peripheral.discoverServices(nil)
         self.connectedPeripheral = peripheral
+        BleManager.saveDeviceUuid(uuid: peripheral.identifier.uuidString)
         delegate?.didConnectedDeviceSuccess(peripheral: peripheral)
     }
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -73,6 +94,15 @@ extension BleManager:CBCentralManagerDelegate {
         
     }
     public func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
+        if let peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral] {
+            let uuidStr = BleManager.getDeviceUuid()
+            for p in peripherals {
+                if p.identifier.uuidString == uuidStr {
+                    self.connectedPeripheral = p
+                    break
+                }
+            }
+        }
         
     }
     public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {

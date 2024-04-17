@@ -22,6 +22,22 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>We want to be able to use Bluetooth all the time to keep communication with the device.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>You can use bluetooth to share data</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>You can synchronize your iPhone reminder</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+		<string>bluetooth-peripheral</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -35,16 +51,5 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <true/>
-    </dict>
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>We want to be able to use Bluetooth all the time to keep communication with the device.</string>
-    <key>NSBluetoothPeripheralUsageDescription</key>
-    <string>You can use bluetooth to share data</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>You can synchronize your iPhone reminder</string>
 </dict>
 </plist>

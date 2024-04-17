@@ -6,16 +6,21 @@ PODS:
     - GRDB.swift
     - SwiftProtobuf
   - SnapKit (5.7.1)
+  - SVProgressHUD (2.3.1):
+    - SVProgressHUD/Core (= 2.3.1)
+  - SVProgressHUD/Core (2.3.1)
   - SwiftProtobuf (1.26.0)
 
 DEPENDENCIES:
   - HeloBleLib (from `../`)
   - SnapKit
+  - SVProgressHUD
 
 SPEC REPOS:
   trunk:
     - GRDB.swift
     - SnapKit
+    - SVProgressHUD
     - SwiftProtobuf
 
 EXTERNAL SOURCES:
@@ -26,8 +31,9 @@ SPEC CHECKSUMS:
   GRDB.swift: 9a33d9680cd3c870c82f48a6cbc73d3cfbb235eb
   HeloBleLib: 3c4e53580d5b6ab4b2b129bbf909ec26dd54f867
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
+  SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
   SwiftProtobuf: 5e8349171e7c2f88f5b9e683cb3cb79d1dc780b3
 
-PODFILE CHECKSUM: 476660f33741e960ca4c3bd98faf530cb68ada2c
+PODFILE CHECKSUM: f5333ceda7f662cbaf1434bb41aa8f8a527a3be2
 
 COCOAPODS: 1.15.2
