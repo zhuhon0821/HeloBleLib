@@ -97,7 +97,7 @@ extension HomeViewController {
     func didReceiveDeviceState(state: CBManagerState) {
         print(state)
         if state == .poweredOn {
-//            BleManager.sharedInstance.startScanBleDevice(uuids: nil)
+            BleManager.sharedInstance.startScanBleDevice(uuids: nil)
         }
     }
     

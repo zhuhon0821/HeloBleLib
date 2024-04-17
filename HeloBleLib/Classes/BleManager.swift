@@ -35,24 +35,24 @@ public class BleManager:NSObject {
         centralManager = CBCentralManager(delegate: self, queue: nil, options: [CBCentralManagerOptionRestoreIdentifierKey:BleManager.restoreIdentifier])
     }
     public func startScanBleDevice(uuids:[CBUUID]?) {
-        centralManager.scanForPeripherals(withServices: uuids)
+
+        let options = [CBCentralManagerScanOptionAllowDuplicatesKey: false]
+        centralManager.scanForPeripherals(withServices: uuids, options: options)
     }
     public func stopScanBleDevice() {
         centralManager.stopScan()
     }
     public func connectBleDevice(peripheral: CBPeripheral) {
-        centralManager.connect(peripheral)
+        
+        centralManager.connect(peripheral, options: [CBConnectPeripheralOptionNotifyOnNotificationKey:true,
+                                                    CBConnectPeripheralOptionNotifyOnDisconnectionKey:true])
     }
     public func cancelConnectBleDevice(peripheral: CBPeripheral) {
         centralManager.cancelPeripheralConnection(peripheral)
+        connectedPeripheral = nil
     }
-    public func recoveryBleDevice(peripheral: CBPeripheral) {
-        if let uuid = UUID(uuidString: peripheral.identifier.uuidString) {
-            centralManager.retrievePeripherals(withIdentifiers: [uuid])
-        }
-        
-    }
-    public func writeCommend(data:Data) {
+   
+    public func writeCommand(data:Data) {
         if let characteristic = writeCharacteristic {
             
             connectedPeripheral?.writeValue(data, for: characteristic, type: .withResponse)
@@ -76,8 +76,13 @@ extension BleManager:CBCentralManagerDelegate {
         delegate?.didReceiveDeviceState(state: central.state)
         if central.state == .poweredOn {
             if let p = self.connectedPeripheral {
-                central.connect(p)
+                connectBleDevice(peripheral: p)
             }
+        } else if central.state == .poweredOff {
+            if let p = self.connectedPeripheral {
+                delegate?.didDisconnectedDevice(peripheral: p)
+            }
+            
         }
     }
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
