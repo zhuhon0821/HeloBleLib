@@ -17,6 +17,10 @@ class ProbuffHandle: NSObject {
     
     override init() {
         super.init()
+//        let arr = [Player(id: "5", name: "Arthur11", score: 1001),Player(id: "6", name: "Barbara11", score: 10001),Player(id: "7", name: "Barbara21", score: 1111),Player(id: "8", name: "Barbara31", score: 2222)]
+//        GRDBManager.sharedInstance.insertPlayers(players: arr)
+//        let players = GRDBManager.sharedInstance.selectPlayer()
+//        print(players)
         
     }
     public func braceletCmdReceive(bytes:Data) {

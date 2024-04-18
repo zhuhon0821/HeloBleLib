@@ -63,6 +63,7 @@
 		CC80D91E2BCF652700AEEF74 /* CommandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D91D2BCF652700AEEF74 /* CommandViewController.swift */; };
 		CC80D9202BCF6B0500AEEF74 /* CommandCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D91F2BCF6B0500AEEF74 /* CommandCollectionViewCell.swift */; };
 		CC80D9222BCF73A200AEEF74 /* BaseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D9212BCF73A200AEEF74 /* BaseDataManager.swift */; };
+		CC80D9272BD0EFBD00AEEF74 /* GRDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D9262BD0EFBD00AEEF74 /* GRDBManager.swift */; };
 		CC8963F32BC8C11C00B7C581 /* BleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8963EF2BC8C11C00B7C581 /* BleManager.swift */; };
 		CC8963F52BC8C11C00B7C581 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CC8963F22BC8C11C00B7C581 /* .gitkeep */; };
 /* End PBXBuildFile section */
@@ -133,6 +134,7 @@
 		CC80D91D2BCF652700AEEF74 /* CommandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandViewController.swift; sourceTree = "<group>"; };
 		CC80D91F2BCF6B0500AEEF74 /* CommandCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCollectionViewCell.swift; sourceTree = "<group>"; };
 		CC80D9212BCF73A200AEEF74 /* BaseDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataManager.swift; sourceTree = "<group>"; };
+		CC80D9262BD0EFBD00AEEF74 /* GRDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRDBManager.swift; sourceTree = "<group>"; };
 		CC8963EF2BC8C11C00B7C581 /* BleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleManager.swift; sourceTree = "<group>"; };
 		CC8963F22BC8C11C00B7C581 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		F9DE9CB69B817900353017EC /* Pods-HeloBleLib_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeloBleLib_Tests.release.xcconfig"; path = "Target Support Files/Pods-HeloBleLib_Tests/Pods-HeloBleLib_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 		CC8963EE2BC8C11C00B7C581 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CC80D9262BD0EFBD00AEEF74 /* GRDBManager.swift */,
 				CC8963EF2BC8C11C00B7C581 /* BleManager.swift */,
 				CC80D6A92BCCF88500AEEF74 /* MTK */,
 				CC80D6A82BCCF87300AEEF74 /* probuff */,
@@ -508,6 +511,7 @@
 				CC80D6A52BCCD2F000AEEF74 /* ProbuffMacros.swift in Sources */,
 				CC80D90C2BCE1C2900AEEF74 /* his_encrypt_ecg_data.pb.swift in Sources */,
 				CC80D8F72BCE1C2900AEEF74 /* alarmclock.pb.swift in Sources */,
+				CC80D9272BD0EFBD00AEEF74 /* GRDBManager.swift in Sources */,
 				CC80D8FE2BCE1C2900AEEF74 /* device_conf.pb.swift in Sources */,
 				CC80D6A12BCCC62E00AEEF74 /* dataModel.swift in Sources */,
 				CC80D8FF2BCE1C2900AEEF74 /* his_health_data.pb.swift in Sources */,
