@@ -53,10 +53,23 @@ public class BleManager:NSObject {
     }
    
     public func writeCommand(data:Data) {
-        if let characteristic = writeCharacteristic {
-            
-            connectedPeripheral?.writeValue(data, for: characteristic, type: .withResponse)
+//        if let characteristic = writeCharacteristic {
+//            connectedPeripheral?.writeValue(data, for: characteristic, type: .withResponse)
+//        }
+        if let services = connectedPeripheral?.services {
+            for  service in services {
+                if let characteristics = service.characteristics {
+                    for cha in characteristics {
+                        if cha.uuid.uuidString == PROBUFF_CHARACT_SET_UUID {
+                            connectedPeripheral?.writeValue(data, for: cha, type: .withResponse)
+                            break
+                        }
+                    }
+                }
+                
+            }
         }
+        
     }
     
     static func saveDeviceUuid(uuid:String) {

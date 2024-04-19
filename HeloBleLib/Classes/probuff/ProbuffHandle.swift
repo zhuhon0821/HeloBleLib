@@ -17,10 +17,7 @@ class ProbuffHandle: NSObject {
     
     override init() {
         super.init()
-//        let arr = [Player(id: "5", name: "Arthur11", score: 1001),Player(id: "6", name: "Barbara11", score: 10001),Player(id: "7", name: "Barbara21", score: 1111),Player(id: "8", name: "Barbara31", score: 2222)]
-//        GRDBManager.sharedInstance.insertPlayers(players: arr)
-//        let players = GRDBManager.sharedInstance.selectPlayer()
-//        print(players)
+
         
     }
     public func braceletCmdReceive(bytes:Data) {
@@ -50,9 +47,17 @@ class ProbuffHandle: NSObject {
         if bytes.count < 16 {
             return
         }
+//        let newbytes = Data([0x44,0x54,0x04,0x00,0xa1,0xa1,0x0d,0x00, 0x08,0x01,0x10,0x01])
+        
         let optCode = getOperationCode(bytes: bytes)
         let crcData = bytes[8...bytes.count-1]
-
+        let crcCk = calcCrc16(data: crcData, len: UInt(crcData.count))
+        let crcCode = getCrcCheckValue(bytes: bytes)
+        if (crcCk != crcCode) {
+            return;
+        }
+        
+        
         do {
             
             switch optCode {
@@ -125,40 +130,42 @@ class ProbuffHandle: NSObject {
         
     }
    
-    func getCrcCheckValue(bytes:Data) -> Int {
-        let a = bytes[4];
-        let b = bytes[5];
-        return (Int)(Int32(a) + 0x100 * Int32(b))
+    public func getCrcCheckValue(bytes:Data) -> UInt16 {
+        let a:UInt16 = UInt16(bytes[4]);
+        let b:UInt16 = UInt16(bytes[5]);
+        return a + 0x100 * b
     }
-    func CalcCrc16(data:Data, len:UInt32) -> Int {
-        var wCRCin = 0x0000;
-        let wCPoly = 0x1021;
-
-        for wChar in data {
-            wCRCin ^= (Int(wChar) << 8);
-            for _ in 0...8 {
-                if(wCRCin & 0x8000) != 0 {
-                    wCRCin = (wCRCin << 1) ^ wCPoly
+    
+    public func calcCrc16(data: Data,len: UInt) -> UInt16 {
+        var crcIn: UInt16 = 0x0000
+        let poly: UInt16 = 0x1021
+          
+        for char in data {
+            crcIn ^= UInt16(char) << 8
+            for _ in 0..<8 {
+                if crcIn & 0x8000 != 0 {
+                    crcIn = (crcIn << 1) ^ poly
                 } else {
-                    wCRCin = wCRCin << 1
+                    crcIn <<= 1
                 }
             }
         }
-        return wCRCin
-       
+          
+        return crcIn
     }
-    func getOperationCode(bytes:Data) -> Int {
+    
+    public func getOperationCode(bytes:Data) -> Int {
       
         let a = bytes[6];
         let b = bytes[7];
         return Int(Int32(a) + 0x100 * Int32(b))
     }
-    func getDataLength(bytes:Data) -> Int {
+    public func getDataLength(bytes:Data) -> Int {
         let a = bytes[2];
         let b = bytes[3];
         return Int(Int32(a) + (0x100 * Int32(b)))
     }
-    func prefixCheck(data:Data) -> Bool{
+    public func prefixCheck(data:Data) -> Bool{
         let length = 8;
         if (data.count < length) { //8个byte： Perfix|len|crc|opt
             return false

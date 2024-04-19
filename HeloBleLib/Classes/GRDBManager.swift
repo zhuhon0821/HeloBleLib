@@ -12,7 +12,7 @@ import GRDB
 
 struct IndexModel: Codable, FetchableRecord, PersistableRecord {
     
-    var id: String
+    var uid: String
     var data_from: String
     var date: Date
     var seq_start: Int
@@ -20,11 +20,7 @@ struct IndexModel: Codable, FetchableRecord, PersistableRecord {
     var indexType:Int
     
 }
-struct Player: Codable, FetchableRecord, PersistableRecord {
-    var uid: String
-    var name: String
-    var score: Int
-}
+
 
 
 class GRDBManager: NSObject {
@@ -104,12 +100,12 @@ extension GRDBManager {
             
         }
     }
-    func selectIndexModels(type:Int,uid:String,data_from:String)->[IndexModel] {
+    func selectIndexModels(type:Int,uid:String,data_from:String,date:Date)->[IndexModel] {
         var models: [IndexModel]?
         do {
             models = try dbQueue.read { db in
-                try IndexModel.fetchAll(db).filter { player in
-                    player.id == "5"||player.id == "6"
+                try IndexModel.fetchAll(db).filter { indexModel in
+                    indexModel.uid == uid && indexModel.indexType == type && indexModel.data_from == data_from && indexModel.date == date
                 }
             }
             
@@ -118,10 +114,10 @@ extension GRDBManager {
         }
         return models ?? []
     }
-    func deletePlayer(player:Player) {
+    func deleteIndexModel(model:IndexModel) {
         do {
            _ = try dbQueue.write { db in
-               Player.delete(player)
+               IndexModel.delete(model)
 //               Player.deleteAll(db)
                
             }
@@ -130,10 +126,10 @@ extension GRDBManager {
             
         }
     }
-    func updatePlayer(player:Player) {
+    func updateIndexModel(model:IndexModel) {
         do {
            _ = try dbQueue.write { db in
-                 try player.update(db)
+                 try model.update(db)
             }
 
         } catch {

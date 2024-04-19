@@ -14,27 +14,74 @@ class ProbuffManager: NSObject {
         super.init()
         
     }
-    /**
-     *param example:[height:170,weight:65,gender:1 represent female or 0 represent male,age:25,calibWalk:100,calibRun:100]
-     */
-//    public func setPersonalInfo(param:Dictionary<String, Any>) {
-//        
-//        
-//        if let jsonData = try? JSONSerialization.data(withJSONObject: param, options: []) {
-//            if let jsonString = String(data: jsonData, encoding: .utf8) {
-//                if let userConf = try? UserConf(jsonString: jsonString) {
-//                    if let data = try? userConf.serializedData() {
-//                        BleManager.sharedInstance.writeCommend(data: data)
-//                    }
-//                }
-//            }
-//        }
-//    }
+
+    func appendWriteData(optCode:PB_Opt,payload:Data) -> Data {
+        var pbytes = Data([0, 0, 0, 0, 0, 0, 0, 0])
+        pbytes[0] = 0x44
+        pbytes[1] = 0x54
+        
+        let len = payload.count
+        let lenA = len/0x100
+        let lenB = len%0x100
+        pbytes[2] = UInt8(lenB);
+        pbytes[3] = UInt8(lenA);
     
-    /**
-     *param example:[height:170,weight:65,gender:1 represent female or 0 represent male,age:25,calibWalk:100,calibRun:100]
-     */
-    
+        let crcCode = ProbuffHandle.sharedInstance.calcCrc16(data: payload, len: UInt(payload.count))
+        let crcA = crcCode/0x100;
+        let crcB = crcCode%0x100;
+        pbytes[4] = UInt8(crcB);
+        pbytes[5] = UInt8(crcA);
+        
+        let optI = optCode.rawValue
+        let optA = optI/0x100;
+        let optB = optI%0x100;
+        pbytes[6] = UInt8(optB);
+        pbytes[7] = UInt8(optA);
+        
+        var headerData = pbytes
+        headerData.append(contentsOf: payload)
+        return headerData
+    }
+    /*
+    func writeCharacteristicByPBOpt(optCode:PB_Opt,payload:Data) {
+       
+        let mtu = 20
+        
+        NSData *writeData = [_dataHandle appendWriteData:optCode
+                                          andPayloadData:payload];
+        if (writeData.length < 8) {
+            NSLog(@"WARNING: Data length incorrect: %@",writeData);
+            //[BGLog write:[NSString stringWithFormat:@"data length incorrect %@\n", writeData]];
+            return;
+        }
+        NSString *writeStr = [NSStringUtils NSDataToByteTohex:writeData];
+        NSString *optStr = [writeStr substringWithRange:NSMakeRange(12, 4)];
+        SCQASCType sType = [self scqascType:optStr];
+
+            dispatch_async([self bleQueue], ^{
+                if (!self.cmdQueueCancelFlag) {
+                    NSString *logDown = [NSString stringWithFormat:@"{name:\"down\", id:\"%ld\", sentence:\"%@\"}",(long)optCode,[NSStringUtils NSDataToByteTohex:payload]];
+                    [IVBLEUtils writeBLELog:logDown andType:BLE_LOG_NORMAL];
+                    [BGLog write:@"write to bracelet\n"];
+                    for (int i = 0; i <= writeData.length; i += mtu) {
+                        NSRange range = NSMakeRange(i, mtu);
+                        if ((i+mtu) > writeData.length) {
+                            range = NSMakeRange(i, writeData.length-i);
+                        }
+                        NSData *tData = [writeData subdataWithRange:range];
+                        [self writeToBracelet:tData];
+                    }
+                    self.longCmdsDuring = YES;
+                    //[self suspendCmdQueueAfterSendCmd:sType]; //一组操作结束，悬挂队列
+                    if (![self iwownPBNoResponseCmd:@(optCode)]) {
+                        //PB的无需等待回复cmd操作，自动返回
+                        [self suspendCmdQueueAfterSendCmd:sType];
+                        //[self resumeCmdQueueAfterResponse];
+                    }
+                }
+            });
+    }
+    */
     public func setDateTimeConf(date:Date) {
         let tz = NSTimeZone.system
         let tsFromGMT = tz.secondsFromGMT()
@@ -50,8 +97,19 @@ class ProbuffManager: NSObject {
             BleManager.sharedInstance.writeCommand(data: data)
         }
     }
-    public func setPersonalInfo(userConf:UserConf) {
-        if let data = try? userConf.serializedData() {
+    public func setUserConf(userConf:UserConf_C) {
+        var conf = UserConf()
+        conf.height = userConf.height
+        conf.weight = userConf.weight
+        conf.age = userConf.age
+        conf.gender = userConf.gender
+        conf.calibRun = userConf.calibRun
+        conf.calibWalk = userConf.calibWalk
+        conf.wristCircumference = userConf.wristCircumference
+        conf.historyOfHypertension = userConf.historyOfHypertension
+        conf.hash = userConf.hash
+        
+        if let data = try?conf.serializedData() {
             BleManager.sharedInstance.writeCommand(data: data)
         }
     }
@@ -91,12 +149,16 @@ class ProbuffManager: NSObject {
             BleManager.sharedInstance.writeCommand(data: data)
         }
     }
-    public func setMessageFilterConf(msgHandler:MsgHandler) {
-        if let data = try? msgHandler.serializedData() {
+    public func setMessageFilterConf(msgFilter:MsgFilter) {
+        if let data = try? msgFilter.serializedData() {
             BleManager.sharedInstance.writeCommand(data: data)
         }
     }
-    
-    //getMessageFilterConf
+    public func setWeatherGroup(weatherGroup:WeatherGroup) {
+        if let data = try? weatherGroup.serializedData() {
+            BleManager.sharedInstance.writeCommand(data: data)
+        }
+    }
+    //getWeatherGroup
     
 }

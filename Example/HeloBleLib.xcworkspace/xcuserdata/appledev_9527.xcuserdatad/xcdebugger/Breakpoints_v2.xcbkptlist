@@ -3,4 +3,84 @@
    uuid = "4D5DD00A-D36C-4D25-B503-51384FC8E6EC"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "595D54B6-26F5-424F-92D2-9F0C11477109"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../HeloBleLib/Classes/BleManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "writeCommand(data:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "595D54B6-26F5-424F-92D2-9F0C11477109 - fc94fc3610a8329e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HeloBleLib_Example.BleManager.writeCommand(data: Foundation.Data) -&gt; ()"
+                  moduleName = "HeloBleLib_Example"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "800">
+               </Location>
+               <Location
+                  uuid = "595D54B6-26F5-424F-92D2-9F0C11477109 - 32612e43b5aad1f0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HeloBleLib.BleManager.writeCommand(data: Foundation.Data) -&gt; ()"
+                  moduleName = "HeloBleLib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "800">
+               </Location>
+               <Location
+                  uuid = "595D54B6-26F5-424F-92D2-9F0C11477109 - fc94fc3610a8329e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HeloBleLib_Example.BleManager.writeCommand(data: Foundation.Data) -&gt; ()"
+                  moduleName = "HeloBleLib_Example"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "988">
+               </Location>
+               <Location
+                  uuid = "595D54B6-26F5-424F-92D2-9F0C11477109 - 32612e43b5aad1f0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HeloBleLib.BleManager.writeCommand(data: Foundation.Data) -&gt; ()"
+                  moduleName = "HeloBleLib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "988">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
