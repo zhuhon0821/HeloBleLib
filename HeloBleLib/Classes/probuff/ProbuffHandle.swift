@@ -119,6 +119,7 @@ class ProbuffHandle: NSObject {
                     break
                 case 0xffff:
                 let decodedInfo = try ConParamsUpdate(serializedData: crcData)
+                ProbuffManager.sharedInstance.mtu = Int(decodedInfo.mtu)
                 print(decodedInfo)
                     break
                 default:

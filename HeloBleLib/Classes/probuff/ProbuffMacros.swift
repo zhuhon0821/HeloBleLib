@@ -40,3 +40,37 @@ enum PB_Opt:Int {
     case PB_Opt_ConnectionParams =  0xFFFF
     case PB_Opt_OutOfConfigRanger = 0x10000 //超出预设范围，用于处理异常
 }
+
+enum RTDataSbscrbr:Int {
+    
+    case RTDataSbscrbrReadTime = 0
+    case RTDataSbscrbrReadBattery
+    case RTDataSbscrbrReadHealth
+    case RTDataSbscrbrEasyCameraOn
+    case RTDataSbscrbrEasyCameraOff 
+    case RTDataSbscrbrTenMinute 
+    case RTDataSbscrbrStartDfu 
+    case RTDataSbscrbrStopDfu 
+    case RTDataSbscrbrHrMeasure
+    case RTDataSbscrbrBiaMeasure
+    case RTDataSbscrbrFatigueMeasure
+    case RTDataSbscrbrBreatheMeasure
+    case RTDataSbscrbrPressureMeasure
+    case RTDataSbscrbrMeasureState
+    case RTDataSbscrbrSensorNone
+    case RTDataSbscrbrSensorEcg
+    case RTDataSbscrbrSensorPpg
+    case RTDataSbscrbrSensorMag
+    case RTDataSbscrbrSensorGyro
+    case RTDataSbscrbrSensorAcc
+    case RTDataSbscrbrSensorBp
+    case RTDataSbscrbrSensorBpresult
+    case RTDataSbscrbrSensorTemperature
+    case RTDataSbscrbrSensorTwoEcg
+    case RTDataSbscrbrSensorTypeEcgDetect
+    case RTDataSbscrbrSensorTypeSPO2
+    case RTDataSbscrbrSensorTypeOaq
+    case RTDataSbscrbrSensorTypeIaq
+    case RTDataSbscrbrSensorTypeHumiture 
+
+}

@@ -57,10 +57,10 @@ extension CommandViewController:UICollectionViewDataSource, UICollectionViewDele
         switch indexPath.item {
         case 0:
             
-            let user = UserConf_C(height: 170, weight: 75, gender: true, age: 28, calibWalk: 100, calibRun: 100, grade: 1, wristCircumference: 100, historyOfHypertension: true, hash: 123456)
-            
-            ProbuffManager.sharedInstance.setUserConf(userConf: user)
-            
+//            let user = UserConf_C(height: 170, weight: 75, gender: true, age: 28, calibWalk: 100, calibRun: 100, grade: 1, wristCircumference: 100, historyOfHypertension: true, hash: 123456)
+//            
+//            ProbuffManager.sharedInstance.setUserConf(userConf: user)
+            ProbuffManager.sharedInstance.read00DeviceInfomation()
             break
         case 1:
             
