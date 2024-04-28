@@ -7,114 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7C3DF897-5D80-4D9A-94B2-5E1DBA7DAFE4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../HeloBleLib/Classes/BleManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "retrieveConnectdPeripherals()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "7C3DF897-5D80-4D9A-94B2-5E1DBA7DAFE4 - 38378c4a8e2ca53f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HeloBleLib_Example.BleManager.retrieveConnectdPeripherals() -&gt; ()"
-                  moduleName = "HeloBleLib_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "63"
-                  endingLineNumber = "63"
-                  offsetFromSymbolStart = "148">
-               </Location>
-               <Location
-                  uuid = "7C3DF897-5D80-4D9A-94B2-5E1DBA7DAFE4 - 103a294c279e61e1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HeloBleLib.BleManager.retrieveConnectdPeripherals() -&gt; ()"
-                  moduleName = "HeloBleLib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "63"
-                  endingLineNumber = "63"
-                  offsetFromSymbolStart = "148">
-               </Location>
-               <Location
-                  uuid = "7C3DF897-5D80-4D9A-94B2-5E1DBA7DAFE4 - 38378c4a8e2ca53f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HeloBleLib_Example.BleManager.retrieveConnectdPeripherals() -&gt; ()"
-                  moduleName = "HeloBleLib_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "63"
-                  endingLineNumber = "63"
-                  offsetFromSymbolStart = "144">
-               </Location>
-               <Location
-                  uuid = "7C3DF897-5D80-4D9A-94B2-5E1DBA7DAFE4 - 103a294c279e61e1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HeloBleLib.BleManager.retrieveConnectdPeripherals() -&gt; ()"
-                  moduleName = "HeloBleLib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "63"
-                  endingLineNumber = "63"
-                  offsetFromSymbolStart = "144">
-               </Location>
-               <Location
-                  uuid = "7C3DF897-5D80-4D9A-94B2-5E1DBA7DAFE4 - 38378c4a8e2ca53f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HeloBleLib_Example.BleManager.retrieveConnectdPeripherals() -&gt; ()"
-                  moduleName = "HeloBleLib_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "63"
-                  endingLineNumber = "63"
-                  offsetFromSymbolStart = "152">
-               </Location>
-               <Location
-                  uuid = "7C3DF897-5D80-4D9A-94B2-5E1DBA7DAFE4 - 103a294c279e61e1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "HeloBleLib.BleManager.retrieveConnectdPeripherals() -&gt; ()"
-                  moduleName = "HeloBleLib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "63"
-                  endingLineNumber = "63"
-                  offsetFromSymbolStart = "152">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -122,13 +14,13 @@
             filePath = "../HeloBleLib/Classes/BleManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "peripheral(_:didWriteValueFor:error:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D - 538806b7f54dd0dd"
+                  uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D - 538806b7f54dd212"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -138,12 +30,12 @@
                   urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "180"
-                  endingLineNumber = "180"
-                  offsetFromSymbolStart = "120">
+                  startingLineNumber = "201"
+                  endingLineNumber = "201"
+                  offsetFromSymbolStart = "1028">
                </Location>
                <Location
-                  uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D - fde4fe5c8b49022e"
+                  uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D - fde4fe5c8b4900e1"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -153,8 +45,68 @@
                   urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "180"
-                  endingLineNumber = "180"
+                  startingLineNumber = "201"
+                  endingLineNumber = "201"
+                  offsetFromSymbolStart = "1028">
+               </Location>
+               <Location
+                  uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D - 538806b7f54dd5b5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HeloBleLib_Example.BleManager.peripheral(_: __C.CBPeripheral, didWriteValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "HeloBleLib_Example"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D - fde4fe5c8b490746"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HeloBleLib.BleManager.peripheral(_: __C.CBPeripheral, didWriteValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "HeloBleLib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "204"
+                  endingLineNumber = "204"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D - 538806b7f54dd539"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HeloBleLib_Example.BleManager.peripheral(_: __C.CBPeripheral, didWriteValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "HeloBleLib_Example"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "208"
+                  endingLineNumber = "208"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  uuid = "1756B78D-C495-4DE6-AB6C-B59AECFE238D - fde4fe5c8b4907ca"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HeloBleLib.BleManager.peripheral(_: __C.CBPeripheral, didWriteValueFor: __C.CBCharacteristic, error: Swift.Optional&lt;Swift.Error&gt;) -&gt; ()"
+                  moduleName = "HeloBleLib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/BleManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "208"
+                  endingLineNumber = "208"
                   offsetFromSymbolStart = "120">
                </Location>
             </Locations>

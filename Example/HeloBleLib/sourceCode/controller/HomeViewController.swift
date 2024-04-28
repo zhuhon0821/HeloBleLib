@@ -42,7 +42,7 @@ class HomeViewController: UIViewController, BleManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let arr =  GRDBManager.sharedInstance.selectIndexModels(type: HisDataType.healthDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName() ?? "", isSynced: true)
         let button = UIBarButtonItem(title: "scan", style: .plain, target: self, action: #selector(rightButtonTapped))
         self.navigationItem.rightBarButtonItem = button
         let button2 = UIBarButtonItem(title: "disconnect", style: .plain, target: self, action: #selector(leftButtonTapped))

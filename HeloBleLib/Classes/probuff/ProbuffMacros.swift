@@ -74,3 +74,20 @@ enum RTDataSbscrbr:Int {
     case RTDataSbscrbrSensorTypeHumiture 
 
 }
+
+public enum HealthDataType:Int {
+    
+    case healthData = 0 // = 0
+    case gnssData // = 1
+    case ecgData // = 2
+    case ppgData // = 3
+    case rriData // = 4
+    case medicData // = 5
+    case spo2Data // = 6
+    case swimData // = 7
+    case temperatureData // = 8
+    case healthDataEncrypt // = 9
+    case ecgDataEncrypt // = 10
+    case ppgDataEncrypt // = 11
+    case rriDataEncrypt // = 12
+}

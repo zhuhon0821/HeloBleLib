@@ -14,8 +14,24 @@ class ProbuffManager: NSObject {
     
     override init() {
         super.init()
-        
     }
+    //MARK:sync detail data
+    public func read80HistoryDataIndexTable(_ type:HisDataType) {
+        for type in HisDataType.allCases {
+            var itSync = HisITSync()
+            itSync.type = type
+            if let data = getHistoryDataIndexTable(itSync) {
+                writeCharacteristicByPBOpt(optCode: .PB_Opt_HistoryData, payload: data)
+            }
+        }
+
+    }
+    public func read80HistoryDataStart(_ idSync:HisStartSync) {
+        if let data = getHistoryDataStart(idSync) {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_HistoryData, payload: data)
+        }
+    }
+    //MARK:read base info
     public func read00DeviceInfomation() {
         var diR = DeviceInfoRequest()
         diR.operation = .read
@@ -266,113 +282,114 @@ extension ProbuffManager {
         switch (rtDSB) {
         case .RTDataSbscrbrReadTime:
             rtSMArr[0] = RtSync.onlyOnce
-                break
+            break
         case .RTDataSbscrbrReadBattery:
             rtSMArr[1] = RtSync.onlyOnce
-                break
+            break
         case .RTDataSbscrbrReadHealth:
             rtSMArr[2] = RtSync.onlyOnce
-                break
+            break
         case .RTDataSbscrbrEasyCameraOn:
             rtSMArr[3] = RtMode.enterCamera
             rtSBR.mode = rtSMArr[3] as! RtMode
-                break
+            break
         case .RTDataSbscrbrEasyCameraOff:
             rtSMArr[3] = RtMode.backNormal
             rtSBR.mode = rtSMArr[3] as! RtMode
-                break
+            break
         case .RTDataSbscrbrTenMinute:
             rtSMArr[0] = RtSync.onTenMinuteChange
-                break
+            break
         case .RTDataSbscrbrStartDfu:
             rtSMArr[3] = RtMode.rtStartDfuMode
             rtSBR.mode = rtSMArr[3] as! RtMode
-                break
+            break
         case .RTDataSbscrbrStopDfu:
             rtSMArr[3] = RtMode.backNormal
             rtSBR.mode = rtSMArr[3] as! RtMode
-                break
+            break
         case .RTDataSbscrbrHrMeasure:
             rtSMArr[3] = RtSync.stopAll
             rtSBR.mode = rtSMArr[3] as! RtMode
-                break
+            break
         case .RTDataSbscrbrBiaMeasure:
             rtSensor.type = UInt32(SensorType.bioz.rawValue);
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrFatigueMeasure:
             rtSMArr[3] = RtSync.stopAll
             rtSBR.mode = rtSMArr[3] as! RtMode
-                break
+            break
         case .RTDataSbscrbrBreatheMeasure:
             rtSMArr[3] = RtSync.stopAll
             rtSBR.mode = rtSMArr[3] as! RtMode
-                break
+            break
         case .RTDataSbscrbrPressureMeasure:
             rtSMArr[3] = RtSync.stopAll
             rtSBR.mode = rtSMArr[3] as! RtMode
-                break
+            break
         case .RTDataSbscrbrSensorNone:
-               
-                break
+            
+            break
         case .RTDataSbscrbrSensorEcg:
             rtSensor.type = UInt32(SensorType.ecg.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorPpg:
             rtSensor.type = UInt32(SensorType.ppg.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorMag:
             rtSensor.type = UInt32(SensorType.mag.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorGyro:
             rtSensor.type = UInt32(SensorType.gyro.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorAcc:
             rtSensor.type = UInt32(SensorType.acc.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorBp:
             rtSensor.type = UInt32(SensorType.bp.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorBpresult:
             rtSensor.type = UInt32(SensorType.bpresult.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorTemperature:
             rtSensor.type = UInt32(SensorType.temperature.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorTwoEcg:
             rtSensor.type = UInt32(SensorType.twoEcg.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorTypeEcgDetect:
             rtSensor.type = UInt32(SensorType.ecgDetect.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorTypeSPO2:
             rtSensor.type = UInt32(SensorType.spo2.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorTypeOaq:
             rtSensor.type = UInt32(SensorType.oaq.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorTypeIaq:
             rtSensor.type = UInt32(SensorType.iaq.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
         case .RTDataSbscrbrSensorTypeHumiture:
             rtSensor.type = UInt32(SensorType.humiture.rawValue)
             rtSBR.sensor = rtSensor
-                break
+            break
+            
         case .RTDataSbscrbrMeasureState:
-            <#code#>
+            break
         }
         rtSBR.time = rtSMArr[0] as! RtSync
         rtSBR.battery = rtSMArr[1] as! RtSync
@@ -380,6 +397,45 @@ extension ProbuffManager {
         rtSBR.mode = rtSMArr[3] as! RtMode
         return try? rtSBR.serializedData()
     }
+    func getHistoryDataIndexTable(_ idSync:HisITSync) -> Data? {
+        var hS = HisSubscriber()
+        hS.operation = .itSync
+        hS.itSync = idSync
+        return try? hS.serializedData()
+    }
+    func getHistoryDataStart(_ idSync:HisStartSync) -> Data? {
+        var hS = HisSubscriber()
+        hS.operation = .startSync
+        hS.startSync = idSync
+        return try? hS.serializedData()
+    }
+    func getHistoryDataStop(_ idSync:HisStopSync) -> Data?{
+        var hS = HisSubscriber()
+        hS.operation = .stopSync
+        hS.stopSync = idSync
+        return try? hS.serializedData()
+    }
+    func getFileUpdateRequestDesc() -> Data? {
+        var fuR = FilesUpdateRequest()
+        fuR.desc = true
+        return try? fuR.serializedData()
+    }
+    func getFileUpdateRequestInit(_ idRequest:FUInitRequest) -> Data?{
+        var fuR = FilesUpdateRequest()
+        fuR.init_p = idRequest
+        return try? fuR.serializedData()
+    }
+    func getFileUpdateRequestData(_ idRequest:FUDataRequest) -> Data?{
+        var fuR = FilesUpdateRequest()
+        fuR.data = idRequest
+        return try? fuR.serializedData()
+    }
+    func getFileUpdateRequestExit(_ idRequest:FUExitRequest) -> Data?{
+        var fuR = FilesUpdateRequest()
+        fuR.exit = idRequest
+        return try? fuR.serializedData()
+    }
+    
     //MARK: -- Information
     func getPeerInformation(_ configuration: Any) -> Data? {
         var peerInfoNotification = PeerInfoNotification()
@@ -570,3 +626,4 @@ extension ProbuffManager {
     }
 
 }
+

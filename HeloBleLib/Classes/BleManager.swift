@@ -9,7 +9,7 @@ import UIKit
 import GRDB
 import CoreBluetooth
 
-public protocol BleManagerDelegate {
+public protocol BleManagerDelegate:AnyObject {
     
     func didReceiveDeviceState(state: CBManagerState)
     func didDiscoverDevice(peripheral: CBPeripheral)
@@ -17,17 +17,22 @@ public protocol BleManagerDelegate {
     func didConnectedDeviceFailed(peripheral: CBPeripheral)
     func didDisconnectedDevice(peripheral: CBPeripheral)
 }
-
+public protocol BleDataSyncDelegate:AnyObject {
+    func onSyncingWithHealthData(_ date:Date,_ type:HealthDataType,_ progress:Float,_ allCompleted:Bool)
+    
+}
 public class BleManager:NSObject {
     
     public static let sharedInstance = BleManager()
-    public var delegate: BleManagerDelegate?
+    public weak var delegate: BleManagerDelegate?
+    public weak var dataSyncDelegate: BleDataSyncDelegate?
     public var connectedPeripheral:CBPeripheral?
     var writeCharacteristic:CBCharacteristic?
     var centralManager: CBCentralManager!
     
     static let restoreIdentifier = "com.iwown.helo.unique.restore"
     let deviceUuidKey = "_deviceUuidKey_sdk"
+    let deviceNameKey = "_deviceNameKey_sdk"
     
     override init() {
         super.init()
@@ -53,15 +58,21 @@ public class BleManager:NSObject {
     }
     
     public func retrieveCachedPeripherals() {
-        if let uuid = UUID(uuidString: getDeviceUuid())  {
-            let peripheralIdentifiers: [UUID] = [uuid]
-            centralManager.retrievePeripherals(withIdentifiers: peripheralIdentifiers)
+        if let uuidstr = getDeviceUuid(){
+            if let uuid = UUID(uuidString: uuidstr)  {
+                let peripheralIdentifiers: [UUID] = [uuid]
+                centralManager.retrievePeripherals(withIdentifiers: peripheralIdentifiers)
+            }
         }
+        
     }
     public func retrieveConnectdPeripherals() {
-        let uuid = CBUUID(string: getDeviceUuid())
-        let peripheralIdentifiers: [CBUUID] = [uuid]
-        centralManager.retrieveConnectedPeripherals(withServices: peripheralIdentifiers)
+        if let uuidstr = getDeviceUuid() {
+            let uuid = CBUUID(string: uuidstr)
+            let peripheralIdentifiers: [CBUUID] = [uuid]
+            centralManager.retrieveConnectedPeripherals(withServices: peripheralIdentifiers)
+        }
+        
     }
 
     public func writeCommand(data:Data) {
@@ -84,16 +95,30 @@ public class BleManager:NSObject {
         
     }
     
-    func saveDeviceUuid(uuid:String) {
+}
+extension BleManager {
+    public func saveDeviceUuid(uuid:String) {
         UserDefaults.standard.set(uuid, forKey: deviceUuidKey)
         UserDefaults.standard.synchronize()
     }
-    func getDeviceUuid() -> String {
-        return UserDefaults.standard.object(forKey: deviceUuidKey) as? String ?? ""
+    public func getDeviceUuid() -> String? {
+        return UserDefaults.standard.object(forKey: deviceUuidKey) as? String
     }
-    func clearDeviceUuid() {
+    public func clearDeviceUuid() {
         return UserDefaults.standard.removeObject(forKey: deviceUuidKey)
     }
+    
+    public func saveDeviceName(name:String) {
+        UserDefaults.standard.set(name, forKey: deviceNameKey)
+        UserDefaults.standard.synchronize()
+    }
+    public func getDeviceName() -> String? {
+        return UserDefaults.standard.object(forKey: deviceNameKey) as? String
+    }
+    public func clearDeviceName() {
+        return UserDefaults.standard.removeObject(forKey: deviceNameKey)
+    }
+    
 }
 extension BleManager:CBCentralManagerDelegate {
     
@@ -119,6 +144,9 @@ extension BleManager:CBCentralManagerDelegate {
         peripheral.discoverServices(nil)
         self.connectedPeripheral = peripheral
         saveDeviceUuid(uuid: peripheral.identifier.uuidString)
+        if let name = peripheral.name{
+            saveDeviceName(name: name)
+        }
         delegate?.didConnectedDeviceSuccess(peripheral: peripheral)
     }
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
@@ -210,4 +238,11 @@ extension BleManager:CBPeripheralDelegate {
         
     }
    
+}
+extension BleManager {
+    public func syncHealthData(completion:(_ date:Date,_ type:HealthDataType,_ progress:Float,_ allCompleted:Bool)->Void) {
+        ProbuffManager.sharedInstance.read80HistoryDataIndexTable(.healthData)
+       
+        
+    }
 }

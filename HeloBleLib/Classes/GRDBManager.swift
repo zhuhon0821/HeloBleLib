@@ -10,14 +10,23 @@ import UIKit
 import GRDB
 
 
-struct IndexModel: Codable, FetchableRecord, PersistableRecord {
+struct IndexModel: Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+    static let tableName = "indexModel"
     
-    var uid: String
     var data_from: String
     var date: Date
-    var seq_start: Int
-    var seq_end: Int
+    var seq_start: UInt32
+    var seq_end: UInt32
     var indexType:Int
+    var isSynced:Bool
+    init(data_from: String, date: Date, seq_start: UInt32, seq_end: UInt32, indexType: Int, isSynced: Bool) {
+        self.data_from = data_from
+        self.date = date
+        self.seq_start = seq_start
+        self.seq_end = seq_end
+        self.indexType = indexType
+        self.isSynced = isSynced
+    }
     
 }
 
@@ -47,14 +56,14 @@ class GRDBManager: NSObject {
     func creatTables() {
         do {
             try dbQueue.write { db in
-                try db.create(table: "index_table",ifNotExists: true) { t in
-                    t.primaryKey(["uid","date","data_from"], onConflict: .replace)
-                    t.column("uid", .integer).notNull()
+                try db.create(table: IndexModel.tableName,ifNotExists: true) { t in
+                    t.primaryKey(["date","data_from","indexType","seq_start","seq_end"], onConflict: .replace)
                     t.column("data_from", .text).notNull()
                     t.column("date", .date).notNull()
                     t.column("seq_start", .integer).notNull()
                     t.column("seq_end", .integer).notNull()
                     t.column("indexType", .integer).notNull()
+                    t.column("isSynced", .boolean).notNull()
                     
                 }
             }
@@ -70,9 +79,9 @@ class GRDBManager: NSObject {
         
         if let fileURL = fileURL, FileManager.default.fileExists(atPath: fileURL.path) {
             if FileManager.default.fileExists(atPath: fileURL.path, isDirectory: nil) {
-                print("The path already exists and is a directory.")
+//                print("The path already exists and is a directory.")
             } else {
-                print("The path already exists and is a file.")
+//                print("The path already exists and is a file.")
             }
         } else {
             do {
@@ -86,6 +95,7 @@ class GRDBManager: NSObject {
         return fileURL
     }
 }
+
 extension GRDBManager {
     
     func insertIndexModel(indexModels:[IndexModel]) {
@@ -97,15 +107,18 @@ extension GRDBManager {
             }
 
         } catch {
-            
+            print(error.localizedDescription)
         }
     }
-    func selectIndexModels(type:Int,uid:String,data_from:String,date:Date)->[IndexModel] {
+    func selectIndexModels(type:Int,data_from:String,isSynced:Bool)->[IndexModel] {
         var models: [IndexModel]?
         do {
             models = try dbQueue.read { db in
                 try IndexModel.fetchAll(db).filter { indexModel in
-                    indexModel.uid == uid && indexModel.indexType == type && indexModel.data_from == data_from && indexModel.date == date
+
+                    indexModel.indexType == type && indexModel.data_from == data_from && indexModel.isSynced == isSynced
+                }.sorted { index1, index2 in
+                    index1.date < index2.date
                 }
             }
             
@@ -114,11 +127,25 @@ extension GRDBManager {
         }
         return models ?? []
     }
+    func selectIndexModelSynced(type:Int,data_from:String,startSeq:UInt32,endSeq:UInt32,date:Date,isSynced:Bool)->Bool {
+        var models = [IndexModel]()
+        do {
+            models = try dbQueue.read { db in
+                try IndexModel.fetchAll(db).filter { indexModel in
+
+                    indexModel.indexType == type && indexModel.data_from == data_from && indexModel.seq_start == startSeq && indexModel.seq_end == endSeq && indexModel.date == date && indexModel.isSynced == isSynced
+                }
+            }
+            
+        } catch {
+            
+        }
+        return models.count > 0
+    }
     func deleteIndexModel(model:IndexModel) {
         do {
            _ = try dbQueue.write { db in
-               IndexModel.delete(model)
-//               Player.deleteAll(db)
+               try IndexModel.deleteAll(db)
                
             }
 
