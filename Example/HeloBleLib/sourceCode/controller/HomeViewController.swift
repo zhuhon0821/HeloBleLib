@@ -42,6 +42,10 @@ class HomeViewController: UIViewController, BleManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let sleep = IVSleep()
+//        let af = AfAiLib()
+//        let re = AfAiLib.afAiResult([1])
+//        let le = AfAiLib.afAiConfdenceLevel([1])
         let arr =  GRDBManager.sharedInstance.selectIndexModels(type: HisDataType.healthDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName() ?? "", isSynced: true)
         let button = UIBarButtonItem(title: "scan", style: .plain, target: self, action: #selector(rightButtonTapped))
         self.navigationItem.rightBarButtonItem = button

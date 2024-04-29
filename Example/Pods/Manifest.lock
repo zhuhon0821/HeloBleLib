@@ -3,8 +3,8 @@ PODS:
     - GRDB.swift/standard (= 5.11.0)
   - GRDB.swift/standard (5.11.0)
   - HeloBleLib (1.0.4):
-    - GRDB.swift
-    - SwiftProtobuf
+    - GRDB.swift (~> 5.11.0)
+    - SwiftProtobuf (~> 1.26.0)
   - SnapKit (5.7.1)
   - SVProgressHUD (2.3.1):
     - SVProgressHUD/Core (= 2.3.1)
@@ -29,7 +29,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   GRDB.swift: 9a33d9680cd3c870c82f48a6cbc73d3cfbb235eb
-  HeloBleLib: 3c4e53580d5b6ab4b2b129bbf909ec26dd54f867
+  HeloBleLib: 134720e612635b9a64146093cb3550f9dc5020bf
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
   SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
   SwiftProtobuf: 5e8349171e7c2f88f5b9e683cb3cb79d1dc780b3

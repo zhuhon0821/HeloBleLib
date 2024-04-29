@@ -27,10 +27,10 @@
   ],
   "dependencies": {
     "GRDB.swift": [
-
+      "~> 5.11.0"
     ],
     "SwiftProtobuf": [
-
+      "~> 1.26.0"
     ]
   },
   "swift_version": "5.0"

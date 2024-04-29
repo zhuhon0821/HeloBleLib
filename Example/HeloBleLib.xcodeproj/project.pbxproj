@@ -13,6 +13,9 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		835CB74B01D604806A6BCA41 /* Pods_HeloBleLib_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6527ACD6572FEF696BAF7094 /* Pods_HeloBleLib_Example.framework */; };
+		CC1218A42BDF4BC30067B6F5 /* manager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC1218A32BDF4BC30067B6F5 /* manager.m */; };
+		CC1218AC2BDF4C2F0067B6F5 /* IVSleep.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1218A72BDF4C2F0067B6F5 /* IVSleep.a */; };
+		CC1218AD2BDF4C2F0067B6F5 /* libAfAiLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1218AB2BDF4C2F0067B6F5 /* libAfAiLib.a */; };
 		CC80D69C2BCCC62200AEEF74 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D69B2BCCC62200AEEF74 /* HomeViewController.swift */; };
 		CC80D6A12BCCC62E00AEEF74 /* dataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D69E2BCCC62E00AEEF74 /* dataModel.swift */; };
 		CC80D6A22BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D6A02BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift */; };
@@ -85,6 +88,13 @@
 		940B218709CB7A29E367092E /* Pods-HeloBleLib_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeloBleLib_Example.debug.xcconfig"; path = "Target Support Files/Pods-HeloBleLib_Example/Pods-HeloBleLib_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A6B7B7325B152D7F16E33E9D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		BE69383DE0D511E4972BBCF6 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		CC1218A12BDF4BC20067B6F5 /* HeloBleLib_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HeloBleLib_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		CC1218A22BDF4BC30067B6F5 /* manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = manager.h; sourceTree = "<group>"; };
+		CC1218A32BDF4BC30067B6F5 /* manager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = manager.m; sourceTree = "<group>"; };
+		CC1218A72BDF4C2F0067B6F5 /* IVSleep.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = IVSleep.a; sourceTree = "<group>"; };
+		CC1218A82BDF4C2F0067B6F5 /* IVSleep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVSleep.h; sourceTree = "<group>"; };
+		CC1218AA2BDF4C2F0067B6F5 /* AfAiLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfAiLib.h; sourceTree = "<group>"; };
+		CC1218AB2BDF4C2F0067B6F5 /* libAfAiLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAfAiLib.a; sourceTree = "<group>"; };
 		CC80D69B2BCCC62200AEEF74 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CC80D69E2BCCC62E00AEEF74 /* dataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataModel.swift; sourceTree = "<group>"; };
 		CC80D6A02BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleDeviceCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -147,6 +157,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC1218AC2BDF4C2F0067B6F5 /* IVSleep.a in Frameworks */,
+				CC1218AD2BDF4C2F0067B6F5 /* libAfAiLib.a in Frameworks */,
 				835CB74B01D604806A6BCA41 /* Pods_HeloBleLib_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,6 +239,33 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		CC1218A52BDF4C2F0067B6F5 /* algorithm */ = {
+			isa = PBXGroup;
+			children = (
+				CC1218A62BDF4C2F0067B6F5 /* IVSleep */,
+				CC1218A92BDF4C2F0067B6F5 /* Af */,
+			);
+			path = algorithm;
+			sourceTree = "<group>";
+		};
+		CC1218A62BDF4C2F0067B6F5 /* IVSleep */ = {
+			isa = PBXGroup;
+			children = (
+				CC1218A72BDF4C2F0067B6F5 /* IVSleep.a */,
+				CC1218A82BDF4C2F0067B6F5 /* IVSleep.h */,
+			);
+			path = IVSleep;
+			sourceTree = "<group>";
+		};
+		CC1218A92BDF4C2F0067B6F5 /* Af */ = {
+			isa = PBXGroup;
+			children = (
+				CC1218AA2BDF4C2F0067B6F5 /* AfAiLib.h */,
+				CC1218AB2BDF4C2F0067B6F5 /* libAfAiLib.a */,
+			);
+			path = Af;
+			sourceTree = "<group>";
+		};
 		CC80D69A2BCCC62200AEEF74 /* controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,9 +296,13 @@
 		CC80D6A32BCCCA8900AEEF74 /* sourceCode */ = {
 			isa = PBXGroup;
 			children = (
+				CC1218A52BDF4C2F0067B6F5 /* algorithm */,
 				CC80D69D2BCCC62E00AEEF74 /* mode */,
 				CC80D69F2BCCC62E00AEEF74 /* view */,
 				CC80D69A2BCCC62200AEEF74 /* controller */,
+				CC1218A22BDF4BC30067B6F5 /* manager.h */,
+				CC1218A32BDF4BC30067B6F5 /* manager.m */,
+				CC1218A12BDF4BC20067B6F5 /* HeloBleLib_Example-Bridging-Header.h */,
 			);
 			path = sourceCode;
 			sourceTree = "<group>";
@@ -527,6 +570,7 @@
 				CC80D8FE2BCE1C2900AEEF74 /* device_conf.pb.swift in Sources */,
 				CC80D6A12BCCC62E00AEEF74 /* dataModel.swift in Sources */,
 				CC80D8FF2BCE1C2900AEEF74 /* his_health_data.pb.swift in Sources */,
+				CC1218A42BDF4BC30067B6F5 /* manager.m in Sources */,
 				CC80D8FB2BCE1C2900AEEF74 /* weather.pb.swift in Sources */,
 				CC80D8FD2BCE1C2900AEEF74 /* his_encrypt_health_data.pb.swift in Sources */,
 				CC80D90F2BCE1C2900AEEF74 /* his_encrypt_rri_data.pb.swift in Sources */,
@@ -686,10 +730,16 @@
 				INFOPLIST_FILE = HeloBleLib/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HeloBleLib/sourceCode/algorithm/IVSleep",
+					"$(PROJECT_DIR)/HeloBleLib/sourceCode/algorithm/Af",
+				);
 				MARKETING_VERSION = 1.0.3;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HeloBleLib/sourceCode/HeloBleLib_Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
@@ -707,10 +757,16 @@
 				INFOPLIST_FILE = HeloBleLib/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/HeloBleLib/sourceCode/algorithm/IVSleep",
+					"$(PROJECT_DIR)/HeloBleLib/sourceCode/algorithm/Af",
+				);
 				MARKETING_VERSION = 1.0.3;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "HeloBleLib/sourceCode/HeloBleLib_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 			};

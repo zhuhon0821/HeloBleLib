@@ -37,8 +37,8 @@ Pod::Spec.new do |s|
   # s.public_header_files = 'Pod/Classes/**/*.h'
   s.frameworks = 'UIKit', 'CoreBluetooth', 'Foundation'
   
-  s.dependency 'GRDB.swift'
-  s.dependency 'SwiftProtobuf'
+  s.dependency 'GRDB.swift', '~> 5.11.0'
+  s.dependency 'SwiftProtobuf', '~> 1.26.0'
 #  s.dependency 'Protobuf'
   
   
