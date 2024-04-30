@@ -8,13 +8,10 @@
 
 import UIKit
 import SwiftProtobuf
-//protocol ProbuffHandleDelegate {
-//    func indexTableSyncCompletion(indexs:[IndexModel],type: HisDataType);
-//    func healthDataSyncCompletion(hisData:HisData,type:HisDataType);
-//}
+
 class ProbuffHandle: NSObject {
     public static let sharedInstance = ProbuffHandle()
-//    public var delegate:ProbuffHandleDelegate?
+
     
     var _recvData:Data?
     var _recvFinished = true
@@ -146,7 +143,7 @@ class ProbuffHandle: NSObject {
                 let decodedInfo = try HisNotification(serializedData: crcData)
                 if decodedInfo.hisData.hasSeq { 
                     //normal data
-                    healthDataSyncCompletion(hisData: decodedInfo.hisData,type: decodedInfo.type)
+                    healthDataSyncProcess(hisData: decodedInfo.hisData,type: decodedInfo.type)
                 } else {
                     //index data
                     if decodedInfo.indexTable.index.count > 0 {
@@ -165,7 +162,7 @@ class ProbuffHandle: NSObject {
                         }
                         if seqs.count > 0 {
                             GRDBManager.sharedInstance.insertIndexModel(indexModels: seqs)
-                            indexTableSyncCompletion(indexs: seqs,type: decodedInfo.type)
+                            indexTableSyncProcess(indexs: seqs,type: decodedInfo.type)
                         }
                        
                     }
@@ -234,9 +231,9 @@ class ProbuffHandle: NSObject {
     }
 
 }
-
+//MARK: -- sync progress process
 extension ProbuffHandle {
-    func indexTableSyncCompletion(indexs: [IndexModel],type: HisDataType) {
+    func indexTableSyncProcess(indexs: [IndexModel],type: HisDataType) {
 
         switch type {
         case .healthData:
@@ -296,28 +293,22 @@ extension ProbuffHandle {
         ProbuffManager.sharedInstance.read80HistoryDataStart(sync)
     }
     
-    func healthDataSyncCompletion(hisData: HisData,type: HisDataType) {
+    func healthDataSyncProcess(hisData: HisData,type: HisDataType) {
         
         
         if let index_sync = checkSyncIndex(hisData: hisData,type: type) {
+            parseHealthData(hisData: hisData, type: type)
+            
             let progress = progressCalculation(seq: hisData.seq,index_sycn: index_sync)
             var allcomplete = false
             if progress == Float(1) {
                 removeSyncIndex(type: type, index: index_sync)
                 allcomplete = checkSyncHealthDataComplete()
-                
-                print("date:\(index_sync.date),type==>\(type),complete progress==>\(progress),allcomplete:\(allcomplete)")
-                
-                if allcomplete {
-                    print("health data sync complete")
-                }
             }
             if let datatype = HealthDataType(rawValue: type.rawValue) {
                 BleManager.sharedInstance.dataSyncDelegate?.onSyncingWithHealthData(index_sync.date, datatype, progress, allcomplete)
             }
 //            print("type==>\(type)\ncurrentSeq==>\(hisData.seq), startseq==>\(index_sync.seq_start), endseq==>\(index_sync.seq_end)\nprogress==>\(progress * 100)%")
-            
-//            print("type==>\(type)\nprogress==>\(progress * 100)%%\n\(hisData)")
             
         }
 
@@ -662,5 +653,192 @@ extension ProbuffHandle {
         default: break
         }
         
+    }
+    
+}
+//MARK: -- data parse
+extension ProbuffHandle {
+    func parseHealthData(hisData:HisData,type:HisDataType) {
+        
+        switch type {
+        case .healthData:
+            let seconds = hisData.health.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.health.timeStamp.timeZone));
+            break
+        case .gnssData:
+            let seconds = hisData.gnss.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.gnss.timeStamp.timeZone));
+            break
+        case .ecgData:
+            let seconds = hisData.ecg.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ecg.timeStamp.timeZone));
+            break
+        case .ppgData:
+            let seconds = hisData.ppg.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ppg.timeStamp.timeZone));
+            break
+        case .rriData:
+            let seconds = hisData.rri.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.rri.timeStamp.timeZone));
+            break
+        case .medicData:
+            break
+        case .spo2Data:
+            let seconds = hisData.spo2.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.spo2.timeStamp.timeZone));
+            break
+        case .swimData:
+            let seconds = hisData.swim.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.swim.timeStamp.timeZone));
+            break
+        case .temperatureData:
+            let seconds = hisData.temp.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.temp.timeStamp.timeZone));
+            break
+        case .healthDataEncrypt:
+            let seconds = hisData.healthencrypt.hisHealth.health.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.healthencrypt.hisHealth.health.timeStamp.timeZone));
+            
+            let date = Date(timeIntervalSince1970: TimeInterval(seconds))
+            
+                if hisData.health.hasSleepData && !hisData.health.hasPedoData && !hisData.health.hasHrData && !hisData.health.hasHrvData && !hisData.health.hasBpData && !hisData.health.hasAfData && !hisData.health.hasMdtData && !hisData.health.hasMoodData && !hisData.health.hasBreathData && !hisData.health.hasBiozData && !hisData.health.hasBxoyData && !hisData.health.hasTemperatureData && !hisData.health.hasOutActData {
+                    //skiped while it has sleep data only
+                    
+                } else {
+                    
+                }
+            handleHisHealthData(hisDataHealth: hisData.health, seq: hisData.seq)
+            break
+        case .ecgDataEncrypt:
+            let seconds = hisData.ecgencrypt.hisEcg.ecgencrypt.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ecgencrypt.hisEcg.ecgencrypt.timeStamp.timeZone));
+            break
+        case .ppgDataEncrypt:
+            let seconds = hisData.ppgencrypt.hisPpg.ppgencrypt.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ppgencrypt.hisPpg.ppgencrypt.timeStamp.timeZone));
+            break
+        case .rriDataEncrypt:
+            let seconds = hisData.rriencrypt.hisRri.rriencrypt.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.rriencrypt.hisRri.rriencrypt.timeStamp.timeZone));
+            break
+        default: break
+        }
+        
+    }
+    func handleHisHealthData(hisDataHealth:HisDataHealth,seq:UInt32) {
+        
+        var step:UInt32 = 0
+        var calorie:Float = 0
+        var distance:Float = 0
+        var sport_type:Int = 0
+        var state_type:Int = 0
+        var pre_minute:Int = 0
+        var cmd:String = ""
+        
+        var hdDict:Dictionary = [String:Any]()
+        hdDict["Q"] = seq
+        if hisDataHealth.hasSleepData {
+            var mDict:Dictionary = [String:Any]()
+            mDict["a"] = hisDataHealth.sleepData.sleepData
+            if hisDataHealth.sleepData.shutDown {
+                mDict["s"] = hisDataHealth.sleepData.shutDown
+            }
+            if hisDataHealth.sleepData.charge {
+                mDict["c"] = hisDataHealth.sleepData.charge
+            }
+            if mDict.count > 0 {
+                hdDict["E"] = mDict
+            }
+            
+        }
+        if hisDataHealth.hasPedoData {
+            var mDict:Dictionary = [String:Any]()
+            if (hisDataHealth.pedoData.step > 0) {
+                mDict["s"] = hisDataHealth.pedoData.step
+                step = hisDataHealth.pedoData.step
+            }
+            if (hisDataHealth.pedoData.calorie > 0) {
+                mDict["c"] = hisDataHealth.pedoData.calorie
+                calorie = Float(hisDataHealth.pedoData.calorie) * 0.1
+            }
+            if (hisDataHealth.pedoData.distance > 0) {
+                mDict["d"] = hisDataHealth.pedoData.distance
+                distance = Float(hisDataHealth.pedoData.distance) * 0.1
+            }
+            if (hisDataHealth.pedoData.type > 0) {
+                mDict["t"] = hisDataHealth.pedoData.type
+                sport_type = Int(hisDataHealth.pedoData.type)
+            }
+            if (hisDataHealth.pedoData.state > 0) {
+                mDict["a"] = hisDataHealth.pedoData.state
+                state_type = Int(hisDataHealth.pedoData.state & 15)
+                pre_minute = Int((hisDataHealth.pedoData.state & 240) >> 4)
+            }
+            if mDict.count > 0 {
+                hdDict["P"] = mDict
+            }
+            
+        }
+        if hisDataHealth.hasHrData {
+            var mDict:Dictionary = [String:Any]()
+            if (hisDataHealth.hrData.maxBpm > 0) {
+                mDict["x"] = hisDataHealth.hrData.maxBpm
+            }
+            if (hisDataHealth.hrData.minBpm > 0) {
+                mDict["n"] = hisDataHealth.hrData.minBpm
+            }
+            if (hisDataHealth.hrData.avgBpm > 0) {
+                mDict["a"] = hisDataHealth.hrData.avgBpm
+            }
+            if mDict.count > 0 {
+                hdDict["H"] = mDict
+            }
+        }
+        if hisDataHealth.hasHrvData {
+            
+            var mDict:Dictionary = [String:Any]()
+            if (hisDataHealth.hrvData.sdnn > 0) {
+                mDict["s"] = hisDataHealth.hrvData.sdnn
+//                model61.sdnn = hrv.sdnn/10.0;
+            }
+            if (hisDataHealth.hrvData.rmssd > 0) {
+                mDict["r"] = hisDataHealth.hrvData.rmssd
+//                model61.rmssd = hrv.rmssd/10.0;
+            }
+            if (hisDataHealth.hrvData.pnn50 > 0) {
+                mDict["p"] = hisDataHealth.hrvData.pnn50
+//                model61.pnn50 = hrv.pnn50/10.0;
+            }
+            if (hisDataHealth.hrvData.mean > 0) {
+                mDict["m"] = hisDataHealth.hrvData.mean
+//                model61.mean = hrv.mean/10.0;
+            }
+            if (hisDataHealth.hrvData.hasFatigue) {
+                if hisDataHealth.hrvData.fatigue > 0 {
+                    mDict["f"] = hisDataHealth.hrvData.fatigue
+                } else {
+                    mDict["f"] = Int(hisDataHealth.hrvData.rmssd * 20)
+                }
+//                model61.mean = hrv.mean/10.0;
+            }
+            if mDict.count > 0 {
+                hdDict["V"] = mDict
+            }
+        }
+        var date:Date?
+        if hisDataHealth.hasTimeStamp {
+            let timeInterval = TimeInterval(hisDataHealth.timeStamp.dateTime.seconds - (3600 * UInt32(hisDataHealth.timeStamp.timeZone)));
+            date = Date(timeIntervalSince1970: timeInterval)
+            let hour = NSCalendar.current.component(.hour, from: date!)
+            let minute = NSCalendar.current.component(.minute, from: date!)
+            let time = [hour,minute]
+            hdDict["T"] = time
+            
+        }
+        let hdDictJson = hdDict
+        if hisDataHealth.hasBiozData {
+            hisDataHealth.biozData.x
+            hisDataHealth.biozData.r
+        }
+        cmd = dictionaryToJSON(hdDict) ?? ""
+        if let recordDate = date {
+            let healthDataModel = HealthDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: recordDate, seq: seq, is_processed: false, step: step, calorie: calorie, distance: distance, sport_type: sport_type, state_type: state_type, pre_minute: pre_minute, cmd: cmd)
+            GRDBManager.sharedInstance.insertHealthDataModels(indexModels: [healthDataModel])
+        }
+        
+    }
+    func dictionaryToJSON(_ dictionary: [String: Any]) -> String? {
+        if let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted) {
+            return String(data: jsonData, encoding: .utf8)
+        }
+        return nil
     }
 }
