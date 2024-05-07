@@ -698,7 +698,7 @@ extension ProbuffHandle {
                 } else {
                     
                 }
-            handleHisHealthData(hisDataHealth: hisData.health, seq: hisData.seq)
+            handleHisHealthData(hisDataHealth: hisData.healthencrypt.hisHealth.health, seq: hisData.seq)
             break
         case .ecgDataEncrypt:
             let seconds = hisData.ecgencrypt.hisEcg.ecgencrypt.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ecgencrypt.hisEcg.ecgencrypt.timeStamp.timeZone));
@@ -722,6 +722,20 @@ extension ProbuffHandle {
         var state_type:Int = 0
         var pre_minute:Int = 0
         var cmd:String = ""
+        //hrv
+        var sdnn:Float = 0
+        var rmssd:Float = 0
+        var pnn50:Float = 0
+        var mean:Float = 0
+        //fatigue
+        var fatigue: Float = 0
+        //bia
+        var bioX:UInt32 = 0
+        var bioR:UInt32 = 0
+        //heart rate
+        var maxBpm:UInt32 = 0
+        var minBpm:UInt32 = 0
+        var avgBpm:UInt32 = 0
         
         var hdDict:Dictionary = [String:Any]()
         hdDict["Q"] = seq
@@ -767,16 +781,20 @@ extension ProbuffHandle {
             }
             
         }
+       
         if hisDataHealth.hasHrData {
             var mDict:Dictionary = [String:Any]()
             if (hisDataHealth.hrData.maxBpm > 0) {
                 mDict["x"] = hisDataHealth.hrData.maxBpm
+                maxBpm = hisDataHealth.hrData.maxBpm
             }
             if (hisDataHealth.hrData.minBpm > 0) {
                 mDict["n"] = hisDataHealth.hrData.minBpm
+                minBpm = hisDataHealth.hrData.minBpm
             }
             if (hisDataHealth.hrData.avgBpm > 0) {
                 mDict["a"] = hisDataHealth.hrData.avgBpm
+                avgBpm = hisDataHealth.hrData.avgBpm
             }
             if mDict.count > 0 {
                 hdDict["H"] = mDict
@@ -785,29 +803,30 @@ extension ProbuffHandle {
         if hisDataHealth.hasHrvData {
             
             var mDict:Dictionary = [String:Any]()
-            if (hisDataHealth.hrvData.sdnn > 0) {
+            if (hisDataHealth.hrvData.hasSdnn) {
                 mDict["s"] = hisDataHealth.hrvData.sdnn
-//                model61.sdnn = hrv.sdnn/10.0;
+                sdnn = hisDataHealth.hrvData.sdnn/10.0
             }
-            if (hisDataHealth.hrvData.rmssd > 0) {
+            if (hisDataHealth.hrvData.hasRmssd) {
                 mDict["r"] = hisDataHealth.hrvData.rmssd
-//                model61.rmssd = hrv.rmssd/10.0;
+                rmssd = hisDataHealth.hrvData.rmssd/10.0
             }
-            if (hisDataHealth.hrvData.pnn50 > 0) {
+            if (hisDataHealth.hrvData.hasPnn50) {
                 mDict["p"] = hisDataHealth.hrvData.pnn50
-//                model61.pnn50 = hrv.pnn50/10.0;
+                pnn50 = hisDataHealth.hrvData.pnn50/10.0
             }
-            if (hisDataHealth.hrvData.mean > 0) {
+            if (hisDataHealth.hrvData.hasMean) {
                 mDict["m"] = hisDataHealth.hrvData.mean
-//                model61.mean = hrv.mean/10.0;
+                mean = hisDataHealth.hrvData.mean/10.0
             }
             if (hisDataHealth.hrvData.hasFatigue) {
                 if hisDataHealth.hrvData.fatigue > 0 {
                     mDict["f"] = hisDataHealth.hrvData.fatigue
+                    fatigue = hisDataHealth.hrvData.fatigue
                 } else {
                     mDict["f"] = Int(hisDataHealth.hrvData.rmssd * 20)
                 }
-//                model61.mean = hrv.mean/10.0;
+                mean = hisDataHealth.hrvData.mean/10.0
             }
             if mDict.count > 0 {
                 hdDict["V"] = mDict
@@ -823,14 +842,21 @@ extension ProbuffHandle {
             hdDict["T"] = time
             
         }
-        let hdDictJson = hdDict
+        let hdDictJson = dictionaryToJSON(hdDict)
+        
         if hisDataHealth.hasBiozData {
-            hisDataHealth.biozData.x
-            hisDataHealth.biozData.r
+            if hisDataHealth.biozData.hasX {
+                bioX = hisDataHealth.biozData.x
+            }
+            if hisDataHealth.biozData.hasR {
+                bioR = hisDataHealth.biozData.r
+            }
+            
         }
         cmd = dictionaryToJSON(hdDict) ?? ""
         if let recordDate = date {
-            let healthDataModel = HealthDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: recordDate, seq: seq, is_processed: false, step: step, calorie: calorie, distance: distance, sport_type: sport_type, state_type: state_type, pre_minute: pre_minute, cmd: cmd)
+            let healthDataModel = HealthDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: recordDate, seq: seq, is_processed: false, step: step, calorie: calorie, distance: distance, sport_type: sport_type, state_type: state_type, pre_minute: pre_minute, cmd: cmd, sdnn: sdnn, rmssd: rmssd, pnn50: pnn50, mean: mean, fatigue: fatigue, bioX: bioX, bioR: bioR, maxBpm: maxBpm, minBpm: minBpm, avgBpm: avgBpm)
+            
             GRDBManager.sharedInstance.insertHealthDataModels(indexModels: [healthDataModel])
         }
         

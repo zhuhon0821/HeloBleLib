@@ -43,7 +43,22 @@ struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, Persista
     var state_type: Int
     var pre_minute: Int
     var cmd: String
-    init(data_from: String, date: Date, seq: UInt32, is_processed: Bool, step: UInt32, calorie: Float, distance: Float, sport_type: Int, state_type: Int, pre_minute: Int, cmd: String) {
+    //hrv
+    var sdnn:Float
+    var rmssd:Float
+    var pnn50:Float
+    var mean:Float
+    //fatigue
+    var fatigue: Float
+    //bia
+    var bioX:UInt32
+    var bioR:UInt32
+    //heart rate
+    var maxBpm:UInt32
+    var minBpm:UInt32
+    var avgBpm:UInt32
+    
+    init(data_from: String, date: Date, seq: UInt32, is_processed: Bool, step: UInt32, calorie: Float, distance: Float, sport_type: Int, state_type: Int, pre_minute: Int, cmd: String, sdnn: Float, rmssd: Float, pnn50: Float, mean: Float, fatigue: Float, bioX: UInt32, bioR: UInt32, maxBpm: UInt32, minBpm: UInt32, avgBpm: UInt32) {
         self.data_from = data_from
         self.date = date
         self.seq = seq
@@ -55,6 +70,16 @@ struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, Persista
         self.state_type = state_type
         self.pre_minute = pre_minute
         self.cmd = cmd
+        self.sdnn = sdnn
+        self.rmssd = rmssd
+        self.pnn50 = pnn50
+        self.mean = mean
+        self.fatigue = fatigue
+        self.bioX = bioX
+        self.bioR = bioR
+        self.maxBpm = maxBpm
+        self.minBpm = minBpm
+        self.avgBpm = avgBpm
     }
    
 }
@@ -228,13 +253,24 @@ class GRDBManager: NSObject {
                     t.column("data_from", .text).notNull()
                     t.column("date", .date).notNull()
                     t.column("seq", .integer).notNull()
-                    t.column("is_processed", .boolean).notNull()
-                    t.column("step", .integer).notNull()
-                    t.column("calorie", .double).notNull()
-                    t.column("distance", .double).notNull()
+                    t.column("is_processed", .boolean)
+                    t.column("step", .integer)
+                    t.column("calorie", .double)
+                    t.column("distance", .double)
                     t.column("sport_type", .integer).notNull()
                     t.column("state_type", .integer).notNull()
-                    t.column("pre_minute", .integer).notNull()
+                    t.column("pre_minute", .integer)
+                    t.column("sdnn", .double)
+                    t.column("rmssd", .double)
+                    t.column("pnn50", .double)
+                    t.column("mean", .double)
+                    t.column("fatigue", .double)
+                    t.column("bioX", .integer)
+                    t.column("bioR", .integer)
+                    t.column("maxBpm", .integer)
+                    t.column("minBpm", .integer)
+                    t.column("avgBpm", .integer)
+                    t.column("cmd", .text)
                 }
                 /**
                  var data_from: String
@@ -247,6 +283,20 @@ class GRDBManager: NSObject {
                  var sport_type: Int
                  var state_type: Int
                  var pre_minute: Int
+                 //hrv
+                 var sdnn:Float = 0
+                 var rmssd:Float = 0
+                 var pnn50:Float = 0
+                 var mean:Float = 0
+                 //fatigue
+                 var fatigue: Float = 0
+                 //bia
+                 var bioX:UInt32 = 0
+                 var bioR:UInt32 = 0
+                 //heart rate
+                 var maxBpm:UInt32 = 0
+                 var minBpm:UInt32 = 0
+                 var avgBpm:UInt32 = 0
                  */
             }
             
