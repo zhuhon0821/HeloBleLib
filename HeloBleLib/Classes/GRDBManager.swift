@@ -35,30 +35,46 @@ struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, Persista
     var data_from: String
     var date: Date
     var seq: UInt32
-    var is_processed:Bool
-    var step: UInt32
-    var calorie: Float
-    var distance: Float
-    var sport_type: Int
-    var state_type: Int
-    var pre_minute: Int
-    var cmd: String
+    var is_processed:Bool?
+    var step: UInt32?
+    var calorie: Float?
+    var distance: Float?
+    var sport_type: Int?
+    var state_type: Int?
+    var pre_minute: Int?
+    var cmd: String?
     //hrv
-    var sdnn:Float
-    var rmssd:Float
-    var pnn50:Float
-    var mean:Float
+    var sdnn:Float?
+    var rmssd:Float?
+    var pnn50:Float?
+    var mean:Float?
     //fatigue
-    var fatigue: Float
+    var fatigue: Float?
     //bia
-    var bioX:UInt32
-    var bioR:UInt32
+    var bioX:UInt32?
+    var bioR:UInt32?
     //heart rate
-    var maxBpm:UInt32
-    var minBpm:UInt32
-    var avgBpm:UInt32
+    var maxBpm:UInt32?
+    var minBpm:UInt32?
+    var avgBpm:UInt32?
+    //spo2
+    var maxOxy:UInt32?
+    var minOxy:UInt32?
+    var avgOxy:UInt32?
+    //temperature
+    var huanjing_temp:UInt16?
+    var tibiao_temp:UInt16?
+    var yuce_temp:UInt16?
+    var shice_temp:UInt16?
+    var tempType:Int?
+    //blood presure
+    var dbp:UInt32?
+    var sbp:UInt32?
+    var bmp:UInt32?
+    //mood
+    var moodLevel: UInt32?
     
-    init(data_from: String, date: Date, seq: UInt32, is_processed: Bool, step: UInt32, calorie: Float, distance: Float, sport_type: Int, state_type: Int, pre_minute: Int, cmd: String, sdnn: Float, rmssd: Float, pnn50: Float, mean: Float, fatigue: Float, bioX: UInt32, bioR: UInt32, maxBpm: UInt32, minBpm: UInt32, avgBpm: UInt32) {
+    init(data_from: String, date: Date, seq: UInt32, is_processed: Bool, step: UInt32? = nil, calorie: Float? = nil, distance: Float? = nil, sport_type: Int? = nil, state_type: Int? = nil, pre_minute: Int? = nil, cmd: String? = nil, sdnn: Float? = nil, rmssd: Float? = nil, pnn50: Float? = nil, mean: Float? = nil, fatigue: Float? = nil, bioX: UInt32? = nil, bioR: UInt32? = nil, maxBpm: UInt32? = nil, minBpm: UInt32? = nil, avgBpm: UInt32? = nil, maxOxy: UInt32? = nil, minOxy: UInt32? = nil, avgOxy: UInt32? = nil, huanjing_temp: UInt16? = nil, tibiao_temp: UInt16? = nil, yuce_temp: UInt16? = nil, shice_temp: UInt16? = nil, tempType: Int? = nil, dbp: UInt32? = nil, sbp: UInt32? = nil, bmp: UInt32? = nil, moodLevel: UInt32? = nil) {
         self.data_from = data_from
         self.date = date
         self.seq = seq
@@ -80,6 +96,19 @@ struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, Persista
         self.maxBpm = maxBpm
         self.minBpm = minBpm
         self.avgBpm = avgBpm
+        self.maxOxy = maxOxy
+        self.minOxy = minOxy
+        self.avgOxy = avgOxy
+        self.huanjing_temp = huanjing_temp
+        self.tibiao_temp = tibiao_temp
+        self.yuce_temp = yuce_temp
+        self.shice_temp = shice_temp
+        self.tempType = tempType
+        self.dbp = dbp
+        self.sbp = sbp
+        self.bmp = bmp
+        self.moodLevel = moodLevel
+        
     }
    
 }
@@ -97,6 +126,54 @@ struct HeartRateModel:Equatable,Codable,TableRecord, FetchableRecord, Persistabl
         self.minBpm = minBpm
         self.avgBpm = avgBpm
     }
+}
+struct ECGDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+    static let tableName = "ecgDataModel"
+    var data_from: String
+    var date: Date
+    var rawData: String
+    var seq: Int
+    var is_processed:Bool
+    init(data_from: String, date: Date, rawData: String, seq: Int, is_processed: Bool) {
+        self.data_from = data_from
+        self.date = date
+        self.rawData = rawData
+        self.seq = seq
+        self.is_processed = is_processed
+    }
+    
+}
+struct PPGDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+    static let tableName = "ppgDataModel"
+    var data_from: String
+    var date: Date
+    var rawData: String
+    var seq: Int
+    var is_processed:Bool
+    init(data_from: String, date: Date, rawData: String, seq: Int, is_processed: Bool) {
+        self.data_from = data_from
+        self.date = date
+        self.rawData = rawData
+        self.seq = seq
+        self.is_processed = is_processed
+    }
+    
+}
+struct RRIDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+    static let tableName = "rriDataModel"
+    var data_from: String
+    var date: Date
+    var rawData: String
+    var seq: Int
+    var is_processed:Bool
+    init(data_from: String, date: Date, rawData: String, seq: Int, is_processed: Bool) {
+        self.data_from = data_from
+        self.date = date
+        self.rawData = rawData
+        self.seq = seq
+        self.is_processed = is_processed
+    }
+    
 }
 struct FatigueModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
@@ -257,47 +334,67 @@ class GRDBManager: NSObject {
                     t.column("step", .integer)
                     t.column("calorie", .double)
                     t.column("distance", .double)
-                    t.column("sport_type", .integer).notNull()
-                    t.column("state_type", .integer).notNull()
+                    t.column("sport_type", .integer)
+                    t.column("state_type", .integer)
                     t.column("pre_minute", .integer)
+                    
                     t.column("sdnn", .double)
                     t.column("rmssd", .double)
                     t.column("pnn50", .double)
                     t.column("mean", .double)
                     t.column("fatigue", .double)
+                    
                     t.column("bioX", .integer)
                     t.column("bioR", .integer)
+                    
                     t.column("maxBpm", .integer)
                     t.column("minBpm", .integer)
                     t.column("avgBpm", .integer)
+                    
+                    t.column("maxOxy", .integer)
+                    t.column("minOxy", .integer)
+                    t.column("avgOxy", .integer)
+                    
+                    t.column("huanjing_temp", .integer)
+                    t.column("tibiao_temp", .integer)
+                    t.column("yuce_temp", .integer)
+                    t.column("shice_temp", .integer)
+                    t.column("tempType", .integer)
+                    
+                    t.column("dbp", .integer)
+                    t.column("sbp", .integer)
+                    t.column("bmp", .integer)
+                    
+                    t.column("moodLevel", .integer)
+                    
                     t.column("cmd", .text)
                 }
-                /**
-                 var data_from: String
-                 var date: Date
-                 var seq: UInt32
-                 var is_processed:Bool
-                 var step: UInt32
-                 var calorie: Float
-                 var distance: Float
-                 var sport_type: Int
-                 var state_type: Int
-                 var pre_minute: Int
-                 //hrv
-                 var sdnn:Float = 0
-                 var rmssd:Float = 0
-                 var pnn50:Float = 0
-                 var mean:Float = 0
-                 //fatigue
-                 var fatigue: Float = 0
-                 //bia
-                 var bioX:UInt32 = 0
-                 var bioR:UInt32 = 0
-                 //heart rate
-                 var maxBpm:UInt32 = 0
-                 var minBpm:UInt32 = 0
-                 var avgBpm:UInt32 = 0
-                 */
+               
+                try db.create(table: ECGDataModel.tableName,ifNotExists: true) { t in
+                    t.primaryKey(["date","data_from","seq"], onConflict: .replace)
+                    t.column("data_from", .text).notNull()
+                    t.column("date", .date).notNull()
+                    t.column("seq", .integer).notNull()
+                    t.column("rawData", .text).notNull()
+                    t.column("is_processed", .boolean)
+                }
+                try db.create(table: PPGDataModel.tableName,ifNotExists: true) { t in
+                    t.primaryKey(["date","data_from","seq"], onConflict: .replace)
+                    t.column("data_from", .text).notNull()
+                    t.column("date", .date).notNull()
+                    t.column("seq", .integer).notNull()
+                    t.column("rawData", .text).notNull()
+                    t.column("is_processed", .boolean)
+                }
+                try db.create(table: RRIDataModel.tableName,ifNotExists: true) { t in
+                    t.primaryKey(["date","data_from","seq"], onConflict: .replace)
+                    t.column("data_from", .text).notNull()
+                    t.column("date", .date).notNull()
+                    t.column("seq", .integer).notNull()
+                    t.column("rawData", .text).notNull()
+                    t.column("is_processed", .boolean)
+                }
+              
             }
             
         } catch {
@@ -441,6 +538,162 @@ extension GRDBManager {
         do {
            _ = try dbQueue.write { db in
                  try healthDataModel.update(db)
+            }
+
+        } catch {
+            
+        }
+    }
+}
+extension GRDBManager {
+    //MARK: ECG data
+    func insertECGDataModels(ecgDataModels:[ECGDataModel]) {
+        do {
+            try dbQueue.write { db in
+                for ecgDataModel in ecgDataModels {
+                    try ecgDataModel.insert(db)
+                }
+            }
+
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    func selectECGDataModels(data_from:String,isProcessed:Bool)->[ECGDataModel] {
+        var models: [ECGDataModel]?
+        do {
+            models = try dbQueue.read { db in
+                try ECGDataModel.fetchAll(db).filter { ecgDataModel in
+                    ecgDataModel.data_from == data_from && ecgDataModel.is_processed == isProcessed
+                }.sorted { ecgDataModel1, ecgDataModel2 in
+                    ecgDataModel1.date < ecgDataModel2.date
+                }
+            }
+            
+        } catch {
+            
+        }
+        return models ?? []
+    }
+    
+    func deleteECGDataModel(ecgDataModel:ECGDataModel) {
+        do {
+           _ = try dbQueue.write { db in
+               try ecgDataModel.delete(db)
+            }
+
+        } catch {
+            
+        }
+    }
+    func updateECGDataModel(healthDataModel:HealthDataModel) {
+        do {
+           _ = try dbQueue.write { db in
+                 try healthDataModel.update(db)
+            }
+
+        } catch {
+            
+        }
+    }
+}
+extension GRDBManager {
+    //MARK: PPG data
+    func insertPPGDataModels(ppgDataModels:[PPGDataModel]) {
+        do {
+            try dbQueue.write { db in
+                for ppgDataModel in ppgDataModels {
+                    try ppgDataModel.insert(db)
+                }
+            }
+
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    func selectPPGDataModels(data_from:String,isProcessed:Bool)->[PPGDataModel] {
+        var models: [PPGDataModel]?
+        do {
+            models = try dbQueue.read { db in
+                try PPGDataModel.fetchAll(db).filter { ppgDataModel in
+                    ppgDataModel.data_from == data_from && ppgDataModel.is_processed == isProcessed
+                }.sorted { ppgDataModel1, ppgDataModel2 in
+                    ppgDataModel1.date < ppgDataModel2.date
+                }
+            }
+            
+        } catch {
+            
+        }
+        return models ?? []
+    }
+    
+    func deletePPGDataModel(ppgDataModel:PPGDataModel) {
+        do {
+           _ = try dbQueue.write { db in
+               try ppgDataModel.delete(db)
+            }
+
+        } catch {
+            
+        }
+    }
+    func updatePPGDataModel(ppgDataModel:PPGDataModel) {
+        do {
+           _ = try dbQueue.write { db in
+                 try ppgDataModel.update(db)
+            }
+
+        } catch {
+            
+        }
+    }
+}
+extension GRDBManager {
+    //MARK: RRI data
+    func insertRRIDataModels(rriDataModels:[RRIDataModel]) {
+        do {
+            try dbQueue.write { db in
+                for rriDataModel in rriDataModels {
+                    try rriDataModel.insert(db)
+                }
+            }
+
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    func selectRRIDataModels(data_from:String,isProcessed:Bool)->[RRIDataModel] {
+        var models: [RRIDataModel]?
+        do {
+            models = try dbQueue.read { db in
+                try RRIDataModel.fetchAll(db).filter { rriDataModel in
+                    rriDataModel.data_from == data_from && rriDataModel.is_processed == isProcessed
+                }.sorted { rriDataModel1, rriDataModel2 in
+                    rriDataModel1.date < rriDataModel2.date
+                }
+            }
+            
+        } catch {
+            
+        }
+        return models ?? []
+    }
+    
+    func deleteRRIDataModel(rriDataModel:RRIDataModel) {
+        do {
+           _ = try dbQueue.write { db in
+               try rriDataModel.delete(db)
+            }
+
+        } catch {
+            
+        }
+    }
+    func updatePPGDataModel(rriDataModel:RRIDataModel) {
+        do {
+           _ = try dbQueue.write { db in
+                 try rriDataModel.update(db)
             }
 
         } catch {

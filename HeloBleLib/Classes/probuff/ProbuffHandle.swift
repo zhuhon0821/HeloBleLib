@@ -229,7 +229,19 @@ class ProbuffHandle: NSObject {
         }
         return (data[0] == 0x44) && (data[1] == 0x54)
     }
-
+   public func objectToJSON(_ object: Any) -> String? {
+       if #available(iOS 13.0, *) {
+           if let jsonData = try? JSONSerialization.data(withJSONObject: object, options: .withoutEscapingSlashes) {
+               return String(data: jsonData, encoding: .utf8)
+           }
+       } else {
+           if let jsonData = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) {
+               return String(data: jsonData, encoding: .utf8)
+           }
+       }
+        return nil
+    }
+   
 }
 //MARK: -- sync progress process
 extension ProbuffHandle {
@@ -662,35 +674,35 @@ extension ProbuffHandle {
         
         switch type {
         case .healthData:
-            let seconds = hisData.health.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.health.timeStamp.timeZone));
+
+            parseHisHealthData(hisDataHealth: hisData.health, seq: hisData.seq)
             break
         case .gnssData:
             let seconds = hisData.gnss.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.gnss.timeStamp.timeZone));
             break
         case .ecgData:
-            let seconds = hisData.ecg.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ecg.timeStamp.timeZone));
+
+            parseECGData(hisData: hisData.ecg, seq:hisData.seq)
             break
         case .ppgData:
-            let seconds = hisData.ppg.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ppg.timeStamp.timeZone));
+
+            parsePPGData(hisData: hisData.ppg, seq:hisData.seq)
             break
         case .rriData:
-            let seconds = hisData.rri.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.rri.timeStamp.timeZone));
+            parseRRIData(hisData: hisData.rri, seq:hisData.seq)
             break
         case .medicData:
             break
         case .spo2Data:
-            let seconds = hisData.spo2.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.spo2.timeStamp.timeZone));
+//            let seconds = hisData.spo2.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.spo2.timeStamp.timeZone));
             break
         case .swimData:
-            let seconds = hisData.swim.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.swim.timeStamp.timeZone));
+//            let seconds = hisData.swim.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.swim.timeStamp.timeZone));
             break
         case .temperatureData:
-            let seconds = hisData.temp.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.temp.timeStamp.timeZone));
+//            let seconds = hisData.temp.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.temp.timeStamp.timeZone));
             break
         case .healthDataEncrypt:
-            let seconds = hisData.healthencrypt.hisHealth.health.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.healthencrypt.hisHealth.health.timeStamp.timeZone));
-            
-            let date = Date(timeIntervalSince1970: TimeInterval(seconds))
             
                 if hisData.health.hasSleepData && !hisData.health.hasPedoData && !hisData.health.hasHrData && !hisData.health.hasHrvData && !hisData.health.hasBpData && !hisData.health.hasAfData && !hisData.health.hasMdtData && !hisData.health.hasMoodData && !hisData.health.hasBreathData && !hisData.health.hasBiozData && !hisData.health.hasBxoyData && !hisData.health.hasTemperatureData && !hisData.health.hasOutActData {
                     //skiped while it has sleep data only
@@ -698,22 +710,40 @@ extension ProbuffHandle {
                 } else {
                     
                 }
-            handleHisHealthData(hisDataHealth: hisData.healthencrypt.hisHealth.health, seq: hisData.seq)
+            parseHisHealthData(hisDataHealth: hisData.healthencrypt.hisHealth.health, seq: hisData.seq)
             break
         case .ecgDataEncrypt:
-            let seconds = hisData.ecgencrypt.hisEcg.ecgencrypt.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ecgencrypt.hisEcg.ecgencrypt.timeStamp.timeZone));
+            parseECGData(hisData: hisData.ecgencrypt.hisEcg.ecgencrypt, seq:hisData.seq)
+            
             break
         case .ppgDataEncrypt:
-            let seconds = hisData.ppgencrypt.hisPpg.ppgencrypt.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.ppgencrypt.hisPpg.ppgencrypt.timeStamp.timeZone));
+            parsePPGData(hisData: hisData.ppgencrypt.hisPpg.ppgencrypt, seq:hisData.seq)
             break
         case .rriDataEncrypt:
-            let seconds = hisData.rriencrypt.hisRri.rriencrypt.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.rriencrypt.hisRri.rriencrypt.timeStamp.timeZone));
+            parseRRIData(hisData: hisData.rriencrypt.hisRri.rriencrypt, seq:hisData.seq)
             break
         default: break
         }
         
     }
-    func handleHisHealthData(hisDataHealth:HisDataHealth,seq:UInt32) {
+    func parseHisHealthData(hisDataHealth:HisDataHealth,seq:UInt32) {
+        
+        
+        var hdDict:Dictionary = [String:Any]()
+        var date:Date?
+        if hisDataHealth.hasTimeStamp {
+            let timeInterval = TimeInterval(hisDataHealth.timeStamp.dateTime.seconds - (3600 * UInt32(hisDataHealth.timeStamp.timeZone)));
+            date = Date(timeIntervalSince1970: timeInterval)
+            let hour = NSCalendar.current.component(.hour, from: date!)
+            let minute = NSCalendar.current.component(.minute, from: date!)
+            let time = [hour,minute]
+            hdDict["T"] = time
+            
+        } else {
+            return
+        }
+        var healthDataModel:HealthDataModel = HealthDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: date!, seq: seq, is_processed: false)
+        
         
         var step:UInt32 = 0
         var calorie:Float = 0
@@ -736,8 +766,23 @@ extension ProbuffHandle {
         var maxBpm:UInt32 = 0
         var minBpm:UInt32 = 0
         var avgBpm:UInt32 = 0
-        
-        var hdDict:Dictionary = [String:Any]()
+        //spo2
+        var maxOxy:UInt32 = 0
+        var minOxy:UInt32 = 0
+        var avgOxy:UInt32 = 0
+        //temperature
+        var huanjing_temp:UInt16 = 0
+        var tibiao_temp:UInt16 = 0
+        var yuce_temp:UInt16 = 0
+        var shice_temp:UInt16 = 0
+        var tempType:Int = -1
+        //blood presure
+        var dbp:UInt32 = 0
+        var sbp:UInt32 = 0
+        var bmp:UInt32 = 0
+        //mood
+        var moodLevel: UInt32 = 0
+    
         hdDict["Q"] = seq
         if hisDataHealth.hasSleepData {
             var mDict:Dictionary = [String:Any]()
@@ -755,19 +800,19 @@ extension ProbuffHandle {
         }
         if hisDataHealth.hasPedoData {
             var mDict:Dictionary = [String:Any]()
-            if (hisDataHealth.pedoData.step > 0) {
+            if (hisDataHealth.pedoData.hasStep) {
                 mDict["s"] = hisDataHealth.pedoData.step
                 step = hisDataHealth.pedoData.step
             }
-            if (hisDataHealth.pedoData.calorie > 0) {
+            if (hisDataHealth.pedoData.hasCalorie) {
                 mDict["c"] = hisDataHealth.pedoData.calorie
                 calorie = Float(hisDataHealth.pedoData.calorie) * 0.1
             }
-            if (hisDataHealth.pedoData.distance > 0) {
+            if (hisDataHealth.pedoData.hasDistance) {
                 mDict["d"] = hisDataHealth.pedoData.distance
                 distance = Float(hisDataHealth.pedoData.distance) * 0.1
             }
-            if (hisDataHealth.pedoData.type > 0) {
+            if (hisDataHealth.pedoData.hasType) {
                 mDict["t"] = hisDataHealth.pedoData.type
                 sport_type = Int(hisDataHealth.pedoData.type)
             }
@@ -784,15 +829,15 @@ extension ProbuffHandle {
        
         if hisDataHealth.hasHrData {
             var mDict:Dictionary = [String:Any]()
-            if (hisDataHealth.hrData.maxBpm > 0) {
+            if (hisDataHealth.hrData.hasMaxBpm) {
                 mDict["x"] = hisDataHealth.hrData.maxBpm
                 maxBpm = hisDataHealth.hrData.maxBpm
             }
-            if (hisDataHealth.hrData.minBpm > 0) {
+            if (hisDataHealth.hrData.hasMinBpm) {
                 mDict["n"] = hisDataHealth.hrData.minBpm
                 minBpm = hisDataHealth.hrData.minBpm
             }
-            if (hisDataHealth.hrData.avgBpm > 0) {
+            if (hisDataHealth.hrData.hasAvgBpm) {
                 mDict["a"] = hisDataHealth.hrData.avgBpm
                 avgBpm = hisDataHealth.hrData.avgBpm
             }
@@ -832,17 +877,31 @@ extension ProbuffHandle {
                 hdDict["V"] = mDict
             }
         }
-        var date:Date?
-        if hisDataHealth.hasTimeStamp {
-            let timeInterval = TimeInterval(hisDataHealth.timeStamp.dateTime.seconds - (3600 * UInt32(hisDataHealth.timeStamp.timeZone)));
-            date = Date(timeIntervalSince1970: timeInterval)
-            let hour = NSCalendar.current.component(.hour, from: date!)
-            let minute = NSCalendar.current.component(.minute, from: date!)
-            let time = [hour,minute]
-            hdDict["T"] = time
+        
+        if hisDataHealth.hasBxoyData {
+            maxOxy = hisDataHealth.bxoyData.maxOxy
+            minOxy = hisDataHealth.bxoyData.minOxy
+            avgOxy = hisDataHealth.bxoyData.agvOxy
+        }
+        if hisDataHealth.hasTemperatureData {
+            
+            tempType = hisDataHealth.temperatureData.type.rawValue
+            
+            huanjing_temp = UInt16((hisDataHealth.temperatureData.eviBody >> 16) & 0x0000ffff);
+            tibiao_temp = UInt16(hisDataHealth.temperatureData.eviBody & 0x0000ffff);
+            yuce_temp = UInt16((hisDataHealth.temperatureData.estiArm >> 16) & 0x0000ffff);
+            shice_temp = UInt16(hisDataHealth.temperatureData.estiArm & 0x0000ffff);
             
         }
-        let hdDictJson = dictionaryToJSON(hdDict)
+        if hisDataHealth.hasBpData {
+            dbp = hisDataHealth.bpData.dbp
+            sbp = hisDataHealth.bpData.sbp
+            bmp = hisDataHealth.bpData.time
+        }
+        if hisDataHealth.hasMoodData ,hisDataHealth.moodData.hasMoodLevel {
+            moodLevel = hisDataHealth.moodData.moodLevel
+            
+        }
         
         if hisDataHealth.hasBiozData {
             if hisDataHealth.biozData.hasX {
@@ -853,18 +912,134 @@ extension ProbuffHandle {
             }
             
         }
-        cmd = dictionaryToJSON(hdDict) ?? ""
-        if let recordDate = date {
-            let healthDataModel = HealthDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: recordDate, seq: seq, is_processed: false, step: step, calorie: calorie, distance: distance, sport_type: sport_type, state_type: state_type, pre_minute: pre_minute, cmd: cmd, sdnn: sdnn, rmssd: rmssd, pnn50: pnn50, mean: mean, fatigue: fatigue, bioX: bioX, bioR: bioR, maxBpm: maxBpm, minBpm: minBpm, avgBpm: avgBpm)
-            
-            GRDBManager.sharedInstance.insertHealthDataModels(indexModels: [healthDataModel])
+        cmd = objectToJSON(hdDict) ?? ""
+        if step > 0 {
+            healthDataModel.step = step
+        }
+        if calorie > 0 {
+            healthDataModel.calorie = calorie
+        }
+        if distance > 0 {
+            healthDataModel.distance = distance
+        }
+        healthDataModel.sport_type = sport_type
+        healthDataModel.state_type = state_type
+        if pre_minute > 0 {
+            healthDataModel.pre_minute = pre_minute
+        }
+        if cmd.count > 0 {
+            healthDataModel.cmd = cmd
+        }
+        if sdnn > 0 {
+            healthDataModel.sdnn = sdnn
+        }
+        if rmssd > 0 {
+            healthDataModel.rmssd = rmssd
+        }
+        if pnn50 > 0 {
+            healthDataModel.pnn50 = pnn50
+        }
+        if mean > 0 {
+            healthDataModel.mean = mean
+        }
+        if fatigue > 0 {
+            healthDataModel.fatigue = fatigue
+        }
+        if bioX > 0 {
+            healthDataModel.bioX = bioX
+        }
+        if bioR > 0 {
+            healthDataModel.bioR = bioR
+        }
+        if maxBpm > 0 {
+            healthDataModel.maxBpm = maxBpm
+        }
+        if minBpm > 0 {
+            healthDataModel.minBpm = minBpm
+        }
+        if avgBpm > 0 {
+            healthDataModel.avgBpm = avgBpm
+        }
+        if maxOxy > 0 {
+            healthDataModel.maxOxy = maxOxy
+        }
+        if minOxy > 0 {
+            healthDataModel.minOxy = minOxy
+        }
+        if avgOxy > 0 {
+            healthDataModel.avgOxy = avgOxy
+        }
+        if huanjing_temp > 0 {
+            healthDataModel.huanjing_temp = huanjing_temp
+        }
+        if tibiao_temp > 0 {
+            healthDataModel.tibiao_temp = tibiao_temp
+        }
+        if yuce_temp > 0 {
+            healthDataModel.yuce_temp = yuce_temp
+        }
+        if shice_temp > 0 {
+            healthDataModel.shice_temp = shice_temp
+        }
+        if tempType > -1 {
+            healthDataModel.tempType = tempType
+        }
+        if dbp > 0 {
+            healthDataModel.dbp = dbp
+        }
+        if sbp > 0 {
+            healthDataModel.sbp = sbp
+        }
+        if bmp > 0 {
+            healthDataModel.bmp = bmp
+        }
+        if moodLevel > 0 {
+            healthDataModel.moodLevel = moodLevel
+        }
+        GRDBManager.sharedInstance.insertHealthDataModels(indexModels: [healthDataModel])
+        
+    }
+    func parseECGData(hisData:HisDataECG,seq:UInt32) {
+        var date:Date?
+        if hisData.hasTimeStamp {
+            let timeInterval = TimeInterval(hisData.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.timeStamp.timeZone)));
+            date = Date(timeIntervalSince1970: timeInterval)
+        }
+        
+        if let json = objectToJSON(hisData.rawData), let dateEcg = date {
+            let model = ECGDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: dateEcg, rawData: json, seq: Int(seq), is_processed: false)
+            GRDBManager.sharedInstance.insertECGDataModels(ecgDataModels: [model])
         }
         
     }
-    func dictionaryToJSON(_ dictionary: [String: Any]) -> String? {
-        if let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted) {
-            return String(data: jsonData, encoding: .utf8)
+    func parsePPGData(hisData:HisDataPPG,seq:UInt32) {
+        var date:Date?
+        if hisData.hasTimeStamp {
+            let timeInterval = TimeInterval(hisData.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.timeStamp.timeZone)));
+            date = Date(timeIntervalSince1970: timeInterval)
         }
-        return nil
+        if let json = objectToJSON(hisData.rawData), let datePPG = date {
+            let model = PPGDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: datePPG, rawData: json, seq: Int(seq), is_processed: false)
+            GRDBManager.sharedInstance.insertPPGDataModels(ppgDataModels: [model])
+        }
+    }
+    func parseRRIData(hisData:HisDataRRI,seq:UInt32) {
+        var date:Date?
+        var temp:[Int16] = []
+        if hisData.hasTimeStamp {
+            let timeInterval = TimeInterval(hisData.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.timeStamp.timeZone)));
+            date = Date(timeIntervalSince1970: timeInterval)
+            
+            for value in hisData.rawData {
+                let fValue = UInt16((value >> 16) & 0x0000ffff)
+                let sValue = UInt16(value & 0x0000ffff)
+                temp.append(Int16(bitPattern:fValue))
+                temp.append(Int16(bitPattern:sValue))
+            }
+            if let json = objectToJSON(temp), let dateRRI = date {
+                let model = RRIDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: dateRRI, rawData: json, seq: Int(seq), is_processed: false)
+                GRDBManager.sharedInstance.insertRRIDataModels(rriDataModels: [model])
+            }
+        }
     }
 }
