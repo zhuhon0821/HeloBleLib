@@ -51,8 +51,8 @@ struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, Persista
     //fatigue
     var fatigue: Float?
     //bia
-    var bioX:UInt32?
-    var bioR:UInt32?
+    var bioX:Int32?
+    var bioR:Int32?
     //heart rate
     var maxBpm:UInt32?
     var minBpm:UInt32?
@@ -74,7 +74,7 @@ struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, Persista
     //mood
     var moodLevel: UInt32?
     
-    init(data_from: String, date: Date, seq: UInt32, is_processed: Bool, step: UInt32? = nil, calorie: Float? = nil, distance: Float? = nil, sport_type: Int? = nil, state_type: Int? = nil, pre_minute: Int? = nil, cmd: String? = nil, sdnn: Float? = nil, rmssd: Float? = nil, pnn50: Float? = nil, mean: Float? = nil, fatigue: Float? = nil, bioX: UInt32? = nil, bioR: UInt32? = nil, maxBpm: UInt32? = nil, minBpm: UInt32? = nil, avgBpm: UInt32? = nil, maxOxy: UInt32? = nil, minOxy: UInt32? = nil, avgOxy: UInt32? = nil, huanjing_temp: UInt16? = nil, tibiao_temp: UInt16? = nil, yuce_temp: UInt16? = nil, shice_temp: UInt16? = nil, tempType: Int? = nil, dbp: UInt32? = nil, sbp: UInt32? = nil, bmp: UInt32? = nil, moodLevel: UInt32? = nil) {
+    init(data_from: String, date: Date, seq: UInt32, is_processed: Bool, step: UInt32? = nil, calorie: Float? = nil, distance: Float? = nil, sport_type: Int? = nil, state_type: Int? = nil, pre_minute: Int? = nil, cmd: String? = nil, sdnn: Float? = nil, rmssd: Float? = nil, pnn50: Float? = nil, mean: Float? = nil, fatigue: Float? = nil, bioX: Int32? = nil, bioR: Int32? = nil, maxBpm: UInt32? = nil, minBpm: UInt32? = nil, avgBpm: UInt32? = nil, maxOxy: UInt32? = nil, minOxy: UInt32? = nil, avgOxy: UInt32? = nil, huanjing_temp: UInt16? = nil, tibiao_temp: UInt16? = nil, yuce_temp: UInt16? = nil, shice_temp: UInt16? = nil, tempType: Int? = nil, dbp: UInt32? = nil, sbp: UInt32? = nil, bmp: UInt32? = nil, moodLevel: UInt32? = nil) {
         self.data_from = data_from
         self.date = date
         self.seq = seq

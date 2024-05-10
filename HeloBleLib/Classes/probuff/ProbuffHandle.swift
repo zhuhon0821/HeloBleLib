@@ -759,9 +759,6 @@ extension ProbuffHandle {
         var mean:Float = 0
         //fatigue
         var fatigue: Float = 0
-        //bia
-        var bioX:UInt32 = 0
-        var bioR:UInt32 = 0
         //heart rate
         var maxBpm:UInt32 = 0
         var minBpm:UInt32 = 0
@@ -902,13 +899,15 @@ extension ProbuffHandle {
             moodLevel = hisDataHealth.moodData.moodLevel
             
         }
-        
+        //BIA
         if hisDataHealth.hasBiozData {
             if hisDataHealth.biozData.hasX {
-                bioX = hisDataHealth.biozData.x
+                let bioX = Int32(bitPattern: hisDataHealth.biozData.x)
+                healthDataModel.bioX = bioX
             }
             if hisDataHealth.biozData.hasR {
-                bioR = hisDataHealth.biozData.r
+                let bioR = Int32(bitPattern: hisDataHealth.biozData.r)
+                healthDataModel.bioR = bioR
             }
             
         }
@@ -944,12 +943,6 @@ extension ProbuffHandle {
         }
         if fatigue > 0 {
             healthDataModel.fatigue = fatigue
-        }
-        if bioX > 0 {
-            healthDataModel.bioX = bioX
-        }
-        if bioR > 0 {
-            healthDataModel.bioR = bioR
         }
         if maxBpm > 0 {
             healthDataModel.maxBpm = maxBpm
