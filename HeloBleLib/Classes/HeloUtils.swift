@@ -1,0 +1,74 @@
+//
+//  HeloUtils.swift
+//  HeloBleLib_Example
+//
+//  Created by AppleDev_9527 on 2024/5/11.
+//  Copyright © 2024 CocoaPods. All rights reserved.
+//
+
+import Foundation
+
+open class HeloUtils  {
+    static let _his_date_Key:String = "_his_date_Key"
+    
+    static func inOneDay(date1:Date,date2:Date) -> Bool {
+        return date1.getYearMonthDay() == date2.getYearMonthDay()
+    }
+    static func getFileHisDate() -> Date? {
+        let hisDate = UserDefaults.standard.object(forKey: _his_date_Key) as? Date
+        return hisDate
+        
+    }
+    static func saveFileHisDate(_ date:Date) {
+        UserDefaults.standard.set(date, forKey: _his_date_Key)
+        UserDefaults.standard.synchronize()
+    }
+    static func needUpdateFileDate(_ date:Date) -> Bool {
+        
+        if let hisDate = HeloUtils.getFileHisDate() {
+            if HeloUtils.inOneDay(date1: date, date2: hisDate) {
+                return false
+            }
+        }
+        HeloUtils.saveFileHisDate(date)
+        return true
+    }
+    
+    static func objectToJSON(_ object: Any) -> String? {
+        if #available(iOS 13.0, *) {
+            if let jsonData = try? JSONSerialization.data(withJSONObject: object, options: .withoutEscapingSlashes) {
+                return String(data: jsonData, encoding: .utf8)
+            }
+        } else {
+            if let jsonData = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) {
+                return String(data: jsonData, encoding: .utf8)
+            }
+        }
+         return nil
+     }
+    
+    static func hexStringFromData(_ data: Data) -> String {
+         return data.map { String(format: "%02x", $0) }.joined()
+     }
+   static func createDocumentPath(fileName: String) -> URL? {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let fileURL = documentsDirectory?.appendingPathComponent(fileName)
+        
+        if let fileURL = fileURL, FileManager.default.fileExists(atPath: fileURL.path) {
+            if FileManager.default.fileExists(atPath: fileURL.path, isDirectory: nil) {
+//                print("The path already exists and is a directory.")
+            } else {
+//                print("The path already exists and is a file.")
+            }
+        } else {
+            do {
+                try FileManager.default.createDirectory(at: fileURL!, withIntermediateDirectories: true, attributes: nil)
+                print("Directory created at path: \(fileURL?.path ?? "Unknown")")
+            } catch {
+                print("Error creating directory at path: \(error.localizedDescription)")
+            }
+        }
+        
+        return fileURL
+    }
+}

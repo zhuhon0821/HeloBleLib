@@ -39,6 +39,7 @@ Pod::Spec.new do |s|
   
   s.dependency 'GRDB.swift', '~> 5.11.0'
   s.dependency 'SwiftProtobuf', '~> 1.26.0'
+  s.dependency 'SwiftyBeaver'
 #  s.dependency 'Protobuf'
   
   

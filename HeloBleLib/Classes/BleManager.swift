@@ -148,6 +148,7 @@ extension BleManager:CBCentralManagerDelegate {
             saveDeviceName(name: name)
         }
         delegate?.didConnectedDeviceSuccess(peripheral: peripheral)
+        LogBleManager.write("didConnect",.logTypeNormal)
     }
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         if RSSI.intValue > -100 && peripheral.name != nil {
@@ -178,6 +179,7 @@ extension BleManager:CBCentralManagerDelegate {
     }
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         delegate?.didDisconnectedDevice(peripheral: peripheral)
+        LogBleManager.write("didDisconnectPeripheral",.logTypeNormal)
     }
 }
 extension BleManager:CBPeripheralDelegate {

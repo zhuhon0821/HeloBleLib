@@ -86,7 +86,11 @@ class ProbuffHandle: NSObject {
         if (crcCk != crcCode) {
             return;
         }
-        
+        let dataStr = HeloUtils.hexStringFromData(crcData)
+        let dic = ["name":"up","id":optCode,"data":dataStr] as [String : Any]
+        if let json = HeloUtils.objectToJSON(dic) {
+            LogBleManager.write(json,.logTypeBleRaw)
+        }
         
         do {
             
@@ -229,19 +233,7 @@ class ProbuffHandle: NSObject {
         }
         return (data[0] == 0x44) && (data[1] == 0x54)
     }
-   public func objectToJSON(_ object: Any) -> String? {
-       if #available(iOS 13.0, *) {
-           if let jsonData = try? JSONSerialization.data(withJSONObject: object, options: .withoutEscapingSlashes) {
-               return String(data: jsonData, encoding: .utf8)
-           }
-       } else {
-           if let jsonData = try? JSONSerialization.data(withJSONObject: object, options: .prettyPrinted) {
-               return String(data: jsonData, encoding: .utf8)
-           }
-       }
-        return nil
-    }
-   
+
 }
 //MARK: -- sync progress process
 extension ProbuffHandle {
@@ -911,7 +903,7 @@ extension ProbuffHandle {
             }
             
         }
-        cmd = objectToJSON(hdDict) ?? ""
+        cmd = HeloUtils.objectToJSON(hdDict) ?? ""
         if step > 0 {
             healthDataModel.step = step
         }
@@ -999,7 +991,7 @@ extension ProbuffHandle {
             date = Date(timeIntervalSince1970: timeInterval)
         }
         
-        if let json = objectToJSON(hisData.rawData), let dateEcg = date {
+        if let json = HeloUtils.objectToJSON(hisData.rawData), let dateEcg = date {
             let model = ECGDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: dateEcg, rawData: json, seq: Int(seq), is_processed: false)
             GRDBManager.sharedInstance.insertECGDataModels(ecgDataModels: [model])
         }
@@ -1011,7 +1003,7 @@ extension ProbuffHandle {
             let timeInterval = TimeInterval(hisData.timeStamp.dateTime.seconds - (3600 * UInt32(hisData.timeStamp.timeZone)));
             date = Date(timeIntervalSince1970: timeInterval)
         }
-        if let json = objectToJSON(hisData.rawData), let datePPG = date {
+        if let json = HeloUtils.objectToJSON(hisData.rawData), let datePPG = date {
             let model = PPGDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: datePPG, rawData: json, seq: Int(seq), is_processed: false)
             GRDBManager.sharedInstance.insertPPGDataModels(ppgDataModels: [model])
         }
@@ -1029,7 +1021,7 @@ extension ProbuffHandle {
                 temp.append(Int16(bitPattern:fValue))
                 temp.append(Int16(bitPattern:sValue))
             }
-            if let json = objectToJSON(temp), let dateRRI = date {
+            if let json = HeloUtils.objectToJSON(temp), let dateRRI = date {
                 let model = RRIDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: dateRRI, rawData: json, seq: Int(seq), is_processed: false)
                 GRDBManager.sharedInstance.insertRRIDataModels(rriDataModels: [model])
             }

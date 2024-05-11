@@ -5,11 +5,13 @@ PODS:
   - HeloBleLib (1.0.4):
     - GRDB.swift (~> 5.11.0)
     - SwiftProtobuf (~> 1.26.0)
+    - SwiftyBeaver
   - SnapKit (5.7.1)
   - SVProgressHUD (2.3.1):
     - SVProgressHUD/Core (= 2.3.1)
   - SVProgressHUD/Core (2.3.1)
   - SwiftProtobuf (1.26.0)
+  - SwiftyBeaver (1.9.5)
 
 DEPENDENCIES:
   - HeloBleLib (from `../`)
@@ -22,6 +24,7 @@ SPEC REPOS:
     - SnapKit
     - SVProgressHUD
     - SwiftProtobuf
+    - SwiftyBeaver
 
 EXTERNAL SOURCES:
   HeloBleLib:
@@ -29,10 +32,11 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   GRDB.swift: 9a33d9680cd3c870c82f48a6cbc73d3cfbb235eb
-  HeloBleLib: 134720e612635b9a64146093cb3550f9dc5020bf
+  HeloBleLib: ecfeb7a33fb6966adbd7468216ad2f116f3bb6ce
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
   SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
   SwiftProtobuf: 5e8349171e7c2f88f5b9e683cb3cb79d1dc780b3
+  SwiftyBeaver: 84069991dd5dca07d7069100985badaca7f0ce82
 
 PODFILE CHECKSUM: f5333ceda7f662cbaf1434bb41aa8f8a527a3be2
 

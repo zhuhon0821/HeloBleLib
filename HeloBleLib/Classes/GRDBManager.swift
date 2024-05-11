@@ -305,7 +305,7 @@ class GRDBManager: NSObject {
     func initDB() {
         do {//database.sqlite
             // 1. Open a database connection
-            var path = createDocumentPath(fileName: "sdk")
+            var path = HeloUtils.createDocumentPath(fileName: "sdk")
             path = path?.appendingPathComponent("rawDataDB.sqlite")
             dbQueue = try DatabaseQueue(path: path?.absoluteString ?? "")
                         
@@ -402,27 +402,7 @@ class GRDBManager: NSObject {
         }
         
     }
-    func createDocumentPath(fileName: String) -> URL? {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        let fileURL = documentsDirectory?.appendingPathComponent(fileName)
-        
-        if let fileURL = fileURL, FileManager.default.fileExists(atPath: fileURL.path) {
-            if FileManager.default.fileExists(atPath: fileURL.path, isDirectory: nil) {
-//                print("The path already exists and is a directory.")
-            } else {
-//                print("The path already exists and is a file.")
-            }
-        } else {
-            do {
-                try FileManager.default.createDirectory(at: fileURL!, withIntermediateDirectories: true, attributes: nil)
-                print("Directory created at path: \(fileURL?.path ?? "Unknown")")
-            } catch {
-                print("Error creating directory at path: \(error.localizedDescription)")
-            }
-        }
-        
-        return fileURL
-    }
+    
 }
 
 extension GRDBManager {

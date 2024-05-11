@@ -31,6 +31,9 @@
     ],
     "SwiftProtobuf": [
       "~> 1.26.0"
+    ],
+    "SwiftyBeaver": [
+
     ]
   },
   "swift_version": "5.0"
