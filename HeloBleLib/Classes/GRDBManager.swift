@@ -300,6 +300,7 @@ class GRDBManager: NSObject {
         super.init()
         initDB()
         creatTables()
+       try?LogBleManager.cleanUpSDKTextFilesOlderThan30days()
 
     }
     func initDB() {

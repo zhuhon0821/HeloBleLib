@@ -17,7 +17,7 @@ public enum LogFileType {
 
 
 open class LogBleManager {
-    
+    static let sdk_log_path = "sdk/log"
     static var bleRawDataFileDestination:FileDestination?
     static var normalDataFileDestination:FileDestination?
     
@@ -33,7 +33,7 @@ open class LogBleManager {
         case .logTypeBleRaw:
             if bleRawDataFileDestination == nil {
              let loger = SwiftyBeaver.self
-               var bleFilePath = HeloUtils.createDocumentPath(fileName: "sdk")
+               var bleFilePath = HeloUtils.createDocumentPath(fileName: sdk_log_path)
                 let dateStr = date.getYearMonthDay()
                 bleFilePath = bleFilePath?.appendingPathComponent("sdk_ble_\(dateStr).txt")
                 bleRawDataFileDestination = FileDestination(logFileURL: bleFilePath)
@@ -47,7 +47,7 @@ open class LogBleManager {
         case .logTypeNormal:
             if normalDataFileDestination == nil {
                 let loger = SwiftyBeaver.self
-                var normalFilePath = HeloUtils.createDocumentPath(fileName: "sdk")
+                var normalFilePath = HeloUtils.createDocumentPath(fileName: sdk_log_path)
                 let dateStr = date.getYearMonthDay()
                  normalFilePath = normalFilePath?.appendingPathComponent("sdk_normal_\(dateStr).txt")
                 normalDataFileDestination = FileDestination(logFileURL: normalFilePath)
@@ -63,5 +63,37 @@ open class LogBleManager {
         }
         
     }
+    
+    static func cleanUpSDKTextFilesOlderThan30days() throws {
+        let directoryPath = HeloUtils.createDocumentPath(fileName: sdk_log_path)
+         let fileManager = FileManager.default
+        let directoryURLs = try fileManager.contentsOfDirectory(at: directoryPath!, includingPropertiesForKeys: nil, options: []) as [URL]
+         
+         let dateFormatter = DateFormatter()
+         dateFormatter.dateFormat = "yyyyMMdd" // 设定日期格式与文件名尾缀匹配
+         
+         let calendar = NSCalendar.current
+         let now = Date()
+         let thirtyDaysAgo = calendar.date(byAdding: .day, value: -30, to: now)!
+         
+         for fileURL in directoryURLs {
+             let filePath = fileURL.path
+             let fileExtension = fileURL.pathExtension
+             
+             guard fileExtension == "txt" else {
+                 continue // 跳过非.txt文件
+             }
+             
+             let fileName = fileURL.deletingPathExtension()
+             let dateString = String(fileName.absoluteString.suffix(8)) // 假设文件名尾缀总是日期格式且长度为8
+             
+             if let date = dateFormatter.date(from: dateString) {
+                 if date < thirtyDaysAgo {
+                     try fileManager.removeItem(at: fileURL)
+                     print("Removed file: \(filePath)")
+                 }
+             }
+         }
+     }
 
 }
