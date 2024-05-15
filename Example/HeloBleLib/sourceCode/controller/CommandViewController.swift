@@ -101,6 +101,48 @@ extension CommandViewController:UICollectionViewDataSource, UICollectionViewDele
     }
 }
 extension CommandViewController: BleDataSyncDelegate {
+    func onSyncECG(_ ecg: ECGDataModel) {
+        
+    }
+    
+    func onSyncRRI(_ rri: RRIDataModel) {
+        
+    }
+    
+    func onSyncPPG(_ ppg: PPGDataModel) {
+        
+    }
+    
+    
+    func onSyncBio(_ bio: BioModel) {
+        
+    }
+    func onSyncFatigue(_ fatigu:FatigueModel){
+        
+    }
+    func onSyncSpo2(_ spo2: Spo2Model){
+        
+    }
+    func onSyncHeartRate(_ hr: HeartRateModel){
+        
+    }
+    func onSyncBloodPresure(_ bp: BloodPresureModel){
+        
+    }
+    func onSyncMood(_ mood: MoodModel){
+        
+    }
+    func onSyncTemperature(_ temp: TemperatureModel){
+        
+    }
+    func onSyncIaq(_ iaq: IaqModel){
+        
+    }
+    func onSyncOaq(_ oaq: OaqModel) {
+        
+    }
+    
+    
     func onSyncingWithHealthData(_ date: Date, _ type: HealthDataType, _ progress: Float, _ allCompleted: Bool) {
         progressLabel.text = "sync progress:\(Int(progress*100))%\ndata type:\(type)\ndate:\(getYearMonthDay(date))\nsync completed:\(allCompleted)"
     }

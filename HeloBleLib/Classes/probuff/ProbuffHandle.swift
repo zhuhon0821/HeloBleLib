@@ -302,15 +302,17 @@ extension ProbuffHandle {
         
         if let index_sync = checkSyncIndex(hisData: hisData,type: type) {
             parseHealthData(hisData: hisData, type: type)
-            
             let progress = progressCalculation(seq: hisData.seq,index_sycn: index_sync)
-            var allcomplete = false
+            var allComplete = false
             if progress == Float(1) {
                 removeSyncIndex(type: type, index: index_sync)
-                allcomplete = checkSyncHealthDataComplete()
+                allComplete = checkSyncHealthDataComplete()
+                if allComplete {
+                    dataCalculation()
+                }
             }
             if let datatype = HealthDataType(rawValue: type.rawValue) {
-                BleManager.sharedInstance.dataSyncDelegate?.onSyncingWithHealthData(index_sync.date, datatype, progress, allcomplete)
+                BleManager.sharedInstance.dataSyncDelegate?.onSyncingWithHealthData(index_sync.date, datatype, progress, allComplete)
             }
 //            print("type==>\(type)\ncurrentSeq==>\(hisData.seq), startseq==>\(index_sync.seq_start), endseq==>\(index_sync.seq_end)\nprogress==>\(progress * 100)%")
             
@@ -544,8 +546,13 @@ extension ProbuffHandle {
         return nil
     }
     func progressCalculation(seq:UInt32,index_sycn:IndexModel) -> Float {
-        
-        let progress = Float(seq-index_sycn.seq_start)/Float(index_sycn.seq_end-1-index_sycn.seq_start)
+        let current = Float(seq-index_sycn.seq_start)
+        let all = Float(index_sycn.seq_end-1-index_sycn.seq_start)
+        var progress = current/all
+        if progress.isNaN {
+            progress = 1.0
+        }
+      
         return progress
     }
     func checkSyncHealthDataComplete() -> Bool {
@@ -734,7 +741,8 @@ extension ProbuffHandle {
         } else {
             return
         }
-        var healthDataModel:HealthDataModel = HealthDataModel(data_from: BleManager.sharedInstance.getDeviceName()!, date: date!, seq: seq, is_processed: false)
+        let dataFrom = BleManager.sharedInstance.getDeviceName()!
+        var healthDataModel:HealthDataModel = HealthDataModel(data_from: dataFrom, date: date!, seq: seq, is_processed: false)
         
         
         var step:UInt32 = 0
@@ -833,6 +841,9 @@ extension ProbuffHandle {
             if mDict.count > 0 {
                 hdDict["H"] = mDict
             }
+            let hr = HeartRateModel(data_from: dataFrom, date: date!, maxBpm: Int(maxBpm), minBpm: Int(minBpm), avgBpm: Int(avgBpm))
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncHeartRate(hr)
+            
         }
         if hisDataHealth.hasHrvData {
             
@@ -861,6 +872,8 @@ extension ProbuffHandle {
                     mDict["f"] = Int(hisDataHealth.hrvData.rmssd * 20)
                 }
                 mean = hisDataHealth.hrvData.mean/10.0
+                let fm = FatigueModel(data_from: dataFrom, date: date!, sdnn: sdnn, rmssd: rmssd, pnn50: pnn50, mean: mean, fatigue: fatigue)
+                BleManager.sharedInstance.dataSyncDelegate?.onSyncFatigue(fm)
             }
             if mDict.count > 0 {
                 hdDict["V"] = mDict
@@ -871,6 +884,8 @@ extension ProbuffHandle {
             maxOxy = hisDataHealth.bxoyData.maxOxy
             minOxy = hisDataHealth.bxoyData.minOxy
             avgOxy = hisDataHealth.bxoyData.agvOxy
+            let spo2 = Spo2Model(data_from: dataFrom, date: date!, maxOxy: Int(maxOxy), avgOxy: Int(avgOxy), minOxy: Int(minOxy))
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncSpo2(spo2)
         }
         if hisDataHealth.hasTemperatureData {
             
@@ -880,16 +895,21 @@ extension ProbuffHandle {
             tibiao_temp = UInt16(hisDataHealth.temperatureData.eviBody & 0x0000ffff);
             yuce_temp = UInt16((hisDataHealth.temperatureData.estiArm >> 16) & 0x0000ffff);
             shice_temp = UInt16(hisDataHealth.temperatureData.estiArm & 0x0000ffff);
+            let temp = TemperatureModel(data_from: dataFrom, date: date!, huanjing_temp: Int(huanjing_temp), tibiao_temp: Int(tibiao_temp), yuce_temp: Int(yuce_temp), shice_temp: Int(shice_temp), temp_ype: tempType)
             
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncTemperature(temp)
         }
         if hisDataHealth.hasBpData {
             dbp = hisDataHealth.bpData.dbp
             sbp = hisDataHealth.bpData.sbp
             bmp = hisDataHealth.bpData.time
+            let bp = BloodPresureModel(data_from: dataFrom, date: date!, sbp: Int(sbp), dbp: Int(dbp), bpm: Int(bmp))
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncBloodPresure(bp)
         }
         if hisDataHealth.hasMoodData ,hisDataHealth.moodData.hasMoodLevel {
             moodLevel = hisDataHealth.moodData.moodLevel
-            
+            let mood = MoodModel(data_from: dataFrom, date: date!, moodLevel: Int(moodLevel))
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncMood(mood)
         }
         //BIA
         if hisDataHealth.hasBiozData {
@@ -901,7 +921,30 @@ extension ProbuffHandle {
                 let bioR = Int32(bitPattern: hisDataHealth.biozData.r)
                 healthDataModel.bioR = bioR
             }
-            
+            let bio = BioModel(data_from: dataFrom, date: date!, bioX: healthDataModel.bioX ?? 0, bioR: healthDataModel.bioR ?? 0)
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncBio(bio)
+        }
+        if hisDataHealth.hasIaqData {
+            let iaqData = hisDataHealth.iaqData
+            var humidity:Float = 0
+            var temp: Float = 0
+            if hisDataHealth.hasHumitureData {
+                humidity = hisDataHealth.humitureData.humidity
+                temp = hisDataHealth.humitureData.temperature
+            }
+            let iaq = IaqModel(data_from: dataFrom, date: date!, iaq: iaqData.iaq, tvoc: iaqData.tvoc, etoh: iaqData.etoh, eco2: iaqData.eco2, humidity: humidity, temperature:temp, autoMeasure: true)
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncIaq(iaq)
+        }
+        if hisDataHealth.hasOaqData {
+            let oaqData = hisDataHealth.oaqData
+            var humidity:Float = 0
+            var temp: Float = 0
+            if hisDataHealth.hasHumitureData {
+                humidity = hisDataHealth.humitureData.humidity
+                temp = hisDataHealth.humitureData.temperature
+            }
+            let oaq = OaqModel(data_from: dataFrom, date: date!, o3: oaqData.o3ConcPpb, fastAqi: Float(oaqData.fastAqi), epaAqi: Float(oaqData.epaAqi), humidity: humidity, temperature: temp, autoMeasure: true)
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncOaq(oaq)
         }
         cmd = HeloUtils.objectToJSON(hdDict) ?? ""
         if step > 0 {
@@ -1026,5 +1069,77 @@ extension ProbuffHandle {
                 GRDBManager.sharedInstance.insertRRIDataModels(rriDataModels: [model])
             }
         }
+    }
+}
+extension ProbuffHandle {
+    //MARK: Calculation of Sport,ECG,PPG,RRI,sleep
+    func dataCalculation() {
+        sportCalculation()
+        ECGCalculation()
+        PPGCalculation()
+        RRICalculation()
+        sleepCalculation()
+    }
+    func sportCalculation() {
+        
+    }
+    func ECGCalculation() {
+        let ecgIndexs = GRDBManager.sharedInstance.selectIndexModels(type:HealthDataType.ecgDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName()!, isSynced: true)
+        for ecgIndex in ecgIndexs {
+            let ecgs = GRDBManager.sharedInstance.selectECGDataModels(data_from: BleManager.sharedInstance.getDeviceName()!, isProcessed: false, startSeq: ecgIndex.seq_start, endSeq: ecgIndex.seq_end)
+            var ecgStr = ""
+            var ecgModel = ecgs.first
+            for ecg in ecgs {
+                ecgStr += ecg.rawData
+            }
+            ecgStr = ecgStr.replacingOccurrences(of: "[", with: "")
+            ecgStr = ecgStr.replacingOccurrences(of: "]", with: ",")
+            ecgStr.removeLast()
+            ecgModel?.rawData = ecgStr
+            if let ecgM = ecgModel {
+                BleManager.sharedInstance.dataSyncDelegate?.onSyncECG(ecgM)
+            }
+            
+        }
+    }
+    func PPGCalculation() {
+        let ppgIndexs = GRDBManager.sharedInstance.selectIndexModels(type:HealthDataType.ppgDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName()!, isSynced: true)
+        for ppgIndex in ppgIndexs {
+            let ppgs = GRDBManager.sharedInstance.selectPPGDataModels(data_from: BleManager.sharedInstance.getDeviceName()!, isProcessed: false, startSeq: ppgIndex.seq_start, endSeq: ppgIndex.seq_end)
+            var ppgStr = ""
+            var ppgModel = ppgs.first
+            for ppg in ppgs {
+                ppgStr += ppg.rawData
+            }
+            ppgStr = ppgStr.replacingOccurrences(of: "[", with: "")
+            ppgStr = ppgStr.replacingOccurrences(of: "]", with: ",")
+            ppgStr.removeLast()
+            ppgModel?.rawData = ppgStr
+            if let ppgM = ppgModel {
+                BleManager.sharedInstance.dataSyncDelegate?.onSyncPPG(ppgM)
+            }
+        }
+    }
+    func RRICalculation() {
+        let rriIndexs = GRDBManager.sharedInstance.selectIndexModels(type:HealthDataType.rriDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName()!, isSynced: true)
+        for rriIndex in rriIndexs {
+            let rris = GRDBManager.sharedInstance.selectRRIDataModels(data_from: BleManager.sharedInstance.getDeviceName()!, isProcessed: false, startSeq: rriIndex.seq_start, endSeq: rriIndex.seq_end)
+            var rriStr = ""
+            var rriModel = rris.first
+            for rri in rris {
+                rriStr += rri.rawData
+            }
+            rriStr = rriStr.replacingOccurrences(of: "[", with: "")
+            rriStr = rriStr.replacingOccurrences(of: "]", with: ",")
+            rriStr.removeLast()
+            rriModel?.rawData = rriStr
+            if let rriM = rriModel {
+                BleManager.sharedInstance.dataSyncDelegate?.onSyncRRI(rriM)
+            }
+            
+        }
+    }
+    func sleepCalculation() {
+        
     }
 }

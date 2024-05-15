@@ -19,6 +19,20 @@ public protocol BleManagerDelegate:AnyObject {
 }
 public protocol BleDataSyncDelegate:AnyObject {
     func onSyncingWithHealthData(_ date:Date,_ type:HealthDataType,_ progress:Float,_ allCompleted:Bool)
+    func onSyncFatigue(_ fatigu:FatigueModel)
+    func onSyncSpo2(_ spo2: Spo2Model)
+    func onSyncHeartRate(_ hr: HeartRateModel)
+    func onSyncBloodPresure(_ bp: BloodPresureModel)
+    func onSyncMood(_ mood: MoodModel)
+    func onSyncTemperature(_ temp: TemperatureModel)
+    func onSyncIaq(_ iaq: IaqModel)
+    func onSyncOaq(_ oaq: OaqModel)
+    func onSyncBio(_ bio: BioModel)
+    
+    func onSyncECG(_ ecg: ECGDataModel)
+    func onSyncRRI(_ rri: RRIDataModel)
+    func onSyncPPG(_ ppg: PPGDataModel)
+//    func onSyncSleep(_ sleeps: [ECGDataModel])
     
 }
 public class BleManager:NSObject {

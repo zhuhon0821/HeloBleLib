@@ -10,7 +10,7 @@ import UIKit
 import GRDB
 
 
-struct IndexModel: Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct IndexModel: Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     static let tableName = "indexModel"
     
     var data_from: String
@@ -29,7 +29,7 @@ struct IndexModel: Equatable,Codable,TableRecord, FetchableRecord, PersistableRe
     }
     
 }
-struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     static let tableName = "healthDataModel"
     
     var data_from: String
@@ -113,7 +113,7 @@ struct HealthDataModel: Equatable,Codable,TableRecord, FetchableRecord, Persista
    
 }
 
-struct HeartRateModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct HeartRateModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
     var maxBpm: Int
@@ -127,7 +127,7 @@ struct HeartRateModel:Equatable,Codable,TableRecord, FetchableRecord, Persistabl
         self.avgBpm = avgBpm
     }
 }
-struct ECGDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct ECGDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     static let tableName = "ecgDataModel"
     var data_from: String
     var date: Date
@@ -143,7 +143,7 @@ struct ECGDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableR
     }
     
 }
-struct PPGDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct PPGDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     static let tableName = "ppgDataModel"
     var data_from: String
     var date: Date
@@ -159,7 +159,7 @@ struct PPGDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableR
     }
     
 }
-struct RRIDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct RRIDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     static let tableName = "rriDataModel"
     var data_from: String
     var date: Date
@@ -175,7 +175,7 @@ struct RRIDataModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableR
     }
     
 }
-struct FatigueModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct FatigueModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
     var sdnn: Float
@@ -193,7 +193,7 @@ struct FatigueModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableR
         self.fatigue = fatigue
     }
 }
-struct BloodPresureModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct BloodPresureModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
     var sbp:Int
@@ -207,7 +207,7 @@ struct BloodPresureModel:Equatable,Codable,TableRecord, FetchableRecord, Persist
         self.bpm = bpm
     }
 }
-struct MoodModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct MoodModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
     var moodLevel:Int
@@ -217,7 +217,13 @@ struct MoodModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableReco
         self.moodLevel = moodLevel
     }
 }
-struct Spo2Model:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct BioModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+    var data_from: String
+    var date: Date
+    var bioX:Int32
+    var bioR:Int32
+}
+public struct Spo2Model:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
     var maxOxy:Int
@@ -231,7 +237,7 @@ struct Spo2Model:Equatable,Codable,TableRecord, FetchableRecord, PersistableReco
         self.minOxy = minOxy
     }
 }
-struct TemperatureModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct TemperatureModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
     var huanjing_temp:Int
@@ -249,7 +255,7 @@ struct TemperatureModel:Equatable,Codable,TableRecord, FetchableRecord, Persista
         self.temp_ype = temp_ype
     }
 }
-struct IaqModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct IaqModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
     var iaq: Float
@@ -271,7 +277,7 @@ struct IaqModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecor
         self.autoMeasure = autoMeasure
     }
 }
-struct OaqModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+public struct OaqModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
     var o3: Float
@@ -540,12 +546,13 @@ extension GRDBManager {
             print(error.localizedDescription)
         }
     }
-    func selectECGDataModels(data_from:String,isProcessed:Bool)->[ECGDataModel] {
+    func selectECGDataModels(data_from:String,isProcessed:Bool, startSeq:UInt32,endSeq:UInt32)->[ECGDataModel] {
         var models: [ECGDataModel]?
         do {
             models = try dbQueue.read { db in
                 try ECGDataModel.fetchAll(db).filter { ecgDataModel in
-                    ecgDataModel.data_from == data_from && ecgDataModel.is_processed == isProcessed
+                    ecgDataModel.data_from == data_from && ecgDataModel.is_processed == isProcessed &&
+                    ecgDataModel.seq >= startSeq && ecgDataModel.seq < endSeq
                 }.sorted { ecgDataModel1, ecgDataModel2 in
                     ecgDataModel1.date < ecgDataModel2.date
                 }
@@ -592,12 +599,13 @@ extension GRDBManager {
             print(error.localizedDescription)
         }
     }
-    func selectPPGDataModels(data_from:String,isProcessed:Bool)->[PPGDataModel] {
+    func selectPPGDataModels(data_from:String,isProcessed:Bool, startSeq:UInt32,endSeq:UInt32)->[PPGDataModel] {
         var models: [PPGDataModel]?
         do {
             models = try dbQueue.read { db in
                 try PPGDataModel.fetchAll(db).filter { ppgDataModel in
-                    ppgDataModel.data_from == data_from && ppgDataModel.is_processed == isProcessed
+                    ppgDataModel.data_from == data_from && ppgDataModel.is_processed == isProcessed &&
+                    ppgDataModel.seq >= startSeq && ppgDataModel.seq < endSeq
                 }.sorted { ppgDataModel1, ppgDataModel2 in
                     ppgDataModel1.date < ppgDataModel2.date
                 }
@@ -644,12 +652,13 @@ extension GRDBManager {
             print(error.localizedDescription)
         }
     }
-    func selectRRIDataModels(data_from:String,isProcessed:Bool)->[RRIDataModel] {
+    func selectRRIDataModels(data_from:String,isProcessed:Bool, startSeq:UInt32,endSeq:UInt32)->[RRIDataModel] {
         var models: [RRIDataModel]?
         do {
             models = try dbQueue.read { db in
                 try RRIDataModel.fetchAll(db).filter { rriDataModel in
-                    rriDataModel.data_from == data_from && rriDataModel.is_processed == isProcessed
+                    rriDataModel.data_from == data_from && rriDataModel.is_processed == isProcessed &&
+                    rriDataModel.seq >= startSeq && rriDataModel.seq < endSeq
                 }.sorted { rriDataModel1, rriDataModel2 in
                     rriDataModel1.date < rriDataModel2.date
                 }

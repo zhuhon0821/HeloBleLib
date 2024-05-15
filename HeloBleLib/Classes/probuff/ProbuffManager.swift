@@ -603,7 +603,12 @@ extension ProbuffManager {
     }
     
     public func writeCharacteristicByPBOpt(optCode:PB_Opt,payload:Data) {
-       
+        
+        let dataStr = HeloUtils.hexStringFromData(payload)
+        let dic = ["name":"down","id":optCode.rawValue,"data":dataStr] as [String : Any]
+        if let json = HeloUtils.objectToJSON(dic) {
+            LogBleManager.write(json,.logTypeBleRaw)
+        }
         let writeData = appendWriteData(optCode: optCode, payload: payload)
         if (writeData.count < 8) {
             return;
