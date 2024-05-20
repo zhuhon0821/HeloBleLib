@@ -67,7 +67,7 @@
 		CC80D9202BCF6B0500AEEF74 /* CommandCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D91F2BCF6B0500AEEF74 /* CommandCollectionViewCell.swift */; };
 		CC80D9222BCF73A200AEEF74 /* BaseDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D9212BCF73A200AEEF74 /* BaseDataManager.swift */; };
 		CC80D9272BD0EFBD00AEEF74 /* GRDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D9262BD0EFBD00AEEF74 /* GRDBManager.swift */; };
-		CC80D92A2BD20C9400AEEF74 /* ModelMacros.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D9292BD20C9400AEEF74 /* ModelMacros.swift */; };
+		CC80D92A2BD20C9400AEEF74 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D9292BD20C9400AEEF74 /* Models.swift */; };
 		CC8963F32BC8C11C00B7C581 /* BleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8963EF2BC8C11C00B7C581 /* BleManager.swift */; };
 		CC8963F52BC8C11C00B7C581 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CC8963F22BC8C11C00B7C581 /* .gitkeep */; };
 		CC9ACB2E2BEF15B9002380A0 /* LogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ACB2D2BEF15B9002380A0 /* LogManager.swift */; };
@@ -149,7 +149,7 @@
 		CC80D91F2BCF6B0500AEEF74 /* CommandCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandCollectionViewCell.swift; sourceTree = "<group>"; };
 		CC80D9212BCF73A200AEEF74 /* BaseDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDataManager.swift; sourceTree = "<group>"; };
 		CC80D9262BD0EFBD00AEEF74 /* GRDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GRDBManager.swift; sourceTree = "<group>"; };
-		CC80D9292BD20C9400AEEF74 /* ModelMacros.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelMacros.swift; sourceTree = "<group>"; };
+		CC80D9292BD20C9400AEEF74 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		CC8963EF2BC8C11C00B7C581 /* BleManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleManager.swift; sourceTree = "<group>"; };
 		CC8963F22BC8C11C00B7C581 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		CC9ACB2D2BEF15B9002380A0 /* LogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogManager.swift; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 		CC80D9282BD20C3900AEEF74 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				CC80D9292BD20C9400AEEF74 /* ModelMacros.swift */,
+				CC80D9292BD20C9400AEEF74 /* Models.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -565,7 +565,7 @@
 				CC80D91B2BCE1C2900AEEF74 /* shbus_cmd.pb.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CC80D9092BCE1C2900AEEF74 /* data_info.pb.swift in Sources */,
-				CC80D92A2BD20C9400AEEF74 /* ModelMacros.swift in Sources */,
+				CC80D92A2BD20C9400AEEF74 /* Models.swift in Sources */,
 				CC8963F32BC8C11C00B7C581 /* BleManager.swift in Sources */,
 				CC80D9122BCE1C2900AEEF74 /* realtime_data.pb.swift in Sources */,
 				CC80D9012BCE1C2900AEEF74 /* his_swim_data.pb.swift in Sources */,

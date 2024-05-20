@@ -20,6 +20,7 @@ open class LogBleManager {
     static let sdk_log_path = "sdk/log"
     static var bleRawDataFileDestination:FileDestination?
     static var normalDataFileDestination:FileDestination?
+    static var previousDevice:String?
     
     open class func write(_ info:String,_ type:LogFileType) {
         let date = Date()
@@ -28,14 +29,25 @@ open class LogBleManager {
             bleRawDataFileDestination = nil
             normalDataFileDestination = nil
         }
+        var dataFrom = BleManager.sharedInstance.getDeviceName()
+        dataFrom = dataFrom?.replacingOccurrences(of: " ", with: "")
+        guard dataFrom != nil else {
+            return
+        }
+        if previousDevice != dataFrom {
+            bleRawDataFileDestination = nil
+            normalDataFileDestination = nil
+            previousDevice = dataFrom
+        }
+        let loger = SwiftyBeaver.self
+        var bleFilePath = HeloUtils.createDocumentPath(fileName: sdk_log_path)
+        let dateStr = date.getYearMonthDay()
         
         switch type {
         case .logTypeBleRaw:
             if bleRawDataFileDestination == nil {
-             let loger = SwiftyBeaver.self
-               var bleFilePath = HeloUtils.createDocumentPath(fileName: sdk_log_path)
-                let dateStr = date.getYearMonthDay()
-                bleFilePath = bleFilePath?.appendingPathComponent("sdk_ble_\(dateStr).txt")
+             
+                bleFilePath = bleFilePath?.appendingPathComponent("sdk_ble_\(dataFrom!)_\(dateStr).txt")
                 bleRawDataFileDestination = FileDestination(logFileURL: bleFilePath)
                 bleRawDataFileDestination!.format = "$DHH:mm:ss $M"
                 loger.addDestination(bleRawDataFileDestination!)
@@ -46,11 +58,9 @@ open class LogBleManager {
             break
         case .logTypeNormal:
             if normalDataFileDestination == nil {
-                let loger = SwiftyBeaver.self
-                var normalFilePath = HeloUtils.createDocumentPath(fileName: sdk_log_path)
-                let dateStr = date.getYearMonthDay()
-                 normalFilePath = normalFilePath?.appendingPathComponent("sdk_normal_\(dateStr).txt")
-                normalDataFileDestination = FileDestination(logFileURL: normalFilePath)
+                
+                bleFilePath = bleFilePath?.appendingPathComponent("sdk_normal_\(dataFrom!)_\(dateStr).txt")
+                normalDataFileDestination = FileDestination(logFileURL: bleFilePath)
                 normalDataFileDestination!.format = "$DHH:mm:ss $M"
                 loger.addDestination(normalDataFileDestination!)
                

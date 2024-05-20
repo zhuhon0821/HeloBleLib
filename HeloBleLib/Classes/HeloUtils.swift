@@ -71,4 +71,9 @@ open class HeloUtils  {
         
         return fileURL
     }
+    
+    static func tsFromGMT() -> Int {
+        var tz = NSTimeZone.system
+        return tz.secondsFromGMT()
+    }
 }

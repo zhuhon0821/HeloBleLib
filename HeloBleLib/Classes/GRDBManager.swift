@@ -217,6 +217,16 @@ public struct MoodModel:Equatable,Codable,TableRecord, FetchableRecord, Persista
         self.moodLevel = moodLevel
     }
 }
+public struct SleepCmdModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
+    var data_from: String
+    var date: Date
+    var sleepCmd:String
+    init(data_from: String, date: Date, sleepCmd: String) {
+        self.data_from = data_from
+        self.date = date
+        self.sleepCmd = sleepCmd
+    }
+}
 public struct BioModel:Equatable,Codable,TableRecord, FetchableRecord, PersistableRecord {
     var data_from: String
     var date: Date
@@ -494,12 +504,13 @@ extension GRDBManager {
             print(error.localizedDescription)
         }
     }
-    func selectHealthDataModels(data_from:String,isProcessed:Bool)->[HealthDataModel] {
+    func selectHealthDataModels(data_from:String,isProcessed:Bool,date:Date)->[HealthDataModel] {
         var models: [HealthDataModel]?
         do {
             models = try dbQueue.read { db in
                 try HealthDataModel.fetchAll(db).filter { healthDataModel in
-                    healthDataModel.data_from == data_from && healthDataModel.is_processed == isProcessed
+                    healthDataModel.data_from == data_from && healthDataModel.is_processed == isProcessed &&
+                    healthDataModel.date.getYearMonthDay() == date.getYearMonthDay()
                 }.sorted { healthDataModel1, healthDataModel2 in
                     healthDataModel1.date < healthDataModel2.date
                 }

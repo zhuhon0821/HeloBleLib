@@ -11,7 +11,8 @@ import UIKit
 class ProbuffManager: NSObject {
     public static let sharedInstance = ProbuffManager()
     public var mtu:Int = 20
-    
+    public var maxCalendarCount:UInt32 = 6
+    var _max_sedt_count:Int = 3
     override init() {
         super.init()
     }
@@ -40,10 +41,17 @@ class ProbuffManager: NSObject {
             writeCharacteristicByPBOpt(optCode: .PB_Opt_PeerInfo, payload: data)
         }
     }
-    public func write01PeerInfomation() {
-        var piN = PeerInfoNotification()
-        
+    public func write01PeerInfomation(_ configuration:Any) {
+        if let peerData = getPeerInformation(configuration) {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_PeerInfo, payload: peerData)
+        }
     }
+    public func write02MsgNotification(_ msgConf:Any) {
+        if let msgData = getMessageNotifyInformation(msgConf) {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_MsgNotify, payload: msgData)
+        }
+    }
+    //MARK: -- 01 PeerInfomation
     public func setDateTimeConf(date:Date) {
         let tz = NSTimeZone.system
         let tsFromGMT = tz.secondsFromGMT()
@@ -54,12 +62,9 @@ class ProbuffManager: NSObject {
         let timeZone = (tsFromGMT/3600)
         dateTime.dateTime = rtTime
         dateTime.timeZone = Int32(timeZone)
-        
-        if let data = try? dateTime.serializedData() {
-            writeCharacteristicByPBOpt(optCode: .PB_Opt_PeerInfo, payload: data)
-        }
+        write01PeerInfomation(dateTime)
     }
-    public func setUserConf(userConf:UserConf_C) {
+    public func setUserConf(userConf:CUserConf) {
         var conf = UserConf()
         conf.height = userConf.height
         conf.weight = userConf.weight
@@ -70,59 +75,426 @@ class ProbuffManager: NSObject {
         conf.wristCircumference = userConf.wristCircumference
         conf.historyOfHypertension = userConf.historyOfHypertension
         conf.hash = userConf.hash
-        
-        if let data = try?conf.serializedData() {
-            
-            writeCharacteristicByPBOpt(optCode: .PB_Opt_PeerInfo, payload: data)
-        }
+        write01PeerInfomation(conf)
+
     }
    
-    public func setBloodPresureConf(bpCaliConf:BpCaliConf) {
-        if let data = try? bpCaliConf.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    public func setBloodPresureConf(cbpCaliConf:CBpCaliConf) {
+        var bpCaliConf = BpCaliConf()
+        bpCaliConf.srcDbp = cbpCaliConf.srcDbp
+        bpCaliConf.srcSbp = cbpCaliConf.srcSbp
+        bpCaliConf.difDbp = cbpCaliConf.difDbp
+        bpCaliConf.difSbp = cbpCaliConf.difSbp
+        bpCaliConf.dstSbp = cbpCaliConf.dstSbp
+        bpCaliConf.dstDbp = cbpCaliConf.dstDbp
+        bpCaliConf.userName = cbpCaliConf.userName
+        bpCaliConf.takeMedicine = cbpCaliConf.takeMedicine
+        bpCaliConf.hash = UInt32(bpCaliConf.hashValue)
+        write01PeerInfomation(bpCaliConf)
+
+    }
+    
+    public func setHrAlarmConf(chrAlarmConf:CHrAlarmConf) {
+        
+        var hrAlarmConf = HrAlarmConf()
+        hrAlarmConf.enable = chrAlarmConf.enable
+        hrAlarmConf.thsHigh = chrAlarmConf.thsHigh
+        hrAlarmConf.thsLow = chrAlarmConf.thsLow
+        hrAlarmConf.timeout = chrAlarmConf.timeout
+        hrAlarmConf.interval = chrAlarmConf.interval
+        hrAlarmConf.hash = UInt32(hrAlarmConf.hashValue)
+        write01PeerInfomation(hrAlarmConf)
+        
+    }
+    
+    public func setGoalConf(cgoalConf:CGoalConf) {
+        var goalConf = GoalConf()
+        goalConf.distance = cgoalConf.distance
+        goalConf.step = cgoalConf.step
+        goalConf.calorie = cgoalConf.calorie
+        goalConf.hash = UInt32(goalConf.hashValue)
+        write01PeerInfomation(goalConf)
+    }
+    public func setGnssConf(cgnssConf:CGnssConf) {
+        var gnssConf =  GnssConf()
+        gnssConf.altitude = cgnssConf.altitude
+        gnssConf.latitude = cgnssConf.latitude
+        gnssConf.longitude = cgnssConf.longitude
+        gnssConf.hash = UInt32(gnssConf.hashValue)
+        write01PeerInfomation(gnssConf)
+    }
+    public func setAf24Conf(cafConf:CAfConf) {
+        var afConf = AfConf()
+        afConf.autoRun = cafConf.autoRun
+        afConf.interval = cafConf.interval
+        afConf.hash = UInt32(afConf.hashValue)
+        write01PeerInfomation(afConf)
+        
+    }
+    
+    //MARK: -- 02 MsgNotification
+    public func setDNDMode(_ dndModel:CMsgHandler) {
+        var mH = MsgHandler()
+        mH.policy = dndModel.policy
+        var msgT = MsgHandler.Timing()
+        msgT.startHour = dndModel.startHour
+        msgT.startMinute = dndModel.startMinute
+        msgT.endHour = dndModel.endHour
+        msgT.endMinute = dndModel.endMinute
+        mH.timing = msgT
+        mH.hash = UInt32(mH.hashValue)
+        write02MsgNotification(mH)
+    }
+    public func addSpecialList(_ rolls:[CRoll]) {
+        var mArr = [MsgFilter.ID]()
+        for roll in rolls {
+            var mfID = MsgFilter.ID()
+            mfID.id = roll.rollName
+            mArr.append(mfID)
+        }
+        var mf = MsgFilter()
+        mf.id = mArr
+        mf.hash = UInt32(mf.hashValue)
+        write02MsgNotification(mf)
+    }
+    public func clearAllLists() {
+        var mf = MsgFilter()
+        mf.id = []
+        mf.hash = UInt32(mf.hashValue)
+        write02MsgNotification(mf)
+    }
+    
+    //MARK: -- 03 weather
+    public func clearWeather() {
+       var weatherNotification = WeatherNotification()
+        weatherNotification.operation = .clear
+        if let msgData = try? weatherNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_Weather, payload: msgData)
         }
     }
-    public func setHrAlarmConf(hrAlarmConf:HrAlarmConf) {
-        if let data = try? hrAlarmConf.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    public func setWeather(_ cweatherGroup : CWeatherGroup) {
+       var weatherNotification = WeatherNotification()
+        weatherNotification.operation = .add
+        weatherNotification.group.hash = 2
+        var weatherArr = [Weather]()
+        var i = 0
+        for cweather in cweatherGroup.weather24hoursArrs {
+            if i == 12 && cweatherGroup.weather7daysArrs.count > 0 {
+                break
+            }
+            var weather = Weather()
+            var rtT = RtTime()
+            rtT.seconds = UInt32(cweather.dateTime.timeIntervalSince1970)
+            weather.dateTime = rtT
+            weather.degreeMax = cweather.degreeMax
+            weather.degreeMin = cweather.degreeMin
+            weather.type =  .eachHour
+            if let pm2P5 = cweather.pm2P5 {
+                weather.pm2P5 = pm2P5
+            }
+            weatherArr.append(weather)
+            i += 1
+        }
+        var j = 0
+        for cweather in cweatherGroup.weather7daysArrs {
+            if j == 5  {
+                break
+            }
+            var weather = Weather()
+            var rtT = RtTime()
+            rtT.seconds = UInt32(cweather.dateTime.timeIntervalSince1970)
+            weather.dateTime = rtT
+            weather.degreeMax = cweather.degreeMax
+            weather.degreeMin = cweather.degreeMin
+            weather.type = .eachDay
+            if let pm2P5 = cweather.pm2P5 {
+                weather.pm2P5 = pm2P5
+            }
+            weatherArr.append(weather)
+            
+            j += 1
+        }
+        weatherNotification.group.data = weatherArr
+        if let msgData = try? weatherNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_Weather, payload: msgData)
         }
     }
-    public func setGoalConf(goalConf:GoalConf) {
-        if let data = try? goalConf.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    public func clearAirQuality() {
+        var airQualityNotification = AirQualityNotification()
+        airQualityNotification.operation = .clear
+        if let data = try? airQualityNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_AirQuality, payload: data)
         }
     }
-    public func setGnssConf(gnssConf:GnssConf) {
-        if let data = try? gnssConf.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    public func writeAirQuality(cairQualityData:CAirQualityData) {
+        var airQualityData = AirQualityData()
+        var airQualityNotification = AirQualityNotification()
+        if let pm2P5 = cairQualityData.pm2P5 {
+            airQualityData.pm2P5 = pm2P5
+        }
+        if let pm10 = cairQualityData.pm10 {
+            airQualityData.pm10 = pm10
+        }
+        if let aqi = cairQualityData.aqi {
+            airQualityData.aqi = aqi
+        }
+        if let o3 = cairQualityData.o3 {
+            airQualityData.o3 = o3
+        }
+        if let no2 = cairQualityData.no2 {
+            airQualityData.no2 = no2
+        }
+        if let so2 = cairQualityData.so2 {
+            airQualityData.so2 = so2
+        }
+        if let co = cairQualityData.co {
+            airQualityData.co = co
+        }
+        airQualityData.country = cairQualityData.country
+        airQualityNotification.airdata = airQualityData
+        airQualityNotification.operation = .add
+        
+        if let data = try? airQualityNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_AirQuality, payload: data)
         }
     }
-    public func setAf24Conf(afConf:AfConf) {
-        if let data = try? afConf.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    //MARK: 04 alarm clock
+    static let _max_clock_count = 6
+    public func setAlarmClocks(_ calarmClocks:[CAlarmClock]) {
+        var alarmClocks = [AlarmClock]()
+        var i = 0
+        for calarmClock in calarmClocks {
+            if i ==  ProbuffManager._max_clock_count {
+                break
+            }
+            var alarmClock = AlarmClock()
+            alarmClock.repeat = calarmClock.isRepeat
+            alarmClock.monday = calarmClock.monday
+            alarmClock.tuesday = calarmClock.tuesday
+            alarmClock.wednesday = calarmClock.wednesday
+            alarmClock.thursday = calarmClock.thursday
+            alarmClock.friday = calarmClock.friday
+            alarmClock.saturday = calarmClock.saturday
+            alarmClock.sunday = calarmClock.sunday
+            alarmClock.hour = calarmClock.hour
+            alarmClock.minutes = calarmClock.minutes
+            alarmClock.text = calarmClock.text
+            alarmClocks.append(alarmClock)
+            i += 1
+        }
+        var alarmGroup = AlarmGroup()
+        alarmGroup.alarmclock = alarmClocks
+        alarmGroup.hash = UInt32(alarmClocks.hashValue)
+        var alarmNotification = AlarmNotification()
+        alarmNotification.group = alarmGroup
+        alarmNotification.operation = .add
+        if let data = try? alarmNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_AlarmClock, payload: data)
         }
     }
-    public func setMessageNotifyConf(msgNotify:MsgNotify) {
-        if let data = try? msgNotify.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    public func clearAlarmClocks(){
+        var alarmNotification = AlarmNotification()
+        alarmNotification.operation = .clear
+        if let data = try? alarmNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_AlarmClock, payload: data)
         }
     }
-    public func setMessageHandleConf(msgHandler:MsgHandler) {
-        if let data = try? msgHandler.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    //MARK: -- 05 Calendar
+    public func clearCalendar(){
+        var calendarNotification = CalendarNotification()
+        calendarNotification.operation = .clear
+        if let data = try? calendarNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_Calendar, payload: data)
         }
     }
-    public func setMessageFilterConf(msgFilter:MsgFilter) {
-        if let data = try? msgFilter.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    public func setCalendar(_ ccalendars:[CCalendar]){
+        
+        var calendars = [Calendar]()
+        var i = 0
+        for ccalendar in ccalendars {
+            if i == maxCalendarCount {
+                break
+            }
+            var calendar = Calendar()
+            calendar.text = ccalendar.text
+            var time = RtTime()
+            time.seconds = UInt32(ccalendar.date.timeIntervalSince1970 + Double(HeloUtils.tsFromGMT()))
+            calendars.append(calendar)
+            i += 1
+        }
+        var group = CalendarGroup()
+        group.calendar = calendars
+        var calendarNotification = CalendarNotification()
+        calendarNotification.operation = .add
+        calendarNotification.group = group
+        if let data = try? calendarNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_Calendar, payload: data)
         }
     }
-    public func setWeatherGroup(weatherGroup:WeatherGroup) {
-        if let data = try? weatherGroup.serializedData() {
-            BleManager.sharedInstance.writeCommand(data: data)
+    
+    //MARK: -- 05 久坐提醒 Sedentary
+    public func clearSedentariness() {
+        var sedtNotification = SedtNotification()
+        sedtNotification.operation = .clear
+        if let data = try? sedtNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_Sedentariness, payload: data)
         }
     }
-    //getWeatherGroup
+    public func setSedentariness(_ csedentarinesses:[CSedentariness]) {
+        
+        var i = 0
+        var sedentarinesses = [Sedentariness]()
+        for csedentariness in csedentarinesses {
+            if i ==  _max_sedt_count{
+                break
+            }
+            var sedentariness = Sedentariness()
+            sedentariness.repeat = csedentariness.isRepeat
+            sedentariness.monday = csedentariness.monday
+            sedentariness.tuesday = csedentariness.tuesday
+            sedentariness.wednesday = csedentariness.wednesday
+            sedentariness.thursday = csedentariness.thursday
+            sedentariness.friday = csedentariness.friday
+            sedentariness.saturday = csedentariness.saturday
+            sedentariness.sunday = csedentariness.sunday
+            sedentariness.startHour = csedentariness.startHour
+            sedentariness.endHour = csedentariness.endHour
+            sedentariness.duration = csedentariness.duration
+            if csedentariness.threshold > 0 {
+                sedentariness.threshold = csedentariness.threshold
+            }
+            sedentarinesses.append(sedentariness)
+            i += 1
+            
+        }
+        var sedtNotification = SedtNotification()
+        sedtNotification.operation = .set
+        var group = SedtGroup()
+        group.sedentariness = sedentarinesses
+        sedtNotification.group = group
+        if let data = try? sedtNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_Sedentariness, payload: data)
+        }
+    }
+    //MARK: device setting 设备设置
+    public func setDeviceOption(_ cNotification:CDeviceConfNotification) {
+       var deviceConfNotification = DeviceConfNotification()
+        if let temperatureUnit = cNotification.temperatureUnit {
+            deviceConfNotification.temperatureUnit = temperatureUnit
+        }
+        if let languageID = cNotification.languageID {
+            deviceConfNotification.languageID = languageID
+        }
+        if let lcdGsSwitch = cNotification.lcdGsSwitch {
+            deviceConfNotification.lcdGsSwitch = lcdGsSwitch
+        }
+        if let lcdGsTime = cNotification.lcdGsTime {
+            var deviceLcdGs = DeviceLcdGs()
+            deviceLcdGs.lcdGsStartHour = lcdGsTime.lcdGsStartHour
+            deviceLcdGs.lcdGsEndHour = lcdGsTime.lcdGsEndHour
+            deviceConfNotification.lcdGsTime = deviceLcdGs
+        }
+        if let dateFormat = cNotification.dateFormat {
+            deviceConfNotification.dateFormat = dateFormat
+        }
+        if let hourFormat = cNotification.hourFormat {
+            deviceConfNotification.hourFormat = hourFormat
+        }
+        if let autoHeartrate = cNotification.autoHeartrate {
+            deviceConfNotification.autoHeartrate = autoHeartrate
+        }
+        if let autoSport = cNotification.autoSport {
+            deviceConfNotification.autoSport = autoSport
+        }
+        if let habitualHand = cNotification.habitualHand {
+            deviceConfNotification.habitualHand = habitualHand
+        }
+        if let nickName = cNotification.nickName {
+            deviceConfNotification.nickName = nickName
+        }
+        if let autoAllsensor = cNotification.autoAllsensor {
+            deviceConfNotification.autoAllsensor = autoAllsensor
+        }
+        if let cheathConfig = cNotification.heathConfig {
+            //健康配置
+            var heathConfig = HealthDataConfig()
+            if let ecgConfig = cheathConfig.ecgConfig {
+                heathConfig.ecgConfig = ecgConfig
+            }
+            if let fatigueConfig = cheathConfig.fatigueConfig {
+                heathConfig.fatigueConfig = fatigueConfig
+            }
+            if let bpConfig = cheathConfig.bpConfig {
+                heathConfig.bpConfig = bpConfig
+            }
+            if let afConfig = cheathConfig.afConfig {
+                heathConfig.afConfig = afConfig
+            }
+            if let biozConfig = cheathConfig.biozConfig {
+                heathConfig.biozConfig = biozConfig
+            }
+            if let moodConfig = cheathConfig.moodConfig {
+                heathConfig.moodConfig = moodConfig
+            }
+            if let breathrateConfig = cheathConfig.breathrateConfig {
+                heathConfig.breathrateConfig = breathrateConfig
+            }
+            if let mdtConfig = cheathConfig.mdtConfig {
+                heathConfig.mdtConfig = mdtConfig
+            }
+            if let spo2Config = cheathConfig.spo2Config {
+                heathConfig.spo2Config = spo2Config
+            }
+            if let temperatureConfig = cheathConfig.temperatureConfig {
+                heathConfig.temperatureConfig = temperatureConfig
+            }
+            deviceConfNotification.heathConfig = heathConfig
+        }
+        if let healthSleep = cNotification.healthSleep {
+            deviceConfNotification.healthSleep = healthSleep
+        }
+        if let backlightTime = cNotification.backlightTime {
+            deviceConfNotification.backlightTime = backlightTime
+        }
+        if let gestureSensitivity = cNotification.gestureSensitivity {
+            deviceConfNotification.gestureSensitivity = gestureSensitivity
+        }
+        if let stepsSensitivity = cNotification.stepsSensitivity {
+            deviceConfNotification.stepsSensitivity = stepsSensitivity
+        }
+        if let powerOff = cNotification.powerOff {
+            deviceConfNotification.powerOff = powerOff
+        }
+        if let factoryReset = cNotification.factoryReset {
+            deviceConfNotification.factoryReset = factoryReset
+        }
+        if let bleUnbind = cNotification.bleUnbind {
+            deviceConfNotification.bleUnbind = bleUnbind
+        }
+        if let autoMeasureTimes = cNotification.autoMeasureTime {
+            var rtTimes = [RtTime]()
+            for aDate in autoMeasureTimes {
+                var rtTime = RtTime()
+                rtTime.seconds = UInt32(aDate.timeIntervalSince1970 + Double(HeloUtils.tsFromGMT()))
+                rtTimes.append(rtTime)
+            }
+            deviceConfNotification.autoMeasureTime = rtTimes
+        }
+        if let audioSwitch = cNotification.audioSwitch {
+            deviceConfNotification.audioSwitch = audioSwitch
+        }
+        if let fallThreshold = cNotification.fallThreshold {
+            deviceConfNotification.fallThreshold = fallThreshold
+        }
+        if let allMeasure = cNotification.allMeasure {
+            deviceConfNotification.allMeasure = allMeasure
+        }
+        deviceConfNotification.hash = UInt32(deviceConfNotification.hashValue)
+        if let data = try? deviceConfNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_DeviceConfig, payload: data)
+        }
+    }
+    //MARK: c110_command
     
 }
 extension ProbuffManager {

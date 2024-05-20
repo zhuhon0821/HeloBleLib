@@ -126,6 +126,9 @@ class ProbuffHandle: NSObject {
                 case 0x7:
                 let decodedInfo = try CalendarSubscriber(serializedData: crcData)
                 print(decodedInfo)
+                if decodedInfo.hasMaxCount {
+                    ProbuffManager.sharedInstance.maxCalendarCount = decodedInfo.maxCount
+                }
                     break
                 case 0x8:
                 let decodedInfo = try MotorConfSubscriber(serializedData: crcData)
@@ -1074,15 +1077,33 @@ extension ProbuffHandle {
 extension ProbuffHandle {
     //MARK: Calculation of Sport,ECG,PPG,RRI,sleep
     func dataCalculation() {
-        sportCalculation()
+
         ECGCalculation()
         PPGCalculation()
         RRICalculation()
-        sleepCalculation()
+        sportAndSleepCalculation()
     }
-    func sportCalculation() {
+    func sportAndSleepCalculation() {
+        let healthIndexs = GRDBManager.sharedInstance.selectIndexModels(type:HealthDataType.healthDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName()!, isSynced: true)
+        var dateStrs = [String]()
+        var dates = [Date]()
+        for healthIndex in healthIndexs {
+            let date = healthIndex.date.getYearMonthDay()
+            if !dateStrs.contains(date) {
+                dateStrs.append(date)
+                dates.append(healthIndex.date.startOfDay())
+            }
+        }
+        var healthArr = [[HealthDataModel]]()
+        for date in dates {
+            let healths = GRDBManager.sharedInstance.selectHealthDataModels(data_from: BleManager.sharedInstance.getDeviceName()!, isProcessed: false,date: date)
+            healthArr.append(healths)
+        }
         
+        sportCalculation(healthArr)
+        sleepCalculation(healthArr)
     }
+    
     func ECGCalculation() {
         let ecgIndexs = GRDBManager.sharedInstance.selectIndexModels(type:HealthDataType.ecgDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName()!, isSynced: true)
         for ecgIndex in ecgIndexs {
@@ -1139,7 +1160,27 @@ extension ProbuffHandle {
             
         }
     }
-    func sleepCalculation() {
+    func sportCalculation(_ healthArr:[[HealthDataModel]]) {
+        for healths in healthArr {
+            for health in healths {
+                
+            }
+        }
         
+    }
+    func sleepCalculation(_ healthArr:[[HealthDataModel]]) {
+        
+        for healths in healthArr {
+            var cmdStr = ""
+            let first = healths.first
+            var i = 0
+            var cmds = [String]()
+            for health in healths {
+                cmds.append(health.cmd ?? "")
+            }
+            cmdStr = HeloUtils.objectToJSON(cmds) ?? ""
+            let sleepModel = SleepCmdModel(data_from: first!.data_from, date: first!.date, sleepCmd: cmdStr)
+            BleManager.sharedInstance.dataSyncDelegate?.onSyncSleep(sleepModel)
+        }
     }
 }

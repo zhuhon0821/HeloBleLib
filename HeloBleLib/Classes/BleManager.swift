@@ -18,6 +18,7 @@ public protocol BleManagerDelegate:AnyObject {
     func didDisconnectedDevice(peripheral: CBPeripheral)
 }
 public protocol BleDataSyncDelegate:AnyObject {
+    
     func onSyncingWithHealthData(_ date:Date,_ type:HealthDataType,_ progress:Float,_ allCompleted:Bool)
     func onSyncFatigue(_ fatigu:FatigueModel)
     func onSyncSpo2(_ spo2: Spo2Model)
@@ -32,7 +33,7 @@ public protocol BleDataSyncDelegate:AnyObject {
     func onSyncECG(_ ecg: ECGDataModel)
     func onSyncRRI(_ rri: RRIDataModel)
     func onSyncPPG(_ ppg: PPGDataModel)
-//    func onSyncSleep(_ sleeps: [ECGDataModel])
+    func onSyncSleep(_ sleep: SleepCmdModel)
     
 }
 public class BleManager:NSObject {

@@ -37,6 +37,13 @@ class CommandViewController: UIViewController {
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let sleep = IVSleep()
+        sleep.ivSleepData(from: "", andTodayPath: "", andDate: "", andError: nil)
+        let af = AfAiLib()
+        let re = AfAiLib.afAiResult([1])
+        let le = AfAiLib.afAiConfdenceLevel([1])
+        
         BleManager.sharedInstance.dataSyncDelegate = self
         self.view.backgroundColor = .white
         self.title = "Command"
@@ -82,7 +89,7 @@ extension CommandViewController:UICollectionViewDataSource, UICollectionViewDele
         switch indexPath.item {
         case 0:
             
-//            let user = UserConf_C(height: 170, weight: 75, gender: true, age: 28, calibWalk: 100, calibRun: 100, grade: 1, wristCircumference: 100, historyOfHypertension: true, hash: 123456)
+//            let user = CUserConf(height: 170, weight: 75, gender: true, age: 28, calibWalk: 100, calibRun: 100, grade: 1, wristCircumference: 100, historyOfHypertension: true, hash: 123456)
 //            
 //            ProbuffManager.sharedInstance.setUserConf(userConf: user)
             ProbuffManager.sharedInstance.read00DeviceInfomation()
@@ -101,6 +108,10 @@ extension CommandViewController:UICollectionViewDataSource, UICollectionViewDele
     }
 }
 extension CommandViewController: BleDataSyncDelegate {
+    func onSyncSleep(_ sleep: SleepCmdModel) {
+        
+    }
+    
     func onSyncECG(_ ecg: ECGDataModel) {
         
     }
@@ -112,7 +123,6 @@ extension CommandViewController: BleDataSyncDelegate {
     func onSyncPPG(_ ppg: PPGDataModel) {
         
     }
-    
     
     func onSyncBio(_ bio: BioModel) {
         

@@ -46,7 +46,22 @@ class HomeViewController: UIViewController, BleManagerDelegate {
 //        let af = AfAiLib()
 //        let re = AfAiLib.afAiResult([1])
 //        let le = AfAiLib.afAiConfdenceLevel([1])
-        let arr =  GRDBManager.sharedInstance.selectIndexModels(type: HisDataType.healthDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName() ?? "", isSynced: true)
+//        let healthIndexs = GRDBManager.sharedInstance.selectIndexModels(type:HealthDataType.healthDataEncrypt.rawValue, data_from: BleManager.sharedInstance.getDeviceName()!, isSynced: true)
+//        var dateStrs = [String]()
+//        var dates = [Date]()
+//        for healthIndex in healthIndexs {
+//            let date = healthIndex.date.getYearMonthDay()
+//            if !dateStrs.contains(date) {
+//                dateStrs.append(date)
+//                dates.append(healthIndex.date.startOfDay())
+//            }
+//        }
+//        var healthArr = [[HealthDataModel]]()
+//        for date in dates {
+//            let healths = GRDBManager.sharedInstance.selectHealthDataModels(data_from: BleManager.sharedInstance.getDeviceName()!, isProcessed: false,date: date)
+//            healthArr.append(healths)
+//        }
+        
         let button = UIBarButtonItem(title: "scan", style: .plain, target: self, action: #selector(rightButtonTapped))
         self.navigationItem.rightBarButtonItem = button
         let button2 = UIBarButtonItem(title: "disconnect", style: .plain, target: self, action: #selector(leftButtonTapped))
