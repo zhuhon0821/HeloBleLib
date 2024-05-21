@@ -7,6 +7,84 @@
 //
 
 import Foundation
+struct CWallet {
+    var totalMeasures:UInt32
+    var totalBlocks:UInt32
+    var totalRewards:UInt32
+    var totalTokens:UInt32
+    var vsc_balance:UInt32
+    var useVscBalance:Bool
+    // 所有wallet数据必须在同一周内,
+    // all the wallet date must in the same week
+    var daliyArr:[CWalletDaliy]
+    init(totalMeasures: UInt32, totalBlocks: UInt32, totalRewards: UInt32, totalTokens: UInt32, vsc_balance: UInt32, useVscBalance: Bool, daliyArr: [CWalletDaliy]) {
+        self.totalMeasures = totalMeasures
+        self.totalBlocks = totalBlocks
+        self.totalRewards = totalRewards
+        self.totalTokens = totalTokens
+        self.vsc_balance = vsc_balance
+        self.useVscBalance = useVscBalance
+        self.daliyArr = daliyArr
+    }
+}
+struct CWalletDaliy {
+    var year:UInt32
+    var month:UInt32
+    var day:UInt32
+    var measures:UInt32
+    var blocks:UInt32
+    var rewards:UInt32
+    var tokens:UInt32
+    init(year: UInt32, month: UInt32, day: UInt32, measures: UInt32, blocks: UInt32, rewards: UInt32, tokens: UInt32) {
+        self.year = year
+        self.month = month
+        self.day = day
+        self.measures = measures
+        self.blocks = blocks
+        self.rewards = rewards
+        self.tokens = tokens
+    }
+}
+struct CC110HealthAlarmConf {
+    var state:HealthAlarmState
+    var hrHigh:UInt32
+    var hrBelow:UInt32
+    var breathHigh:UInt32
+    var breathBelow:UInt32
+    var sbpHigh:UInt32
+    var sbpBelow:UInt32
+    var dbpHigh:UInt32
+    var dbpBelow:UInt32
+    var spo2Below:UInt32
+    var fallCheck:Bool
+    var tempHigh:UInt32
+    var tempBelow:UInt32
+    var checkAlarm:Bool?
+    init(state: HealthAlarmState, hrHigh: UInt32, hrBelow: UInt32, breathHigh: UInt32, breathBelow: UInt32, sbpHigh: UInt32, sbpBelow: UInt32, dbpHigh: UInt32, dbpBelow: UInt32, spo2Below: UInt32, fallCheck: Bool, tempHigh: UInt32, tempBelow: UInt32, checkAlarm: Bool? = nil) {
+        self.state = state
+        self.hrHigh = hrHigh
+        self.hrBelow = hrBelow
+        self.breathHigh = breathHigh
+        self.breathBelow = breathBelow
+        self.sbpHigh = sbpHigh
+        self.sbpBelow = sbpBelow
+        self.dbpHigh = dbpHigh
+        self.dbpBelow = dbpBelow
+        self.spo2Below = spo2Below
+        self.fallCheck = fallCheck
+        self.tempHigh = tempHigh
+        self.tempBelow = tempBelow
+        self.checkAlarm = checkAlarm
+    }
+}
+struct CLifeQualityData {
+    
+    var wellNessValue: UInt32
+    var activityValue: UInt32
+    var moodSwingsValue: UInt32
+    var lifestyleIndexValue: UInt32
+    var date: Date
+}
 /**
  @languageId 枚举类型 表示设置语言类型
  @lcdGsSwitch bool类型 表示设置翻腕亮屏开关

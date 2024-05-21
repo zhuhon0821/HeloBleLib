@@ -73,7 +73,19 @@ open class HeloUtils  {
     }
     
     static func tsFromGMT() -> Int {
-        var tz = NSTimeZone.system
+        let tz = NSTimeZone.system
         return tz.secondsFromGMT()
+    }
+    static func numberToTime(year:UInt32,month:UInt32,day:UInt32) -> TimeInterval? {
+        var dateComponents = DateComponents()
+        dateComponents.year = Int(year)
+        dateComponents.month = Int(month)
+        dateComponents.day = Int(day)
+        let calendar = NSCalendar.current
+        if let date = calendar.date(from: dateComponents) {
+            let date1 = date.addingTimeInterval(TimeInterval(tsFromGMT()))
+            return date1.timeIntervalSince1970
+        }
+        return nil
     }
 }

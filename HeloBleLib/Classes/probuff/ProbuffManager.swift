@@ -494,7 +494,148 @@ class ProbuffManager: NSObject {
             writeCharacteristicByPBOpt(optCode: .PB_Opt_DeviceConfig, payload: data)
         }
     }
-    //MARK: c110_command
+    //MARK: -- c110 command
+    public func setLifeStyle(_ clifeQualityData:CLifeQualityData){
+        var lqData = LifeQualityData()
+        lqData.wellNessValue = clifeQualityData.wellNessValue
+        lqData.activityValue = clifeQualityData.activityValue
+        lqData.moodSwingsValue = clifeQualityData.moodSwingsValue
+        lqData.lifestyleIndexValue = clifeQualityData.lifestyleIndexValue
+        var time = RtTime()
+        let date = clifeQualityData.date.addingTimeInterval(TimeInterval(HeloUtils.tsFromGMT()))
+        time.seconds = UInt32(date.timeIntervalSince1970)
+        lqData.time = time
+        var c110Data =  C110Data()
+        c110Data.lifeQuality = lqData
+        var c110Command = C110Command()
+        c110Command.operation = .write
+        c110Command.data = c110Data
+        if let data = try? c110Command.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_CS110Cmd, payload: data)
+        }
+    }
+    public func setHealthAlarmConf(_ model:CC110HealthAlarmConf) {
+        var conf = HealthAlarmConf()
+        var hra = HeartrateAlarmConf()
+        var ba = BreathAlarmConf()
+        var bpa = BpAlarmConf()
+        var spo2a = Spo2AlarmConf()
+        var fall = FallAlarmConf()
+        var temperatureConf = TemperatureAlarmConf()
+        
+        hra.hrHigh = model.hrHigh
+        hra.hrBelow = model.hrBelow
+        ba.breathHigh = model.breathHigh
+        ba.breathBelow = model.breathBelow
+        bpa.sbpHigh = model.sbpHigh
+        bpa.sbpBelow = model.sbpBelow
+        bpa.dbpHigh = model.dbpHigh
+        bpa.dbpBelow = model.dbpBelow
+        spo2a.spo2Below = model.spo2Below
+        fall.fallCheck = model.fallCheck
+        temperatureConf.tempHigh = model.tempHigh
+        temperatureConf.tempBelow = model.tempBelow
+        
+        conf.confHr = hra
+        conf.confBreath = ba
+        conf.confBp = bpa
+        conf.confSpo2 = spo2a
+        conf.confFall = fall
+        conf.confTemp = temperatureConf
+        
+        var c110Data = C110Data()
+        if let checkAlarm =  model.checkAlarm{
+            c110Data.checkAlarm = checkAlarm
+        }
+        
+        c110Data.conf = conf
+        c110Data.state = model.state
+        var c110Command =  C110Command()
+        c110Command.operation = .write
+        c110Command.data = c110Data
+        if let data = try? c110Command.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_CS110Cmd, payload: data)
+        }
+    }
+    public func readHistoryOfHealthAlarm() {
+        var c110Data = C110Data()
+        c110Data.checkAlarm = true
+        var c110Command =  C110Command()
+        c110Command.operation = .write
+        c110Command.data = c110Data
+        if let data = try? c110Command.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_CS110Cmd, payload: data)
+        }
+    }
+    public func setSOSConfirm() {
+        var c110Data = C110Data()
+        c110Data.sosRet = true
+        var c110Command =  C110Command()
+        c110Command.operation = .write
+        c110Command.data = c110Data
+        if let data = try? c110Command.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_CS110Cmd, payload: data)
+        }
+        
+    }
+    public func setAFAlarm(_ af:Bool,_ checkAlarmP:Bool?) {
+        var afAlarm = AfAlarm()
+        afAlarm.isAlarm = af ? 1 : 0
+        var c110Data = C110Data()
+        c110Data.afAlarm = afAlarm
+        if let checkAlarm = checkAlarmP {
+            c110Data.checkAlarm = checkAlarm
+        }
+        var c110Command =  C110Command()
+        c110Command.operation = .write
+        c110Command.data = c110Data
+        if let data = try? c110Command.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_CS110Cmd, payload: data)
+        }
+        
+    }
+    public func setFallConfirm(_ fallRet:Bool) {
+        var c110Data = C110Data()
+        c110Data.fallRet = fallRet
+        var c110Command =  C110Command()
+        c110Command.operation = .write
+        c110Command.data = c110Data
+        if let data = try? c110Command.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_CS110Cmd, payload: data)
+        }
+    }
+    public func setWalletInfo(_ wallet:CWallet) {
+        
+        var w = VyvoWallet()
+        w.totalBlocks = wallet.totalBlocks
+        w.totalMeasures = wallet.totalMeasures
+        w.totalRewards = wallet.totalRewards
+        w.totalTokens = (wallet.useVscBalance ? wallet.vsc_balance : wallet.totalTokens)
+        var dailyMeasureArray = [DailyMeasure]()
+        for dw in wallet.daliyArr {
+            var rtTime = RtTime()
+            rtTime.seconds = UInt32(HeloUtils.numberToTime(year: dw.year, month: dw.month, day: dw.day) ?? 0)
+            var dateTime = DateTime()
+            dateTime.dateTime = rtTime
+            dateTime.timeZone = Int32(TimeZone.current.secondsFromGMT()/3600)
+            var dm = DailyMeasure()
+            dm.timeStamp = dateTime
+            dm.tokens = dw.tokens
+            dm.measures = dw.measures
+            dm.blocks = dw.blocks
+            dm.rewards = dw.rewards
+            dailyMeasureArray.append(dm)
+        }
+        w.dailyMeasure = dailyMeasureArray
+        var c110Data = C110Data()
+        c110Data.wallet = w
+        var c110Command =  C110Command()
+        c110Command.operation = .write
+        c110Command.data = c110Data
+        if let data = try? c110Command.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_CS110Cmd, payload: data)
+        }
+    }
     
 }
 extension ProbuffManager {
