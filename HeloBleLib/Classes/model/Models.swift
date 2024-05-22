@@ -7,6 +7,17 @@
 //
 
 import Foundation
+struct CVibrateCnf {
+    
+    var type: VibrateType
+    var mode: UInt32
+    var round: UInt32
+    init(type: VibrateType, mode: UInt32, round: UInt32) {
+        self.type = type
+        self.mode = mode
+        self.round = round
+    }
+}
 struct CWallet {
     var totalMeasures:UInt32
     var totalBlocks:UInt32

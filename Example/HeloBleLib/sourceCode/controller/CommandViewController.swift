@@ -38,11 +38,11 @@ class CommandViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sleep = IVSleep()
-        sleep.ivSleepData(from: "", andTodayPath: "", andDate: "", andError: nil)
-        let af = AfAiLib()
-        let re = AfAiLib.afAiResult([1])
-        let le = AfAiLib.afAiConfdenceLevel([1])
+//        let sleep = IVSleep()
+//        sleep.ivSleepData(from: "", andTodayPath: "", andDate: "", andError: nil)
+//        let af = AfAiLib()
+//        let re = AfAiLib.afAiResult([1])
+//        let le = AfAiLib.afAiConfdenceLevel([1])
         
         BleManager.sharedInstance.dataSyncDelegate = self
         self.view.backgroundColor = .white

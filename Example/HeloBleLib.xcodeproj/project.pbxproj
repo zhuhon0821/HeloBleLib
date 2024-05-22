@@ -16,6 +16,8 @@
 		CC1218A42BDF4BC30067B6F5 /* manager.m in Sources */ = {isa = PBXBuildFile; fileRef = CC1218A32BDF4BC30067B6F5 /* manager.m */; };
 		CC1218AC2BDF4C2F0067B6F5 /* IVSleep.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1218A72BDF4C2F0067B6F5 /* IVSleep.a */; };
 		CC1218AD2BDF4C2F0067B6F5 /* libAfAiLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC1218AB2BDF4C2F0067B6F5 /* libAfAiLib.a */; };
+		CC34D8962BFD960B009DAAA4 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC34D8952BFD960B009DAAA4 /* String+Extensions.swift */; };
+		CC34D8982BFDA1A2009DAAA4 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC34D8972BFDA1A2009DAAA4 /* Data+Extensions.swift */; };
 		CC80D69C2BCCC62200AEEF74 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D69B2BCCC62200AEEF74 /* HomeViewController.swift */; };
 		CC80D6A12BCCC62E00AEEF74 /* dataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D69E2BCCC62E00AEEF74 /* dataModel.swift */; };
 		CC80D6A22BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC80D6A02BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift */; };
@@ -98,6 +100,8 @@
 		CC1218A82BDF4C2F0067B6F5 /* IVSleep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVSleep.h; sourceTree = "<group>"; };
 		CC1218AA2BDF4C2F0067B6F5 /* AfAiLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AfAiLib.h; sourceTree = "<group>"; };
 		CC1218AB2BDF4C2F0067B6F5 /* libAfAiLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAfAiLib.a; sourceTree = "<group>"; };
+		CC34D8952BFD960B009DAAA4 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		CC34D8972BFDA1A2009DAAA4 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		CC80D69B2BCCC62200AEEF74 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CC80D69E2BCCC62E00AEEF74 /* dataModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dataModel.swift; sourceTree = "<group>"; };
 		CC80D6A02BCCC62E00AEEF74 /* BleDeviceCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleDeviceCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -424,6 +428,8 @@
 			isa = PBXGroup;
 			children = (
 				CC9ACB332BEF66B2002380A0 /* Date+Extensions.swift */,
+				CC34D8952BFD960B009DAAA4 /* String+Extensions.swift */,
+				CC34D8972BFDA1A2009DAAA4 /* Data+Extensions.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -598,6 +604,7 @@
 				CC80D91E2BCF652700AEEF74 /* CommandViewController.swift in Sources */,
 				CC80D9022BCE1C2900AEEF74 /* his_temperature_data.pb.swift in Sources */,
 				CC80D91C2BCE1C2900AEEF74 /* c110_cmd.pb.swift in Sources */,
+				CC34D8962BFD960B009DAAA4 /* String+Extensions.swift in Sources */,
 				CC80D9072BCE1C2900AEEF74 /* his_ppg_data.pb.swift in Sources */,
 				CC80D90B2BCE1C2900AEEF74 /* his_ecg_data.pb.swift in Sources */,
 				CC80D90E2BCE1C2900AEEF74 /* his_rri_data.pb.swift in Sources */,
@@ -615,6 +622,7 @@
 				CC80D9032BCE1C2900AEEF74 /* phone_book.pb.swift in Sources */,
 				CC80D9052BCE1C2900AEEF74 /* his_spo2_data.pb.swift in Sources */,
 				CC9ACB342BEF66B2002380A0 /* Date+Extensions.swift in Sources */,
+				CC34D8982BFDA1A2009DAAA4 /* Data+Extensions.swift in Sources */,
 				CC80D90D2BCE1C2900AEEF74 /* ThirdParty_health_data.pb.swift in Sources */,
 				CC80D9062BCE1C2900AEEF74 /* his_encrypt_ppg_data.pb.swift in Sources */,
 			);

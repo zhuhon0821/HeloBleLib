@@ -9,7 +9,7 @@
 import Foundation
 
 extension Date {
-   func getYearMonthDay() -> String {
+  public func getYearMonthDay() -> String {
         let calendar = NSCalendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: self)
         let year = components.year

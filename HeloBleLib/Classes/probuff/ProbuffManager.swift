@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreBluetooth
 
 class ProbuffManager: NSObject {
     public static let sharedInstance = ProbuffManager()
@@ -49,6 +50,12 @@ class ProbuffManager: NSObject {
     public func write02MsgNotification(_ msgConf:Any) {
         if let msgData = getMessageNotifyInformation(msgConf) {
             writeCharacteristicByPBOpt(optCode: .PB_Opt_MsgNotify, payload: msgData)
+        }
+    }
+    public func readRealTimeData(_ rtDataScb:RTDataSbscrbr) {
+        
+        if let data = getRealTimeDataSubscriber(rtDataScb, true) {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_RealTimeData, payload: data)
         }
     }
     //MARK: -- 01 PeerInfomation
@@ -636,6 +643,114 @@ class ProbuffManager: NSObject {
             writeCharacteristicByPBOpt(optCode: .PB_Opt_CS110Cmd, payload: data)
         }
     }
+    //MARK: -- set Motors
+    public func setMotors(_ motors:[CVibrateCnf]) {
+        var vibrateCnfs = [VibrateCnf]()
+        for motor in motors {
+            var vibrateCnf = VibrateCnf()
+            vibrateCnf.type = motor.type
+            vibrateCnf.round = motor.round
+            vibrateCnf.mode = motor.mode
+            vibrateCnfs.append(vibrateCnf)
+        }
+        var motorConf = MotorConf()
+        motorConf.conf = vibrateCnfs
+        motorConf.hash = UInt32(motorConf.hashValue)
+        var motorConfNotification = MotorConfNotification()
+        motorConfNotification.conf = motorConf
+        motorConfNotification.operation = .config
+        if let data = try? motorConfNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_MotorConfig, payload: data)
+        }
+    }
+    public func feelMotor(_ motor:CVibrateCnf) {
+        var motorVibrate = MotorVibrate()
+        motorVibrate.mode = motor.mode
+        motorVibrate.round = motor.round
+        var motorConfNotification = MotorConfNotification()
+        motorConfNotification.vibrate = motorVibrate
+        motorConfNotification.operation = .vibrate
+        if let data = try? motorConfNotification.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_MotorConfig, payload: data)
+        }
+    }
+    //MARK: -- device Upgrade
+    public func deviceUpgrade(_ peripheral:CBPeripheral) {
+        BleManager.sharedInstance.setNotificationForCharacteristic(peripheral, serviceUUID: CBUUID(string: PROBUFF_SERVICE_DFU_UUID), characteristicUUID: CBUUID(string: PROBUFF_CHARACT_DFU_UUID), enable: true)
+    }
+    public func writeUpgradeCmdA(_ peripheral:CBPeripheral) {
+        if let dataA = "02084466753236383230".stringToByte() {
+            BleManager.sharedInstance.writeCharacteristic(peripheral, sUUID: PROBUFF_SERVICE_DFU_UUID, cUUID: PROBUFF_CHARACT_DFU_UUID, data: dataA, withResponse: true)
+        }
+        
+    }
+    public func writeUpgradeCmdB(_ peripheral:CBPeripheral) {
+        if let dataB = "01".stringToByte() {
+            BleManager.sharedInstance.writeCharacteristic(peripheral, sUUID: PROBUFF_SERVICE_DFU_UUID, cUUID: PROBUFF_CHARACT_DFU_UUID, data: dataB, withResponse: true)
+        }
+        
+    }
+    public func startDFUMode() {
+        readRealTimeData(.RTDataSbscrbrStartDfu)
+    }
+    public func stopDFUMode() {
+        readRealTimeData(.RTDataSbscrbrStopDfu)
+    }
+    //MARK: -- epo agps Upgrade
+    public func startEpoUpgrade() {
+        //Read FU Desc ,开启辅助升级第一步
+        read90FileUpdateRequestDesc()
+    }
+    public func read90FileUpdateRequestDesc() {
+        if let data = getFileUpdateRequestDesc() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_FileUpdate, payload: data)
+        }
+    }
+    public func pbFileUpdateInit(_ dict:[String:Any]) {
+        var fuF = FUFileInfo()
+        fuF.fd = FUType(rawValue: dict["fd"] as! Int)!
+        fuF.fileName = dict["fileName"] as! String
+        fuF.fileSize = dict["fileSize"] as! UInt32
+        fuF.fileCrc32 = dict["fileCrc32"] as! UInt32
+        fuF.fileOffset = dict["fileOffset"] as! UInt32
+        fuF.crc32AtOffset = dict["crc32AtOffset"] as! UInt32
+        var fUInitRequest = FUInitRequest()
+        fUInitRequest.initInfo = fuF
+        var filesUpdateRequest = FilesUpdateRequest()
+        filesUpdateRequest.init_p = fUInitRequest
+        if let data = try? filesUpdateRequest.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_FileUpdate, payload: data)
+        }
+    }
+    public func pbFileUpdateData(_ dataDict:[String:Any]) {
+        
+        var dataR = FUDataRequest()
+        dataR.fd = FUType(rawValue: dataDict["fd"] as! Int)!
+        dataR.fileOffset = dataDict["fileOffset"] as! UInt32
+        dataR.crc32AtOffset = dataDict["crc32AtOffset"] as! UInt32
+        dataR.buf = dataDict["buf"] as! Data
+        var fuR = FilesUpdateRequest()
+        fuR.data = dataR
+        if let data = try? fuR.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_FileUpdate, payload: data)
+        }
+
+    }
+    public func pbFileUpdateExit(_ fd:Int) {
+        var exitR = FUExitRequest()
+        if(fd > 2 || fd < 0) {
+            exitR.fd = FUType(rawValue: 0)!
+        } else {
+            exitR.fd = FUType(rawValue: fd)!
+        }
+        var filesUpdateRequest = FilesUpdateRequest()
+        filesUpdateRequest.exit = exitR
+        if let data = try? filesUpdateRequest.serializedData() {
+            writeCharacteristicByPBOpt(optCode: .PB_Opt_FileUpdate, payload: data)
+        }
+
+    }
+
     
 }
 extension ProbuffManager {
@@ -1117,7 +1232,7 @@ extension ProbuffManager {
     
     public func writeCharacteristicByPBOpt(optCode:PB_Opt,payload:Data) {
         
-        let dataStr = HeloUtils.hexStringFromData(payload)
+        let dataStr = payload.hexStringFromData()
         let dic = ["name":"down","id":optCode.rawValue,"data":dataStr] as [String : Any]
         if let json = HeloUtils.objectToJSON(dic) {
             LogBleManager.write(json,.logTypeBleRaw)

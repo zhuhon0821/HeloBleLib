@@ -109,7 +109,36 @@ public class BleManager:NSObject {
         }
         
     }
-    
+   public func setNotificationForCharacteristic(_ peripheral: CBPeripheral, serviceUUID: CBUUID, characteristicUUID: CBUUID, enable: Bool) {
+        for service in peripheral.services ?? [] {
+            if service.uuid == serviceUUID {
+                for characteristic in service.characteristics ?? [] {
+                    if characteristic.uuid == characteristicUUID {
+                        // Everything is found, set notification!
+                        peripheral.setNotifyValue(enable, for: characteristic)
+                        print("---------peripheral setNotifyValue:enable forCharacteristic:characteristic----------")
+                    }
+                }
+            }
+        }
+    }
+    public func writeCharacteristic(_ peripheral: CBPeripheral, sUUID: String, cUUID: String, data: Data, withResponse: Bool) {
+        // Sends data to BLE peripheral to process HID and send EHIF command to PC
+        let writeType: CBCharacteristicWriteType = withResponse ? .withResponse : .withoutResponse
+          
+        for service in peripheral.services ?? [] {
+            if service.uuid.uuidString == sUUID {
+                for characteristic in service.characteristics ?? [] {
+                    if characteristic.uuid.uuidString == cUUID {
+                        // EVERYTHING IS FOUND, WRITE characteristic!
+                        peripheral.writeValue(data, for: characteristic, type: writeType)
+                        return // 如果只打算写入一个特征，可以在这里返回
+                    }
+                }
+            }
+        }
+        // 如果需要处理没有找到对应特征或服务的情况，可以在这里添加代码
+    }
 }
 extension BleManager {
     public func saveDeviceUuid(uuid:String) {
@@ -221,13 +250,7 @@ extension BleManager:CBPeripheralDelegate {
             peripheral.discoverCharacteristics(nil, for: service )
         }
     }
-    public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
-        if error != nil {
-            print("Write failed:\(error!.localizedDescription)")
-        } else {
-            print("Write successful")
-        }
-    }
+   
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let data = characteristic.value {
             if characteristic.uuid.uuidString == PROBUFF_CHARACT_READ_UUID {
@@ -253,6 +276,17 @@ extension BleManager:CBPeripheralDelegate {
     }
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor descriptor: CBDescriptor, error: Error?) {
         
+    }
+    public func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
+        
+        if (characteristic.uuid.uuidString == PROBUFF_CHARACT_DFU_UUID) {
+            ProbuffManager.sharedInstance.writeUpgradeCmdA(peripheral)
+        }
+    }
+    public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
+        if (characteristic.uuid.uuidString == PROBUFF_CHARACT_DFU_UUID) {
+            ProbuffManager.sharedInstance.writeUpgradeCmdB(peripheral)
+        }
     }
    
 }

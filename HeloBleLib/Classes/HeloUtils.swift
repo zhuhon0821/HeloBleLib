@@ -47,9 +47,7 @@ open class HeloUtils  {
          return nil
      }
     
-    static func hexStringFromData(_ data: Data) -> String {
-         return data.map { String(format: "%02x", $0) }.joined()
-     }
+    
    static func createDocumentPath(fileName: String) -> URL? {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         let fileURL = documentsDirectory?.appendingPathComponent(fileName)

@@ -86,7 +86,7 @@ class ProbuffHandle: NSObject {
         if (crcCk != crcCode) {
             return;
         }
-        let dataStr = HeloUtils.hexStringFromData(crcData)
+        let dataStr = crcData.hexStringFromData()
         let dic = ["name":"up","id":optCode,"data":dataStr] as [String : Any]
         if let json = HeloUtils.objectToJSON(dic) {
             LogBleManager.write(json,.logTypeBleRaw)
