@@ -75,6 +75,7 @@
 		CC9ACB2E2BEF15B9002380A0 /* LogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ACB2D2BEF15B9002380A0 /* LogManager.swift */; };
 		CC9ACB302BEF62D3002380A0 /* HeloUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ACB2F2BEF62D3002380A0 /* HeloUtils.swift */; };
 		CC9ACB342BEF66B2002380A0 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ACB332BEF66B2002380A0 /* Date+Extensions.swift */; };
+		CCF83AC32C4A659A007571AA /* CmdTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF83AC22C4A659A007571AA /* CmdTool.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -159,6 +160,7 @@
 		CC9ACB2D2BEF15B9002380A0 /* LogManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogManager.swift; sourceTree = "<group>"; };
 		CC9ACB2F2BEF62D3002380A0 /* HeloUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeloUtils.swift; sourceTree = "<group>"; };
 		CC9ACB332BEF66B2002380A0 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		CCF83AC22C4A659A007571AA /* CmdTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CmdTool.swift; sourceTree = "<group>"; };
 		F9DE9CB69B817900353017EC /* Pods-HeloBleLib_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HeloBleLib_Tests.release.xcconfig"; path = "Target Support Files/Pods-HeloBleLib_Tests/Pods-HeloBleLib_Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -410,6 +412,7 @@
 				CC80D9262BD0EFBD00AEEF74 /* GRDBManager.swift */,
 				CC8963EF2BC8C11C00B7C581 /* BleManager.swift */,
 				CC9ACB2D2BEF15B9002380A0 /* LogManager.swift */,
+				CCF83AC22C4A659A007571AA /* CmdTool.swift */,
 				CC80D6A92BCCF88500AEEF74 /* MTK */,
 				CC80D6A82BCCF87300AEEF74 /* probuff */,
 			);
@@ -584,6 +587,7 @@
 				CC80D9202BCF6B0500AEEF74 /* CommandCollectionViewCell.swift in Sources */,
 				CC80D6A72BCCD3E900AEEF74 /* MTKMacros.swift in Sources */,
 				CC80D6AF2BCCFA9500AEEF74 /* ProbuffHandle.swift in Sources */,
+				CCF83AC32C4A659A007571AA /* CmdTool.swift in Sources */,
 				CC80D6AD2BCCF8E500AEEF74 /* MTKManager.swift in Sources */,
 				CC80D8F62BCE1C2900AEEF74 /* dev_info.pb.swift in Sources */,
 				CC80D9102BCE1C2900AEEF74 /* factory_test.pb.swift in Sources */,

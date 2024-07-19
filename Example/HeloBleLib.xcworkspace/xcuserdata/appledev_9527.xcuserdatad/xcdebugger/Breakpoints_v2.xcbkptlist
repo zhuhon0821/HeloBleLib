@@ -16,5 +16,73 @@
             stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "292FDEF6-F766-42EB-B58A-F5B05C932A6F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../HeloBleLib/Classes/extensions/String+Extensions.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "stringToByte()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "292FDEF6-F766-42EB-B58A-F5B05C932A6F - b6b3e86e040845f3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Swift.String.stringToByte() -&gt; Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "HeloBleLib_Example"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/extensions/String+Extensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "280">
+               </Location>
+               <Location
+                  uuid = "292FDEF6-F766-42EB-B58A-F5B05C932A6F - c705678c212b12a0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Swift.String.stringToByte() -&gt; Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "HeloBleLib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/appledev_9527/ble-sdk-1/HeloBleLib/HeloBleLib/Classes/extensions/String+Extensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "14"
+                  endingLineNumber = "14"
+                  offsetFromSymbolStart = "280">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SwiftErrorBreakpoint">
+         <BreakpointContent
+            uuid = "F791B30B-1AD5-49FC-B830-EEE080BD454A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.RuntimeIssueBreakpoint">
+         <BreakpointContent
+            uuid = "3CFAF86F-7BBC-4CFE-BDE0-15E6A14454B8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1"
+            type = "65535">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
