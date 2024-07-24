@@ -12,8 +12,8 @@ import Foundation
 
 class CommandViewController: UIViewController {
     var commands:[String] = [
-        "sync base info",
-        "sync health detail info",
+        "read Device Infomation\n读取设备信息",
+        "sync health detail info\n同步健康数据",
     ]
     lazy var progressLabel: UILabel = {
         let label = UILabel()
@@ -92,14 +92,58 @@ extension CommandViewController:UICollectionViewDataSource, UICollectionViewDele
 //            let user = CUserConf(height: 170, weight: 75, gender: true, age: 28, calibWalk: 100, calibRun: 100, grade: 1, wristCircumference: 100, historyOfHypertension: true, hash: 123456)
 //            
 //            ProbuffManager.sharedInstance.setUserConf(userConf: user)
-            ProbuffManager.sharedInstance.read00DeviceInfomation()
+//            ProbuffManager.sharedInstance.read00DeviceInfomation()
+            CmdTool.sharedInstance.read00DeviceInfomation()
             break
         case 1:
 
-            BleManager.sharedInstance.syncHealthData {date,type,progress,allCompleted  in
-                
-            }
+            CmdTool.sharedInstance.syncHealthData()
             
+            break
+        case 2:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 3:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 4:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 5:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 6:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 7:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 8:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 9:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 10:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 11:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 12:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 13:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 14:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 15:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
+            break
+        case 16:
+//            CmdTool.sharedInstance.read00DeviceInfomation()
             break
         default:
             break

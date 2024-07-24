@@ -1171,9 +1171,11 @@ extension ProbuffHandle {
     func sleepCalculation(_ healthArr:[[HealthDataModel]]) {
         
         for healths in healthArr {
+            if healths.count == 0 {
+                continue
+            }
             var cmdStr = ""
             let first = healths.first
-            var i = 0
             var cmds = [String]()
             for health in healths {
                 cmds.append(health.cmd ?? "")

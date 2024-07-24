@@ -59,7 +59,7 @@ class ProbuffManager: NSObject {
         }
     }
     //MARK: -- 01 PeerInfomation
-    public func setDateTimeConf(date:Date) {
+    public func setDateTimeConf(_ date:Date) {
         let tz = NSTimeZone.system
         let tsFromGMT = tz.secondsFromGMT()
         let rtDate = date.addingTimeInterval(TimeInterval(tsFromGMT))
@@ -71,7 +71,7 @@ class ProbuffManager: NSObject {
         dateTime.timeZone = Int32(timeZone)
         write01PeerInfomation(dateTime)
     }
-    public func setUserConf(userConf:CUserConf) {
+    public func setUserConf(_ userConf:CUserConf) {
         var conf = UserConf()
         conf.height = userConf.height
         conf.weight = userConf.weight
@@ -86,7 +86,7 @@ class ProbuffManager: NSObject {
 
     }
    
-    public func setBloodPresureConf(cbpCaliConf:CBpCaliConf) {
+    public func setBloodPresureConf(_ cbpCaliConf:CBpCaliConf) {
         var bpCaliConf = BpCaliConf()
         bpCaliConf.srcDbp = cbpCaliConf.srcDbp
         bpCaliConf.srcSbp = cbpCaliConf.srcSbp
@@ -101,7 +101,7 @@ class ProbuffManager: NSObject {
 
     }
     
-    public func setHrAlarmConf(chrAlarmConf:CHrAlarmConf) {
+    public func setHrAlarmConf(_ chrAlarmConf:CHrAlarmConf) {
         
         var hrAlarmConf = HrAlarmConf()
         hrAlarmConf.enable = chrAlarmConf.enable
@@ -114,7 +114,7 @@ class ProbuffManager: NSObject {
         
     }
     
-    public func setGoalConf(cgoalConf:CGoalConf) {
+    public func setGoalConf(_ cgoalConf:CGoalConf) {
         var goalConf = GoalConf()
         goalConf.distance = cgoalConf.distance
         goalConf.step = cgoalConf.step
@@ -122,7 +122,7 @@ class ProbuffManager: NSObject {
         goalConf.hash = UInt32(goalConf.hashValue)
         write01PeerInfomation(goalConf)
     }
-    public func setGnssConf(cgnssConf:CGnssConf) {
+    public func setGnssConf(_ cgnssConf:CGnssConf) {
         var gnssConf =  GnssConf()
         gnssConf.altitude = cgnssConf.altitude
         gnssConf.latitude = cgnssConf.latitude
@@ -130,7 +130,7 @@ class ProbuffManager: NSObject {
         gnssConf.hash = UInt32(gnssConf.hashValue)
         write01PeerInfomation(gnssConf)
     }
-    public func setAf24Conf(cafConf:CAfConf) {
+    public func setAf24Conf(_ cafConf:CAfConf) {
         var afConf = AfConf()
         afConf.autoRun = cafConf.autoRun
         afConf.interval = cafConf.interval
@@ -233,7 +233,7 @@ class ProbuffManager: NSObject {
             writeCharacteristicByPBOpt(optCode: .PB_Opt_AirQuality, payload: data)
         }
     }
-    public func writeAirQuality(cairQualityData:CAirQualityData) {
+    public func writeAirQuality(_ cairQualityData:CAirQualityData) {
         var airQualityData = AirQualityData()
         var airQualityNotification = AirQualityNotification()
         if let pm2P5 = cairQualityData.pm2P5 {

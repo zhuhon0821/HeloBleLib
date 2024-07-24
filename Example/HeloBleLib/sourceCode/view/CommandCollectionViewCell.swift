@@ -60,6 +60,7 @@ class CommandCollectionViewCell: UICollectionViewCell {
 //        }
         self.titleLabel.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
             make.centerY.equalToSuperview()
         }
         self.seperateLine.snp.makeConstraints { make in

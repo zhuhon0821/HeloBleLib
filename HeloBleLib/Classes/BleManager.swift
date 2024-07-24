@@ -290,10 +290,4 @@ extension BleManager:CBPeripheralDelegate {
     }
    
 }
-extension BleManager {
-    public func syncHealthData(completion:(_ date:Date,_ type:HealthDataType,_ progress:Float,_ allCompleted:Bool)->Void) {
-        ProbuffManager.sharedInstance.read80HistoryDataIndexTable(.healthData)
-       
-        
-    }
-}
+
